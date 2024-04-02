@@ -1,0 +1,42 @@
+.projects-title {
+  position: relative;
+  z-index: 2;
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: -75vw;
+  margin-top: 12.5vh;
+}
+
+.project-img {
+  width: 90%;
+  height: 80%;
+}
+
+a {
+  text-decoration: none; /* Removes the underline */
+  color: black;
+}
+
+.grid-container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Creates a 3-column grid */
+  grid-gap: 10px; /* Sets the gap between grid items */
+}
+
+.grid-item {
+  background-color: #f0f0f0; /* Light grey background for visibility */
+  text-align: center; /* Centers text horizontally */
+  padding: 20px; /* Adds some padding inside the grid items */
+  border: 1px solid #ddd; /* Adds a light border around grid items */
+  width: 85%;
+  margin-left: 3.5%;
+  height: 25vh;
+  font-size: 15.5px;
+  font-weight: bold;
+}
+
+.grid-item:hover {
+  background-color: #FFFFFF;
+}
