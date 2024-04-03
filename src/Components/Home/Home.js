@@ -49,32 +49,33 @@ export function Home() {
 
       <div className="home-elements">
         <img className="profile-photo" src={process.env.PUBLIC_URL + '/newest_profile_photo.png'}></img>
-        <div>
+
+        <div className="home-info">
+
           <p className="home-name">Davin Win Kyi</p>
           <p className="home-description">Current Graduate Researcher in Makeability <br></br>
             Studying AR/VR, Human Computer Interaction(HCI) <br></br>
             and Accessibility </p>
-        </div>
+            
+          <div className="home-social">
+            <a href="https://drive.google.com/file/d/173AAasbF66ZX1EUa88uzUN6o-4kdKU4C/view?usp=sharing">
+              <img className="home-social-first" src={process.env.PUBLIC_URL + "/img/CV icon-2.png"}></img>
+            </a>
 
-        <div>
-          <a href="https://drive.google.com/file/d/173AAasbF66ZX1EUa88uzUN6o-4kdKU4C/view?usp=sharing">
-            <img className="home-social-first" src={process.env.PUBLIC_URL + "/img/CV icon-2.png"}></img>
-          </a>
+            <a href="https://twitter.com/DavinWinKyi">
+              <img className="home-social-other" src={process.env.PUBLIC_URL + "/img/x-social-media-logo-icon.webp"}></img>
+            </a>
 
-          <a href="https://twitter.com/DavinWinKyi">
-            <img className="home-social-other" src={process.env.PUBLIC_URL + "/img/x-social-media-logo-icon.webp"}></img>
-          </a>
+            <a href="https://github.com/davin-win-kyi">
+              <img className="home-social-other" src={process.env.PUBLIC_URL + "/img/github icon.jpg"}></img>
+            </a>
 
-          <a href="https://github.com/davin-win-kyi">
-            <img className="home-social-other" src={process.env.PUBLIC_URL + "/img/github icon.jpg"}></img>
-          </a>
-
-          <a href="https://www.linkedin.com/in/davin-kyi/">
-            <img className="home-social-other" src={process.env.PUBLIC_URL + "/img/linkedin icon.png"}></img>
-          </a>
+            <a href="https://www.linkedin.com/in/davin-kyi/">
+              <img className="home-social-other" src={process.env.PUBLIC_URL + "/img/linkedin icon.png"}></img>
+            </a>
+          </div>
         </div>
       </div>
-
 
 
       <div className='menu-container' ref={menuRef}>

@@ -2,67 +2,6 @@
 /*
 Styles for non dropdown related elements
 */
-
-.home-elements {
-
-}
-
-.profile-photo {
-  position: relative;
-  margin-top: 300px;
-  margin-left: -50vw;
-  height: 250px;
-  width: 250px;
-  z-index: 2;
-  border-radius: 15%;
-}
-
-.home-name {
-  font-weight: bold;
-  font-size: 50px;
-  position: relative;
-  margin-left: 20vw;
-  margin-top: -25vh;
-  z-index: 2;
-  border-radius: 15%;
-}
-
-.home-description {
-  position: relative;
-  margin-left: 22.5vw;
-  margin-top: -2.5vh;
-  z-index: 2;
-  border-radius: 15%;
-}
-
-.home-social-first {
-  position: relative;
-  margin-left: 22.5vw;
-  z-index: 2;
-  height: 30px;
-}
-
-.home-social-other {
-  position: relative;
-  margin-left: 2vw;
-  z-index: 2;
-  height: 30px;
-}
-
-.home-social-first:hover {
-  height: 32px;
-  background-color: #DFDFDF;
-}
-
-.home-social-other:hover {
-  height: 32px;
-  background-color: #DFDFDF;
-}
-
-.Home {
-  position: relative;
-}
-
 .background {
   position: absolute;
   bottom: 0;
@@ -71,4 +10,53 @@ Styles for non dropdown related elements
   height: 85%; /* Set height to 50% of the viewport height */
   background-color: #FCFCFC; /* Background color for the bottom half */
   z-index: 1;
+}
+
+/*
+Update so that there are flex boxes for the elements, also add a div
+*/
+.home-elements {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  margin-top: 30vh;
+  margin-left: 10%;
+}
+
+.profile-photo {
+  width: 30%;
+  height: 30%;
+  border-radius: 3vh;
+}
+
+.home-info {
+  margin-top: -3vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-name {
+  font-size:5vw;
+  margin-left: 0vw;
+}
+
+.home-description {
+  font-size: 2vw;
+  margin-top: -2.5%;
+  margin-left: 0vw;
+}
+
+.home-social {
+  display:flex;
+  flex-direction: row;
+}
+
+.home-social-first {
+  height: 5vh;
+  margin-left: 5vw;
+}
+
+.home-social-other {
+  height: 5vh;
+  margin-left: 5vw;
 }

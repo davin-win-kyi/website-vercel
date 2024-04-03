@@ -98,7 +98,7 @@ body {
   /* Define the linear gradient */
   background: linear-gradient(to bottom,
               transparent 10%,
-              #FDFDFD 10%);
+              #FDFDFD 15%);
 
   /* Ensure the background covers the entire page */
   min-height: 100vh;
