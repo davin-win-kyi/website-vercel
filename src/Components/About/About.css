@@ -32,6 +32,13 @@ Non-drop down menu content
   margin-top: 2vh;
 }
 
+@media (max-width: 950px) {
+  .aboutme-image {
+    height: 30%;
+    width: 45%;
+  }
+}
+
 .aboutme-bio {
   margin-left: 2.5vh;
   font-size: 20px;
@@ -94,14 +101,4 @@ Non-drop down menu content
   margin-top: -1.5vh;
 }
 
-body {
-  /* Define the linear gradient */
-  background: linear-gradient(to bottom,
-              transparent 0%,
-              #FCFCFC 10%);
 
-  /* Ensure the background covers the entire page */
-  min-height: 100vh;
-  min-width: 100vw;
-  margin: 0;
-}

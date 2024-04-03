@@ -1,14 +1,5 @@
 
-/*
-Styles for non dropdown related elements
-*/
-.background {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  min-width: 100vw;
 
-}
 
 /*
 Update so that there are flex boxes for the elements, also add a div
