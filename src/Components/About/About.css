@@ -97,10 +97,11 @@ Non-drop down menu content
 body {
   /* Define the linear gradient */
   background: linear-gradient(to bottom,
-              transparent 10%,
-              #FDFDFD 15%);
+              transparent 0%,
+              #FCFCFC 10%);
 
   /* Ensure the background covers the entire page */
   min-height: 100vh;
+  min-width: 100vw;
   margin: 0;
 }

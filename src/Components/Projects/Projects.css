@@ -35,6 +35,7 @@ a {
   height: 25vh;
   font-size: 15.5px;
   font-weight: bold;
+  border-radius: 1.5vw;
 }
 
 .grid-item:hover {
