@@ -56,9 +56,9 @@ export function Home() {
           <p className="home-description">Current Graduate Researcher in Makeability <br></br>
             Studying AR/VR, Human Computer Interaction(HCI) <br></br>
             and Accessibility </p>
-            
+
           <div className="home-social">
-            <a href="https://drive.google.com/file/d/173AAasbF66ZX1EUa88uzUN6o-4kdKU4C/view?usp=sharing">
+            <a href="https://drive.google.com/file/d/1NJg7ttQj0vg1SojThLjdRM1a_zEd25Gl/view?usp=drive_link">
               <img className="home-social-first" src={process.env.PUBLIC_URL + "/img/CV icon-2.png"}></img>
             </a>
 

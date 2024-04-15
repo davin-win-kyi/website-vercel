@@ -51,7 +51,7 @@ export function About() {
         <p className="aboutme-title">About Me</p>
 
         <div className="aboutme-main-content">
-          <img className = "aboutme-image" src={process.env.PUBLIC_URL + "/newest_profile_photo.png"}></img>
+          <img className = "aboutme-image" src={process.env.PUBLIC_URL + "linkedin_photo_2024.png"}></img>
           <br></br>
           <p className="aboutme-bio">
             Davin Win Kyi (ကျော်စံမြင့် kyaw san myint)
