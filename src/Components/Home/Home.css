@@ -13,13 +13,13 @@ Update so that there are flex boxes for the elements, also add a div
 }
 
 .profile-photo {
-  width: 30%;
-  height: 30%;
+  width: 25%;
+  height: 25%;
   border-radius: 3vh;
 }
 
 .home-info {
-  margin-top: -3vh;
+  margin-top: -1vh;
   display: flex;
   flex-direction: column;
 }

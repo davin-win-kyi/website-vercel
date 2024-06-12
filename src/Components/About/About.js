@@ -1,3 +1,8 @@
+/*
+This is the about my page of the website
+*/
+
+
 import './About.css'
 
 import React, {useState, useEffect, useRef} from 'react';

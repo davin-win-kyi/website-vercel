@@ -43,12 +43,14 @@ export function Home() {
     setOpen(!open);
   }
 
-
+  /*
+  Return block
+  */
   return (
     <div className="App">
 
       <div className="home-elements">
-        <img className="profile-photo" src={process.env.PUBLIC_URL + '/newest_profile_photo.png'}></img>
+        <img className="profile-photo" src={process.env.PUBLIC_URL + 'img/website_photo.png'}></img>
 
         <div className="home-info">
 
