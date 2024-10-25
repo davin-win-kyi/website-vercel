@@ -66,7 +66,7 @@ export function About() {
             My current research interest revolve around Computer Vision, AR/VR/XR, Robotics, HCI and accessibility <br></br>
             <br></br>
             During my free time, I like watching youtube channels like Kurzgesagt and cutscenes of games. <br></br>
-            I also love competitive swimming, but unfortunately am not in my golden days. <br></br>
+            I also was a competitive swimmer, but unfortunately am not in my golden days. <br></br>
             <br></br>
             I love discussing research, so if you would like to reach out to me, feel free to fill out my <br></br>
             contact form or email me at davin123@cs.washington.edu.
