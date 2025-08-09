@@ -50,7 +50,7 @@ export function Home() {
     <div className="App">
 
       <div className="home-elements">
-        <img className="profile-photo" src={process.env.PUBLIC_URL + 'profile_photo#1.jpg'}></img>
+        <img className="profile-photo" src={process.env.PUBLIC_URL + 'img/profile_photo.jpg'}></img>
 
         <div className="home-info">
 
