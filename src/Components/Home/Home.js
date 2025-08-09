@@ -55,12 +55,12 @@ export function Home() {
         <div className="home-info">
 
           <p className="home-name">Davin Win Kyi</p>
-          <p className="home-description">Current Graduate Researcher in Makeability <br></br>
-            Studying AR/VR, Human Computer Interaction(HCI) <br></br>
+          <p className="home-description">Current Graduate Researcher in the <br></br>
+            space of AR/VR, Robotics, AI, Human Computer Interaction(HCI) <br></br>
             and Accessibility </p>
 
           <div className="home-social">
-            <a href="https://drive.google.com/file/d/1NJg7ttQj0vg1SojThLjdRM1a_zEd25Gl/view?usp=drive_link">
+            <a href="https://drive.google.com/file/d/1-O0XNQIJ-CpJhUJkhkf7bJKz9kZp7lhP/view?usp=sharing">
               <img className="home-social-first" src={process.env.PUBLIC_URL + "/img/CV icon-2.png"}></img>
             </a>
 

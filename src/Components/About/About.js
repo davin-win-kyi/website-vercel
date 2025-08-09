@@ -56,7 +56,7 @@ export function About() {
         <p className="aboutme-title">About Me</p>
 
         <div className="aboutme-main-content">
-          <img className = "aboutme-image" src={process.env.PUBLIC_URL + "img/profile_photo.jpg"}></img>
+          <img className = "aboutme-image" src={process.env.PUBLIC_URL + "img/profile_image_2.jpg"}></img>
           <br></br>
           <p className="aboutme-bio">
             Davin Win Kyi (ကျော်စံမြင့် kyaw san myint)
@@ -148,7 +148,7 @@ export function About() {
           <h3>Davin Win Kyi<br/><span>Undergraduate Research Assistant</span></h3>
           <ul>
             <DropDownItem img={process.env.PUBLIC_URL + "/img/home.png"} text={"Home"} website={"/"} />
-            <DropDownItem img={process.env.PUBLIC_URL + "/img/resume.jpeg"} text={"CV"} website={"https://drive.google.com/file/d/1NJg7ttQj0vg1SojThLjdRM1a_zEd25Gl/view?usp=drive_link"}/>
+            <DropDownItem img={process.env.PUBLIC_URL + "/img/resume.jpeg"} text={"CV"} website={"https://drive.google.com/file/d/1-O0XNQIJ-CpJhUJkhkf7bJKz9kZp7lhP/view?usp=sharing"}/>
             <DropDownItem img={process.env.PUBLIC_URL + "/img/contact.jpeg"} text={"Contact"} website={"/Contact"}/>
             <DropDownItem img={process.env.PUBLIC_URL + "/img/projects.png"} text={"Projects"} website={"/Projects"}/>
             <DropDownItem img={process.env.PUBLIC_URL + "/img/about me.png"} text={"About me"} website={"/About"}/>
