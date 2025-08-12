@@ -6,7 +6,7 @@ export function Teaching() {
 
   const [open, setOpen] = useState(false);
 
-  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/drop_down_icon.png')
+  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/img/drop_down_icon.png')
 
   let menuRef = useRef();
 
@@ -14,7 +14,7 @@ export function Teaching() {
     let handler = (e)=>{
       if(!menuRef.current.contains(e.target)){
         setOpen(false);
-        setDropdown(process.env.PUBLIC_URL + '/drop_down_icon.png');
+        setDropdown(process.env.PUBLIC_URL + '/img/drop_down_icon.png');
         console.log(menuRef.current);
       }
     };
@@ -34,7 +34,7 @@ export function Teaching() {
   */
   const toggleDropDown = () => {
     setDropdown(prevState => {
-      return prevState === process.env.PUBLIC_URL + '/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/drop_down_icon.png';
+      return prevState === process.env.PUBLIC_URL + '/img/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/img/drop_down_icon.png';
     })
   }
 
@@ -49,6 +49,28 @@ export function Teaching() {
 
       <div className="teaching-main">
         <p className="teaching-title">Courses Taught</p>
+        <div className="teaching-classes">
+          <div className="teaching-class">
+            <a href="https://courses.cs.washington.edu/courses/cse473/25sp/">
+              <img className="teaching-class-img" src={process.env.PUBLIC_URL + "/img/AI.jpg"}></img>
+            </a>
+            <p className="teaching-class-text">
+              <p>Course Taught: CSE 473 Spring 2025</p>
+              <p className="teaching-class-text-duties">Duties: Course material preperation and testing, hosting office hours for 100+ students</p>
+            </p>
+          </div>
+        </div>
+        <div className="teaching-classes">
+          <div className="teaching-class">
+            <a href="https://courses.cs.washington.edu/courses/cse473/25wi/">
+              <img className="teaching-class-img" src={process.env.PUBLIC_URL + "/img/AI.jpg"}></img>
+            </a>
+            <p className="teaching-class-text">
+              <p>Course Taught: CSE 473 Winter 2025</p>
+              <p className="teaching-class-text-duties">Duties: Course material preperation and testing and hosting office hours for 100+ students</p>
+            </p>
+          </div>
+        </div>
         <div className="teaching-classes">
           <div className="teaching-class">
             <a href="https://docs.google.com/document/d/e/2PACX-1vTjb0nvBM7lrm9RzEXRuQPHbOmAPvOpCvtmqYVutbf0Y-eDnHDWZJtz11T_XyatuKl_kQOFo_sFCbLe/pub">

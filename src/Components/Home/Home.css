@@ -37,7 +37,9 @@ Update so that there are flex boxes for the elements, also add a div
 
 .home-social {
   display:flex;
-  flex-direction: row;
+  align-items: center;
+  margin-left: 5vw;
+  gap: 2rem;
 }
 
 .home-social-first {
@@ -48,4 +50,15 @@ Update so that there are flex boxes for the elements, also add a div
 .home-social-other {
   height: 5vh;
   margin-left: 5vw;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-evenly; /* equal space on both ends & between items */
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 2.0rem; /* optional */
+  background-color: blue;
 }

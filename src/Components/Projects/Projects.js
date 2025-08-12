@@ -6,7 +6,7 @@ export function Projects() {
 
   const [open, setOpen] = useState(false);
 
-  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/drop_down_icon.png')
+  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/img/drop_down_icon.png')
 
   let menuRef = useRef();
 
@@ -14,7 +14,7 @@ export function Projects() {
     let handler = (e)=>{
       if(!menuRef.current.contains(e.target)){
         setOpen(false);
-        setDropdown(process.env.PUBLIC_URL + '/drop_down_icon.png');
+        setDropdown(process.env.PUBLIC_URL + '/img/drop_down_icon.png');
         console.log(menuRef.current);
       }
     };
@@ -34,7 +34,7 @@ export function Projects() {
   */
   const toggleDropDown = () => {
     setDropdown(prevState => {
-      return prevState === process.env.PUBLIC_URL + '/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/drop_down_icon.png';
+      return prevState === process.env.PUBLIC_URL + '/img/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/img/drop_down_icon.png';
     })
   }
 
@@ -52,7 +52,7 @@ export function Projects() {
       <div class="grid-container">
         <div class="grid-item">
           <a href="https://github.com/davin-win-kyi/real-time-sidewalk-test">
-            <p>Side Walk Veering</p>
+            <p>Real-time AR Veering</p>
             <img className="project-img" src={process.env.PUBLIC_URL + "/img/pedestrian traffic signal.png"}></img>
           </a>
         </div>
@@ -64,13 +64,41 @@ export function Projects() {
         </div>
         <div class="grid-item">
           <a href="https://github.com/davin-win-kyi/real-world-alt-text">
-          <p>VQA for blind and low vision individuals</p>
+          <p>VQA for Blind and Low Vision individuals</p>
             <img className="project-img" src={process.env.PUBLIC_URL + "/img/VQA.png"}></img>
           </a>
         </div>
-        <div class="grid-item">Coming soon!</div>
-        <div class="grid-item">Coming soon!</div>
-        <div class="grid-item">Coming soon!</div>
+        <div class="grid-item">
+          <a href="">
+          <p>Real-time UI Visualizer</p>
+            <img className="project-img" src={process.env.PUBLIC_URL + "/img/sound_visualizer.png"}></img>
+          </a>
+        </div>
+        <div class="grid-item">
+          <a href="https://github.com/davin-win-kyi/real-world-alt-text">
+          <p>Class Registration Tool</p>
+            <img className="project-img" src={process.env.PUBLIC_URL + "/img/registration.jpg"}></img>
+          </a>
+        </div>
+        <div class="grid-item">
+          <a href="https://github.com/hcp-uw/algo-visualizer?tab=readme-ov-file">
+          <p>Algorithm Visualizer</p>
+            <img className="project-img" src={process.env.PUBLIC_URL + "/img/algoviz.jpg"}></img>
+          </a>
+        </div>
+        <div class="grid-item">
+          <a href="https://github.com/bigguavarealty">
+          <p>Real Estate Lead Scraping</p>
+            <img className="project-img" src={process.env.PUBLIC_URL + "/img/GuavaTool.jpg"}></img>
+          </a>
+        </div>
+        <div class="grid-item">
+          <a href="https://github.com/TaskDawg">
+          <p>TaskDawg: UW task service network</p>
+            <img className="project-img" src={process.env.PUBLIC_URL + "/img/TaskDawg.jpg"}></img>
+          </a>
+        </div>
+        <div class="grid-item">Coming Soon!</div>
       </div>
 
 

@@ -6,7 +6,7 @@ export function Home() {
 
   const [open, setOpen] = useState(false);
 
-  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/drop_down_icon.png')
+  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/img/drop_down_icon.png')
 
   let menuRef = useRef();
 
@@ -14,7 +14,7 @@ export function Home() {
     let handler = (e)=>{
       if(!menuRef.current.contains(e.target)){
         setOpen(false);
-        setDropdown(process.env.PUBLIC_URL + '/drop_down_icon.png');
+        setDropdown(process.env.PUBLIC_URL + '/img/drop_down_icon.png');
         console.log(menuRef.current);
       }
     };
@@ -34,7 +34,7 @@ export function Home() {
   */
   const toggleDropDown = () => {
     setDropdown(prevState => {
-      return prevState === process.env.PUBLIC_URL + '/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/drop_down_icon.png';
+      return prevState === process.env.PUBLIC_URL + '/img/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/img/drop_down_icon.png';
     })
   }
 
@@ -56,8 +56,8 @@ export function Home() {
 
           <p className="home-name">Davin Win Kyi</p>
           <p className="home-description">Current Graduate Researcher in the <br></br>
-            space of AR/VR, Robotics, AI, Human Computer Interaction(HCI) <br></br>
-            and Accessibility </p>
+            space of Robotics 🤖, Augmented Reality 🥽 , Artifical Intellegence <br></br>
+            and Human Computer Interaction(HCI)</p>
 
           <div className="home-social">
             <a href="https://drive.google.com/file/d/1-O0XNQIJ-CpJhUJkhkf7bJKz9kZp7lhP/view?usp=sharing">

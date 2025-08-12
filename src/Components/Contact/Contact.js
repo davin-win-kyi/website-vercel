@@ -6,7 +6,7 @@ export function Contact() {
 
   const [open, setOpen] = useState(false);
 
-  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/drop_down_icon.png')
+  const [dropdown, setDropdown] = useState(process.env.PUBLIC_URL + '/img/drop_down_icon.png')
 
   let menuRef = useRef();
 
@@ -14,7 +14,7 @@ export function Contact() {
     let handler = (e)=>{
       if(!menuRef.current.contains(e.target)){
         setOpen(false);
-        setDropdown(process.env.PUBLIC_URL + '/drop_down_icon.png');
+        setDropdown(process.env.PUBLIC_URL + '/img/drop_down_icon.png');
         console.log(menuRef.current);
       }
     };
@@ -34,7 +34,7 @@ export function Contact() {
   */
   const toggleDropDown = () => {
     setDropdown(prevState => {
-      return prevState === process.env.PUBLIC_URL + '/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/drop_down_icon.png';
+      return prevState === process.env.PUBLIC_URL + '/img/drop_down_icon.png' ? process.env.PUBLIC_URL + '/img/close icon.webp' : process.env.PUBLIC_URL + '/img/drop_down_icon.png';
     })
   }
 

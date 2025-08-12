@@ -1,15 +1,15 @@
 .projects-title {
   position: relative;
   z-index: 2;
-  font-size: 25px;
+  font-size: 5vh;
   font-weight: bold;
   margin-left: -75vw;
   margin-top: 12.5vh;
 }
 
 .project-img {
-  width: 90%;
-  height: 80%;
+  width: 30vh;
+  height: 17.5vh;
 }
 
 a {
@@ -36,6 +36,7 @@ a {
   font-size: 15.5px;
   font-weight: bold;
   border-radius: 1.5vw;
+  margin-bottom: 2vh
 }
 
 .grid-item:hover {
