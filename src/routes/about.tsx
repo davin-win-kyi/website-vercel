@@ -23,8 +23,14 @@ export const Route = createFileRoute("/about")({
         content:
           "Davin Win Kyi's education at the University of Washington and experience at the Makeability Lab, DUB Group, Amazon, and Capital One.",
       },
-      { property: "og:title", content: "About — Davin Win Kyi" },
-      { property: "og:description", content: "Education and experience of Davin Win Kyi." },
+      {
+        property: "og:title",
+        content: "About — Davin Win Kyi",
+      },
+      {
+        property: "og:description",
+        content: "Education and experience of Davin Win Kyi.",
+      },
     ],
     links: [{ rel: "canonical", href: "/about" }],
   }),
@@ -150,6 +156,7 @@ function OrgAvatar({ item }: { item: TimelineItem }) {
       </span>
     );
   }
+
   if (item.initials && item.bg) {
     return (
       <span
@@ -161,38 +168,58 @@ function OrgAvatar({ item }: { item: TimelineItem }) {
       </span>
     );
   }
+
   return null;
 }
 
 function Timeline({ items }: { items: TimelineItem[] }) {
   return (
     <div className="relative mt-6 pl-8">
-      <span className="absolute left-[7px] top-2 bottom-2 w-px bg-border" aria-hidden />
+      <span
+        className="absolute bottom-2 left-[7px] top-2 w-px bg-border"
+        aria-hidden
+      />
+
       <ol className="space-y-8">
         {items.map((item) => (
-          <li key={item.period + item.title} className="relative">
+          <li key={`${item.period}-${item.title}`} className="relative">
             <span
               className="absolute -left-[29px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-background bg-primary ring-1 ring-border"
               aria-hidden
             />
+
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               {item.period}
             </p>
+
             <div className="mt-2 rounded-xl border border-border bg-card p-6 shadow-soft">
               <div className="flex flex-wrap items-center gap-3">
                 <OrgAvatar item={item} />
-                <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+
+                <h3 className="text-lg font-semibold text-foreground">
+                  {item.title}
+                </h3>
               </div>
-              <p className="mt-0.5 text-sm font-medium text-foreground">{item.subtitle}</p>
+
+              <p className="mt-0.5 text-sm font-medium text-foreground">
+                {item.subtitle}
+              </p>
+
               {item.location && (
-                <p className="text-sm text-muted-foreground">{item.location}</p>
+                <p className="text-sm text-muted-foreground">
+                  {item.location}
+                </p>
               )}
+
               {item.points && (
                 <ul className="mt-3 space-y-2">
-                  {item.points.map((p, i) => (
-                    <li key={i} className="flex gap-2 text-sm text-muted-foreground">
+                  {item.points.map((point, index) => (
+                    <li
+                      key={index}
+                      className="flex gap-2 text-sm text-muted-foreground"
+                    >
                       <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-primary" />
-                      {p}
+                      <span>{point}</span>
                     </li>
                   ))}
                 </ul>
@@ -212,16 +239,22 @@ export default function About() {
         <div className="md:sticky md:top-24 md:self-start">
           <div className="relative mx-auto w-full max-w-xs">
             <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
-            <img
-              src={portrait}
-              alt="Portrait of Davin Win Kyi"
-              width={600}
-              height={600}
-              loading="lazy"
-              className="blob blob-animated aspect-square w-full object-cover shadow-lift"
-              style={{ objectPosition: "50% 12%" }}
-            />
+
+            <div className="blob blob-animated aspect-square w-full overflow-hidden shadow-lift">
+              <img
+                src={portrait}
+                alt="Portrait of Davin Win Kyi"
+                width={600}
+                height={600}
+                loading="lazy"
+                className="h-full w-full scale-[1.25] object-cover"
+                style={{
+                  objectPosition: "50% 38%",
+                }}
+              />
+            </div>
           </div>
+
           <a
             href={RESUME_URL}
             target="_blank"
@@ -234,7 +267,10 @@ export default function About() {
         </div>
 
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">About</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            About
+          </h1>
+
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
             I'm a computer scientist applying machine learning and artificial
             intelligence in the space of augmented reality, accessibility, and
@@ -249,6 +285,7 @@ export default function About() {
               </span>
               Education
             </h2>
+
             <Timeline items={education} />
           </section>
 
@@ -259,6 +296,7 @@ export default function About() {
               </span>
               Experience
             </h2>
+
             <Timeline items={experience} />
           </section>
         </div>
