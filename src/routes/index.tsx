@@ -44,7 +44,7 @@ function Index() {
         <div className="relative mx-auto w-full max-w-xs md:mx-0">
           <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
 
-          <div className="-rotate-[3deg]">
+          <div className="-rotate-[2deg]">
             <img
               src={profilePhoto}
               alt="Portrait of Davin Win Kyi"
