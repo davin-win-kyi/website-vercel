@@ -8,10 +8,10 @@ export const Route = createFileRoute("/hobbies")({
       {
         name: "description",
         content:
-          "Outside of research, Davin Win Kyi enjoys snowboarding, running, lifting, and boxing.",
+          "Outside of research, Davin Win Kyi enjoys snowboarding, golfing, lifting, and boxing.",
       },
       { property: "og:title", content: "Hobbies — Davin Win Kyi" },
-      { property: "og:description", content: "Snowboarding, running, lifting, and boxing." },
+      { property: "og:description", content: "Snowboarding, golfing, lifting, and boxing." },
     ],
     links: [{ rel: "canonical", href: "/hobbies" }],
   }),
@@ -41,10 +41,10 @@ const hobbies: Hobby[] = [
     blurb: "It's sure as heck more technical than I thought, aha.",
   },
   {
-    name: "Running",
-    video: "/media/running.mp4",
-    poster: "/media/running-poster.jpg",
-    blurb: "Running down scenic neighborhoods like Mercer Island, Cambridge, and Somerset sure help me get out of the grind.",
+    name: "Golfing",
+    video: "/media/golfing.mp4",
+    poster: "/media/golfing-poster.jpg",
+    blurb: "Working on my swing and enjoying some time out on the course.",
   },
   {
     name: "Lifting",
