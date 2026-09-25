@@ -74,7 +74,7 @@ function Index() {
           </h1>
 
           <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">
-            Graduate student at the University of Washington where my research
+            I'm a Graduate student at the University of Washington where my research
             lies in the application of machine learning and artificial
             intelligence into the space of augmented reality, accessibility,
             and other fields.
