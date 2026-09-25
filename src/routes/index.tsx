@@ -44,14 +44,18 @@ function Index() {
         <div className="relative mx-auto w-full max-w-xs md:mx-0">
           <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
 
-          <div className="-rotate-[2deg]">
+          <div className="blob blob-animated aspect-square overflow-hidden shadow-lift">
             <img
               src={profilePhoto}
               alt="Portrait of Davin Win Kyi"
               width={900}
               height={900}
-              className="blob blob-animated aspect-square w-full object-cover shadow-lift"
-              style={{ objectPosition: "50% 30%" }}
+              className="h-full w-full object-cover"
+              style={{
+                objectPosition: "50% 30%",
+                transform: "rotate(3deg) scale(1.15)",
+                transformOrigin: "50% 30%",
+              }}
             />
           </div>
         </div>

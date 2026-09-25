@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import sonoImg from "@/assets/pub-sonocraftar-fig.png";
 import taskImg from "@/assets/pub-taskaudit-fig.jpg";
 import romansImg from "@/assets/pub-romans-fig.png";
+import previewImg from "@/assets/previewar.png";
+import translateImg from "@/assets/translatear.png";
+import targetedImg from "@/assets/targeted_interaction_agents.png";
 
 export const Route = createFileRoute("/publications")({
   head: () => ({
@@ -10,10 +13,14 @@ export const Route = createFileRoute("/publications")({
       {
         name: "description",
         content:
-          "Research publications by Davin Win Kyi, including SonoCraftAR and TaskAudit.",
+          "Research publications by Davin Win Kyi in augmented reality, accessibility, and machine learning, including PreviewAR, TranslateAR, SonoCraftAR, and TaskAudit.",
       },
       { property: "og:title", content: "Publications — Davin Win Kyi" },
-      { property: "og:description", content: "Research publications by Davin Win Kyi." },
+      {
+        property: "og:description",
+        content:
+          "Research publications by Davin Win Kyi in augmented reality, accessibility, and machine learning.",
+      },
     ],
     links: [{ rel: "canonical", href: "/publications" }],
   }),
@@ -24,7 +31,8 @@ type Link = { label: string; href: string };
 
 type Publication = {
   title: string;
-  image: string;
+  image?: string;
+  imageLabel?: string;
   venue: string;
   authors: { name: string; emphasis?: boolean; coFirst?: boolean }[];
   note?: string;
@@ -33,6 +41,85 @@ type Publication = {
 };
 
 const publications: Publication[] = [
+  {
+    title: "PreviewAR: Sketching Spaces for Scale-Aware Product Discovery in AR",
+    image: previewImg,
+    imageLabel: "PreviewAR",
+    venue: "UIST '26 Poster · To appear",
+    authors: [
+      { name: "Davin Win Kyi", emphasis: true },
+      { name: "Jason Kim" },
+      { name: "Caleb Hu" },
+      { name: "Jewoo Park" },
+      { name: "Jaewook Lee" },
+      { name: "Jon E. Froehlich" },
+    ],
+    blurb:
+      "An AR system that lets users sketch a space, discover products that fit, and preview generated 3D models at real-world scale.",
+    links: [
+      {
+        label: "PDF",
+        href: "https://makeabilitylab.cs.washington.edu/media/publications/Kyi_PreviewarSketchingSpacesForScaleAwareProductDiscoveryInAr_UIST2026.pdf",
+      },
+      {
+        label: "DOI",
+        href: "https://doi.org/10.1145/3830397.3841872",
+      },
+    ],
+  },
+  {
+    title:
+      "TranslateAR: Towards Style-Preserving In-Situ Text Translation in Augmented Reality",
+    image: translateImg,
+    imageLabel: "TranslateAR",
+    venue: "UIST '26 Demo · To appear",
+    authors: [
+      { name: "Minbeom Kim" },
+      { name: "Jason Kim" },
+      { name: "Davin Win Kyi", emphasis: true },
+      { name: "Seok-Young Kim" },
+      { name: "Jaewook Lee" },
+      { name: "Jon E. Froehlich" },
+    ],
+    blurb:
+      "A mobile AR prototype that translates text on physical surfaces while retaining its typography, color, layout, and placement in the scene.",
+    links: [
+      {
+        label: "PDF",
+        href: "https://makeabilitylab.cs.washington.edu/media/publications/Kim_TranslatearTowardsStylePreservingInSituTextTranslationInAugmentedReality_UIST2026.pdf",
+      },
+      {
+        label: "DOI",
+        href: "https://doi.org/10.1145/3830397.3842478",
+      },
+    ],
+  },
+  {
+    title: "Targeted Interaction Agents for Web Accessibility Evaluation",
+    image: targetedImg,
+    imageLabel: "Web Accessibility Agents",
+    venue: "UIST '26 Adjunct · To appear",
+    authors: [
+      { name: "Mingyuan Zhong" },
+      { name: "Ajit Mallavarapu" },
+      { name: "Mengqi Shi" },
+      { name: "Davin Win Kyi", emphasis: true },
+      { name: "James Fogarty" },
+      { name: "Jacob O. Wobbrock" },
+    ],
+    blurb:
+      "An accessibility evaluation system that combines automated checkers with LLM agents, interactive tools, and focused rubrics to assess webpages using evidence from their behavior and appearance.",
+    links: [
+      {
+        label: "PDF",
+        href: "https://faculty.washington.edu/wobbrock/pubs/uist-26.01.pdf",
+      },
+      {
+        label: "DOI",
+        href: "https://doi.org/10.1145/3830397.3841898",
+      },
+    ],
+  },
   {
     title:
       "SonoCraftAR: Towards Supporting Personalized Authoring of Sound-Reactive AR Interfaces by Deaf and Hard of Hearing Users",
@@ -67,7 +154,7 @@ const publications: Publication[] = [
       { name: "Mingyuan Zhong" },
       { name: "Xia Chen" },
       { name: "Davin Win Kyi", emphasis: true },
-      { name: "Li Chen" },
+      { name: "Chen Li" },
       { name: "James Fogarty" },
       { name: "Jacob O. Wobbrock" },
     ],
@@ -116,23 +203,31 @@ function Publications() {
         Publications
       </h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-        Research spanning augmented reality and accessibility.
+        Research spanning augmented reality, accessibility, and machine learning.
       </p>
 
       <div className="mt-12 grid gap-10 md:grid-cols-2">
         {publications.map((p) => (
           <article key={p.title} className="flex flex-col">
             <div className="flex aspect-[16/10] items-center justify-center overflow-hidden rounded-xl border border-border bg-secondary/40 p-4 shadow-soft">
-              <img
-                src={p.image}
-                alt={`Figure from ${p.title}`}
-                loading="lazy"
-                width={1024}
-                height={1024}
-                className="max-h-full max-w-full rounded-lg object-contain"
-              />
+              {p.image ? (
+                <img
+                  src={p.image}
+                  alt={`Figure from ${p.title}`}
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                  className="max-h-full max-w-full rounded-lg object-contain"
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="max-w-sm px-6 text-center text-2xl font-semibold tracking-tight text-muted-foreground"
+                >
+                  {p.imageLabel ?? p.title}
+                </span>
+              )}
             </div>
-
 
             <p className="mt-6 text-sm font-medium text-muted-foreground">
               {p.venue}
@@ -146,7 +241,9 @@ function Publications() {
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
               {p.authors.map((a, i) => (
                 <span key={a.name}>
-                  <span className={a.emphasis ? "font-semibold text-foreground" : ""}>
+                  <span
+                    className={a.emphasis ? "font-semibold text-foreground" : ""}
+                  >
                     {a.name}
                     {a.coFirst ? "*" : ""}
                   </span>
@@ -156,7 +253,9 @@ function Publications() {
             </p>
 
             {p.note && (
-              <p className="mt-2 text-xs italic text-muted-foreground">{p.note}</p>
+              <p className="mt-2 text-xs italic text-muted-foreground">
+                {p.note}
+              </p>
             )}
 
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
