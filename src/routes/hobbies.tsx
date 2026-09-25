@@ -49,7 +49,7 @@ const hobbies: Hobby[] = [
   {
     name: "Lifting",
     video: "/media/lifting.mp4",
-    poster: "/media/lifting-poster.jpg",
+    poster: "/media/lifting-poster.png",
     blurb: "Pushing to new limits gives me the motivation to continually grow and help others with their gains as well.",
   },
 ];
