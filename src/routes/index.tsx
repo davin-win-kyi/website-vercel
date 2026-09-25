@@ -53,7 +53,7 @@ function Index() {
               className="h-full w-full object-cover"
               style={{
                 objectPosition: "50% 30%",
-                transform: "rotate(3deg) scale(1.15)",
+                transform: "rotate(0deg) scale(1.2)",
                 transformOrigin: "50% 30%",
               }}
             />
