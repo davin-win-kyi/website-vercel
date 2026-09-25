@@ -113,8 +113,8 @@ function Hobbies() {
                   loading="lazy"
                   width={1024}
                   height={768}
-                  className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-105${
-                    h.bw ? " grayscale" : ""
+                  className={`h-full w-full max-w-full ${
+                    name === "Lifting" ? "object-contain" : "object-cover"
                   }`}
                 />
               )}
