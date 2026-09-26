@@ -41,7 +41,8 @@ function Index() {
   return (
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
       <div className="mx-auto grid w-full max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:py-24">
-        <div className="relative mx-auto w-full max-w-xs md:mx-0">
+        {/* Portrait: increased maximum width from max-w-xs to max-w-sm */}
+        <div className="relative mx-auto w-full max-w-sm md:mx-0">
           <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
 
           <div className="blob blob-animated aspect-square overflow-hidden shadow-lift">
@@ -55,6 +56,7 @@ function Index() {
                 objectPosition: "50% 30%",
                 transform: "rotate(0deg) scale(1.2)",
                 transformOrigin: "50% 30%",
+                filter: "brightness(1.08)",
               }}
             />
           </div>
@@ -74,8 +76,8 @@ function Index() {
           </h1>
 
           <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">
-            I'm a Graduate student at the University of Washington where my research
-            lies in the application of machine learning and artificial
+            I'm a Graduate student at the University of Washington where my
+            research lies in the application of machine learning and artificial
             intelligence into the space of augmented reality, accessibility,
             and other fields.
           </p>

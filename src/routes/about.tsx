@@ -1,9 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  FileText,
-  GraduationCap,
-  Briefcase,
-} from "lucide-react";
+import { FileText, GraduationCap, Briefcase } from "lucide-react";
+
 import portrait from "@/assets/about-portrait.png";
 import amazonLogo from "@/assets/amazon-logo.png";
 import uwLogo from "@/assets/uw-logo.png";
@@ -237,7 +234,8 @@ export default function About() {
     <div className="mx-auto max-w-5xl px-5 py-16 md:py-20">
       <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
         <div className="md:sticky md:top-24 md:self-start">
-          <div className="relative mx-auto w-full max-w-xs">
+          {/* Larger portrait container */}
+          <div className="relative mx-auto w-full max-w-sm">
             <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
 
             <div className="blob blob-animated aspect-square w-full overflow-hidden shadow-lift">
@@ -250,6 +248,7 @@ export default function About() {
                 className="h-full w-full scale-[1.25] object-cover"
                 style={{
                   objectPosition: "50% 38%",
+                  filter: "brightness(1.08)",
                 }}
               />
             </div>
