@@ -245,7 +245,7 @@ export default function About() {
                 width={600}
                 height={600}
                 loading="lazy"
-                className="h-full w-full translate-x-[70px] scale-[1.25] object-cover"
+                className="h-full w-full translate-x-[50px] scale-[1.25] object-cover"
                 style={{
                   objectPosition: "50% 38%",
                   filter: "brightness(1.08)",
