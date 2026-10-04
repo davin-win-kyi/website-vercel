@@ -19,7 +19,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Davin Kyi is an M.S. Computer Science student at the University of Washington working on AR, accessibility, and machine learning.",
+          "Davin Kyi is an Graduate Computer Science student at the University of Washington working on AR, accessibility, and machine learning.",
       },
       {
         property: "og:title",
