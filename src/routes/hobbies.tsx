@@ -46,12 +46,6 @@ const hobbies: Hobby[] = [
     blurb: "It's sure as heck more technical than I thought, aha.",
   },
   {
-    name: "Golfing",
-    video: "/media/golfing.mp4",
-    poster: "/media/golfing-poster.jpg",
-    blurb: "Working on my swing and enjoying some time out on the course.",
-  },
-  {
     name: "Lifting",
     video: "/media/lifting.mp4",
     poster: "/media/lifting-poster.png",
