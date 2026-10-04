@@ -6,7 +6,7 @@ import {
   Github,
   Linkedin,
 } from "lucide-react";
-import profilePhoto from "@/assets/home-portrait.png";
+import profilePhoto from "@/assets/home.png";
 import { RESUME_URL } from "@/lib/links";
 import { useTypewriter } from "@/hooks/useTypewriter";
 
