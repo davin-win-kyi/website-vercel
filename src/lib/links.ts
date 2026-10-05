@@ -1,4 +1,5 @@
 export const RESUME_URL = "/resume.pdf";
+export const CV_URL = "/CV.pdf";
 
 export const EMAIL = "davin123@cs.washington.edu";
 

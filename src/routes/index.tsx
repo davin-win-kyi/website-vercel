@@ -6,8 +6,8 @@ import {
   Github,
   Linkedin,
 } from "lucide-react";
-import profilePhoto from "@/assets/home.jpeg";
-import { RESUME_URL } from "@/lib/links";
+import profilePhoto from "@/assets/home.png";
+import { CV_URL, RESUME_URL } from "@/lib/links";
 import { useTypewriter } from "@/hooks/useTypewriter";
 
 export const Route = createFileRoute("/")({
@@ -91,6 +91,16 @@ function Index() {
             >
               <FileText className="h-4 w-4" />
               Resume
+            </a>
+
+            <a
+              href={CV_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-soft transition-transform hover:-translate-y-0.5"
+            >
+              <FileText className="h-4 w-4" />
+              CV
             </a>
 
             <Link
