@@ -47,10 +47,10 @@ type TimelineItem = {
 
 const education: TimelineItem[] = [
   {
-    period: "2024 – 2027",
+    period: "2024 – 2026",
     title: "University of Washington",
-    subtitle: "M.S. in Computer Science & Engineering · GPA 3.87",
-    location: "Seattle, WA · Expected Dec 2027",
+    subtitle: "M.S. in Computer Science & Engineering · GPA 3.84",
+    location: "Seattle, WA · Expected Dec 2026",
     points: [
       "Coursework: Machine Learning, Deep Learning, Computer Vision, Artificial Intelligence, Robotics, AR/VR, Databases.",
     ],
@@ -59,7 +59,7 @@ const education: TimelineItem[] = [
   {
     period: "2021 – 2024",
     title: "University of Washington",
-    subtitle: "B.S. in Computer Science",
+    subtitle: "B.S. in Computer Science · GPA 3.9",
     location: "Seattle, WA",
     points: [
       "Built a strong foundation in algorithms, systems, and human-computer interaction.",
