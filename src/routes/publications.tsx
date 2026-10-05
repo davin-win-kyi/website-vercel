@@ -42,6 +42,25 @@ type Publication = {
 
 const publications: Publication[] = [
   {
+    title: "EyeQ: Exploring Corneal Reflection for Mobile Context Sensing",
+    imageLabel: "EyeQ",
+    venue: "CHI '27 · In submission",
+    authors: [
+      { name: "Jaewook Lee" },
+      { name: "Judith Amores" },
+      { name: "Bo-Eun Choi" },
+      { name: "Donghoon Shin" },
+      { name: "Jason Kim" },
+      { name: "Davin Win Kyi", emphasis: true },
+      { name: "Seok-Young Kim" },
+      { name: "Jon E. Froehlich" },
+      { name: "Andrew D. Wilson" },
+    ],
+    blurb:
+      "Explores how reflections in a user's cornea can be used to sense their surrounding context on mobile devices.",
+    links: [],
+  },
+  {
     title: "PreviewAR: Sketching Spaces for Scale-Aware Product Discovery in AR",
     image: previewImg,
     imageLabel: "PreviewAR",
