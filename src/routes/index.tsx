@@ -51,7 +51,7 @@ function Index() {
               alt="Portrait of Davin Win Kyi"
               width={900}
               height={900}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain"
               style={{
                 objectPosition: "50% 30%",
                 transform: "translateY(-20px) rotate(-1deg) scale(1.10)",
