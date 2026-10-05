@@ -42,7 +42,7 @@ function Index() {
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
       <div className="mx-auto grid w-full max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:py-24">
         {/* Portrait: increased maximum width from max-w-xs to max-w-sm */}
-        <div className="relative mx-auto w-full max-w-sm -translate-y-6 md:mx-0">
+        <div className="relative mx-auto w-full max-w-sm -translate-y-15 md:mx-0">
           <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
 
           <div className="blob blob-animated aspect-square overflow-hidden shadow-lift">
