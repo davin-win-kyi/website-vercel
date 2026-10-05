@@ -42,7 +42,7 @@ function Index() {
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
       <div className="mx-auto grid w-full max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:py-24">
         {/* Portrait: increased maximum width from max-w-xs to max-w-sm */}
-        <div className="relative mx-auto w-full max-w-sm -translate-y-15 md:mx-0">
+        <div className="relative mx-auto w-full max-w-sm md:mx-0">
           <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
 
           <div className="blob blob-animated aspect-square overflow-hidden shadow-lift">
@@ -54,7 +54,7 @@ function Index() {
               className="h-full w-full object-cover"
               style={{
                 objectPosition: "50% 30%",
-                transform: "rotate(-1deg) scale(1.10)",
+                transform: "translateY(-30px) rotate(-1deg) scale(1.00)",
                 transformOrigin: "50% 30%",
                 filter: "brightness(1.08)",
               }}
