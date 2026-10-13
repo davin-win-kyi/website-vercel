@@ -42,6 +42,23 @@ type Publication = {
 
 const publications: Publication[] = [
   {
+    title: "InterA11y: Interactive Web Accessibility Error Detection with LLM Agents",
+    imageLabel: "InterA11y",
+    venue: "TheWebConf '27 · In submission",
+    authors: [
+      { name: "Mingyuan Zhong" },
+      { name: "Mengqi Shi" },
+      { name: "Davin Win Kyi", emphasis: true },
+      { name: "Ajit Mallavarapu" },
+      { name: "Xia Chen" },
+      { name: "James Fogarty" },
+      { name: "Jacob O. Wobbrock" },
+    ],
+    blurb:
+      "An agentic accessibility evaluation system that pairs WCAG-derived rubrics with interactive tools, letting LLM agents find nearly twice as many web accessibility errors as the strongest LLM-driven baseline while matching the precision of rule-based checkers.",
+    links: [],
+  },
+  {
     title: "EyeQ: Exploring Corneal Reflection for Mobile Context Sensing",
     imageLabel: "EyeQ",
     venue: "CHI '27 · In submission",
