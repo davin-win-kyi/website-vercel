@@ -44,7 +44,7 @@ const hobbies: Hobby[] = [
     name: "Snowboarding",
     video: "/media/snowboarding.mp4",
     poster: "/media/snowboarding-poster.jpg",
-    blurb: "Carving down mountains, enjoying the chill and sleek breeze.",
+    blurb: "Man I hope I don't get some ice in my pants lol",
   },
   {
     name: "Boxing",
@@ -57,7 +57,7 @@ const hobbies: Hobby[] = [
     video: "/media/lifting.mp4",
     poster: "/media/lifting-poster.png",
     blurb:
-      "Pushing to new limits gives me the motivation to continually grow and help others with their gains as well.",
+      "Pushing to new limits gives me the motivation to continually grow and help others with their gains as well!",
     videoFit: "contain",
     // 1 = full available size; smaller values add more space around it.
     videoScale: 0.85,
