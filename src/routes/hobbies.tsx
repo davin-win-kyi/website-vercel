@@ -55,6 +55,13 @@ const hobbies: Hobby[] = [
     // 1 = full available size; smaller values add more space around it.
     videoScale: 0.85,
   },
+  {
+    name: "Food Challenges",
+    video: "/media/food.mp4",
+    poster: "/media/food-poster.png",
+    blurb: "Taking on oversized food challenges, one bite at a time.",
+    videoFit: "contain",
+  },
 ];
 
 type HobbyVideoProps = {
