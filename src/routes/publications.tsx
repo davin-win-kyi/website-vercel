@@ -5,6 +5,7 @@ import romansImg from "@/assets/pub-romans-fig.png";
 import previewImg from "@/assets/previewar.png";
 import translateImg from "@/assets/translatear.png";
 import targetedImg from "@/assets/targeted_interaction_agents.png";
+import interImg from "@/assets/intera11y.png";
 
 export const Route = createFileRoute("/publications")({
   head: () => ({
@@ -43,6 +44,7 @@ type Publication = {
 const publications: Publication[] = [
   {
     title: "InterA11y: Interactive Web Accessibility Error Detection with LLM Agents",
+    image: interImg,
     imageLabel: "InterA11y",
     venue: "TheWebConf '27 · In submission",
     authors: [
@@ -56,7 +58,12 @@ const publications: Publication[] = [
     ],
     blurb:
       "An agentic accessibility evaluation system that pairs WCAG-derived rubrics with interactive tools, letting LLM agents find nearly twice as many web accessibility errors as the strongest LLM-driven baseline while matching the precision of rule-based checkers.",
-    links: [],
+    links: [
+      {
+        label: "arXiv",
+        href: "https://arxiv.org/abs/2610.39488",
+      },
+    ],
   },
   {
     title: "EyeQ: Exploring Corneal Reflection for Mobile Context Sensing",
