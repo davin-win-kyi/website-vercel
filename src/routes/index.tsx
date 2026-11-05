@@ -45,7 +45,7 @@ function Index() {
         <div className="relative mx-auto w-full max-w-sm md:mx-0">
           <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
 
-          <div className="blob blob-animated aspect-[5/6] overflow-hidden shadow-lift">
+          <div className="blob blob-animated aspect-[9/10] overflow-hidden shadow-lift">
             <img
               src={profilePhoto}
               alt="Portrait of Davin Win Kyi"
@@ -53,7 +53,7 @@ function Index() {
               height={900}
               className="h-full w-full object-cover"
               style={{
-                objectPosition: "50% 85%",
+                objectPosition: "50% 50%",
                 transform: "rotate(-1deg) scale(1.02)",
                 transformOrigin: "center",
                 filter: "brightness(1.08)",
