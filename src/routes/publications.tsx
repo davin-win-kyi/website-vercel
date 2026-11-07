@@ -169,8 +169,8 @@ const publications: Publication[] = [
     image: sonoImg,
     venue: "ISMAR '25 Workshop",
     authors: [
-      { name: "Jaewook Lee", emphasis: true, coFirst: true },
       { name: "Davin Win Kyi", emphasis: true, coFirst: true },
+      { name: "Jaewook Lee", emphasis: true, coFirst: true },
       { name: "Leejun Kim" },
       { name: "Jenny Peng" },
       { name: "Gagyeom Lim" },
