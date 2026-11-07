@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FileText, GraduationCap, Briefcase } from "lucide-react";
 
-import portrait from "@/assets/about-portrait.png";
+import portrait from "@/assets/about.jpg";
 import amazonLogo from "@/assets/amazon-logo.png";
 import uwLogo from "@/assets/uw-logo.png";
 import makeabilityLogo from "@/assets/makeability-logo.png";
@@ -245,9 +245,9 @@ export default function About() {
                 width={600}
                 height={600}
                 loading="lazy"
-                className="h-full w-full translate-x-[50px] scale-[1.25] object-cover"
+                className="h-full w-full object-cover"
                 style={{
-                  objectPosition: "50% 38%",
+                  objectPosition: "50% 50%",
                   filter: "brightness(1.08)",
                 }}
               />
