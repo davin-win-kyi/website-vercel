@@ -6,7 +6,7 @@ import {
   Github,
   Linkedin,
 } from "lucide-react";
-import profilePhoto from "@/assets/main_page_photo.jpg";
+import profilePhoto from "@/assets/home_page_cropped.jpg";
 import { CV_URL, RESUME_URL } from "@/lib/links";
 import { useTypewriter } from "@/hooks/useTypewriter";
 
@@ -54,7 +54,7 @@ function Index() {
               className="h-full w-full object-cover"
               style={{
                 objectPosition: "50% 50%",
-                transform: "rotate(-1deg) scale(1.02)",
+                transform: "rotate(5deg) scale(1.09)",
                 transformOrigin: "center",
                 filter: "brightness(1.08)",
               }}
