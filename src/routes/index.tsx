@@ -40,28 +40,20 @@ function Index() {
 
   return (
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-10 px-6 py-16 md:grid-cols-[0.9fr_1.1fr] md:py-24">
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,34rem)] lg:justify-center lg:gap-x-20">
         {/* Portrait */}
-        <div className="relative mx-auto w-full max-w-xs md:mx-0 md:translate-y-4">
-          <div className="blob blob-animated absolute -inset-6 -z-10 bg-secondary" />
-
-          <div className="blob blob-animated aspect-square overflow-hidden shadow-lift">
-            <img
-              src={profilePhoto}
-              alt="Portrait of Davin Win Kyi"
-              width={900}
-              height={900}
-              className="h-full w-full object-cover"
-              style={{
-                objectPosition: "50% 50%",
-                filter: "brightness(1.08)",
-              }}
-            />
-          </div>
+        <div className="w-52 justify-self-center overflow-hidden rounded-full border-[6px] border-secondary shadow-soft md:w-60 lg:w-80 lg:border-8">
+          <img
+            src={profilePhoto}
+            alt="Portrait of Davin Win Kyi"
+            width={900}
+            height={900}
+            className="aspect-square h-full w-full object-cover"
+          />
         </div>
 
         <div>
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
             <GraduationCap className="h-3.5 w-3.5 text-primary" />
             University of Washington · CSE
           </p>
