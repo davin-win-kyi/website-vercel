@@ -190,6 +190,10 @@ const publications: Publication[] = [
       "A system letting Deaf and hard of hearing users personalize how everyday sounds are visualized in augmented reality.",
     links: [
       {
+        label: "IEEE",
+        href: "https://ieeexplore.ieee.org/document/11236143",
+      },
+      {
         label: "Scholar",
         href: "https://scholar.google.com/citations?user=oS2UUosAAAAJ&hl=en",
       },
