@@ -42,7 +42,7 @@ function Index() {
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
       <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,34rem)] lg:justify-center lg:gap-x-20">
         {/* Portrait */}
-        <div className="w-52 justify-self-center overflow-hidden rounded-full border-[6px] border-secondary shadow-soft md:w-60 lg:w-80 lg:border-8">
+        <div className="blob-bubbly w-52 justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-60 lg:w-80 lg:border-8">
           <img
             src={profilePhoto}
             alt="Portrait of Davin Win Kyi"
