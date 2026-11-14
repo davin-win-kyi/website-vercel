@@ -6,6 +6,7 @@ import previewImg from "@/assets/previewar.png";
 import translateImg from "@/assets/translatear.png";
 import targetedImg from "@/assets/targeted_interaction_agents.png";
 import interImg from "@/assets/intera11y.png";
+import eyeqImg from "@/assets/eyeq.jpg";
 
 export const Route = createFileRoute("/publications")({
   head: () => ({
@@ -67,13 +68,14 @@ const publications: Publication[] = [
   },
   {
     title: "EyeQ: Exploring Corneal Reflection for Mobile Context Sensing",
+    image: eyeqImg,
     imageLabel: "EyeQ",
     venue: "CHI '27 · In submission",
     authors: [
       { name: "Jaewook Lee" },
       { name: "Judith Amores" },
-      { name: "Bo-Eun Choi" },
       { name: "Donghoon Shin" },
+      { name: "Bo-Eun Choi" },
       { name: "Jason Kim" },
       { name: "Davin Win Kyi", emphasis: true },
       { name: "Seok-Young Kim" },
@@ -82,7 +84,12 @@ const publications: Publication[] = [
     ],
     blurb:
       "Explores how reflections in a user's cornea can be used to sense their surrounding context on mobile devices.",
-    links: [],
+    links: [
+      {
+        label: "arXiv",
+        href: "https://arxiv.org/abs/2611.13640",
+      },
+    ],
   },
   {
     title: "PreviewAR: Sketching Spaces for Scale-Aware Product Discovery in AR",
