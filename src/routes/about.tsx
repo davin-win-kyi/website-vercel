@@ -146,7 +146,7 @@ function OrgAvatar({ item }: { item: TimelineItem }) {
       <span className="flex h-9 w-9 flex-none items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm">
         <img
           src={item.logo}
-          alt={`${item.title} logo`}
+          alt=""
           className="h-full w-full object-contain p-0.5"
           loading="lazy"
         />
@@ -234,24 +234,16 @@ export default function About() {
     <div className="mx-auto max-w-5xl px-5 py-16 md:py-20">
       <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
         <div className="md:sticky md:top-24 md:self-start">
-          {/* Larger portrait container */}
-          <div className="relative mx-auto w-full max-w-sm">
-            <div className="blob blob-animated absolute -inset-4 -z-10 bg-secondary" />
-
-            <div className="blob blob-animated aspect-square w-full overflow-hidden shadow-lift">
-              <img
-                src={portrait}
-                alt="Portrait of Davin Win Kyi"
-                width={600}
-                height={600}
-                loading="lazy"
-                className="h-full w-full object-cover"
-                style={{
-                  objectPosition: "50% 50%",
-                  filter: "brightness(1.08)",
-                }}
-              />
-            </div>
+          {/* Portrait */}
+          <div className="blob blob-animated mx-auto aspect-square w-full max-w-72 overflow-hidden border-[6px] border-secondary shadow-soft md:max-w-sm lg:border-8">
+            <img
+              src={portrait}
+              alt="Portrait of Davin Win Kyi"
+              width={600}
+              height={600}
+              className="h-full w-full object-cover"
+              style={{ filter: "brightness(1.08)" }}
+            />
           </div>
 
           <a

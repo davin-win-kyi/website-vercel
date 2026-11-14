@@ -35,14 +35,16 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const GREETING = "Hi there! I'm Davin";
+
 function Index() {
-  const { displayed, done } = useTypewriter("Hi there! I'm Davin", 80);
+  const { displayed, done } = useTypewriter(GREETING, 80);
 
   return (
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
       <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,34rem)] lg:justify-center lg:gap-x-20">
         {/* Portrait */}
-        <div className="blob-bubbly w-52 justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-60 lg:w-80 lg:border-8">
+        <div className="blob-bubbly w-64 justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-72 lg:w-80 lg:border-8">
           <img
             src={profilePhoto}
             alt="Portrait of Davin Win Kyi"
@@ -59,10 +61,14 @@ function Index() {
           </p>
 
           <h1 className="text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
-            {displayed}
-            {!done && (
-              <span className="cursor-blink ml-0.5 inline-block h-[1em] w-[3px] bg-current align-middle" />
-            )}
+            {/* Screen readers get the whole greeting at once, not each typed letter. */}
+            <span className="sr-only">{GREETING}</span>
+            <span aria-hidden="true">
+              {displayed}
+              {!done && (
+                <span className="cursor-blink ml-0.5 inline-block h-[1em] w-[3px] bg-current align-middle" />
+              )}
+            </span>
           </h1>
 
           <p className="mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">

@@ -61,6 +61,8 @@ function Contact() {
         fieldErrors[issue.path[0] as string] = issue.message;
       }
       setErrors(fieldErrors);
+      const firstInvalid = ["name", "email", "message"].find((k) => fieldErrors[k]);
+      if (firstInvalid) document.getElementById(firstInvalid)?.focus();
       return;
     }
     setErrors({});
@@ -73,17 +75,14 @@ function Contact() {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-16 md:py-20">
-      <p className="inline-block rounded-md bg-secondary px-3 py-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-        Contact
-      </p>
-      <h1 className="mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+      <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
         Get in Touch
       </h1>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="mt-12 space-y-5" noValidate>
         <div>
-          <label htmlFor="name" className="sr-only">
+          <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-foreground">
             Name
           </label>
           <input
@@ -92,7 +91,7 @@ function Contact() {
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             className="w-full rounded-lg border border-input bg-background px-5 py-4 text-base text-foreground outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring"
-            placeholder="Name"
+            autoComplete="name"
             aria-invalid={!!errors.name}
             aria-describedby={errors.name ? "name-error" : undefined}
           />
@@ -104,7 +103,7 @@ function Contact() {
         </div>
 
         <div>
-          <label htmlFor="email" className="sr-only">
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-foreground">
             Email
           </label>
           <input
@@ -113,7 +112,7 @@ function Contact() {
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
             className="w-full rounded-lg border border-input bg-background px-5 py-4 text-base text-foreground outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring"
-            placeholder="Email"
+            autoComplete="email"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
           />
@@ -125,7 +124,7 @@ function Contact() {
         </div>
 
         <div>
-          <label htmlFor="message" className="sr-only">
+          <label htmlFor="message" className="mb-1.5 block text-sm font-medium text-foreground">
             Message
           </label>
           <textarea
@@ -134,7 +133,6 @@ function Contact() {
             value={form.message}
             onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
             className="w-full resize-y rounded-lg border border-input bg-background px-5 py-4 text-base text-foreground outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring"
-            placeholder="Message"
             aria-invalid={!!errors.message}
             aria-describedby={errors.message ? "message-error" : undefined}
           />

@@ -246,10 +246,7 @@ const publications: Publication[] = [
 function Publications() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-16 md:py-20">
-      <p className="inline-block rounded-md bg-secondary px-3 py-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-        Papers
-      </p>
-      <h1 className="mt-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+      <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
         Publications
       </h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
@@ -259,7 +256,7 @@ function Publications() {
       <div className="mt-12 grid gap-10 md:grid-cols-2">
         {publications.map((p) => (
           <article key={p.title} className="flex flex-col">
-            <div className="flex aspect-[16/10] items-center justify-center overflow-hidden rounded-xl border border-border bg-secondary/40 p-4 shadow-soft">
+            <div className="flex aspect-[2/1] items-center justify-center overflow-hidden rounded-xl border border-border bg-secondary/40 p-4 shadow-soft">
               {p.image ? (
                 <img
                   src={p.image}
@@ -322,6 +319,7 @@ function Publications() {
                   className="text-sm font-bold uppercase tracking-wide text-foreground underline-offset-4 transition-colors hover:text-muted-foreground hover:underline"
                 >
                   {l.label}
+                  <span className="sr-only"> for {p.title}</span>
                 </a>
               ))}
             </div>
