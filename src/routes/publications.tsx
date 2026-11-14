@@ -216,6 +216,10 @@ const publications: Publication[] = [
         href: "https://arxiv.org/abs/2510.12972",
       },
       {
+        label: "DOI",
+        href: "https://dl.acm.org/doi/10.1145/3772318.3791415",
+      },
+      {
         label: "Scholar",
         href: "https://scholar.google.com/citations?user=oS2UUosAAAAJ&hl=en",
       },
