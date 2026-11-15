@@ -32,47 +32,68 @@ const fulls = import.meta.glob<string>("/src/assets/gallery/full/*.jpg", {
 
 type Photo = { id: string; width: number; height: number; alt: string };
 
-// Newest first. `id` is when the photo was added (date_hour-minute-second) and names the
-// image files in src/assets/gallery; width and height are the preview image's size.
+// Shown in a new random order on every visit. `id` names the image files in
+// src/assets/gallery; width and height are the preview image's size.
 const photos: Photo[] = [
-  { id: "2026-11-15_00-31-35", width: 700, height: 528, alt: "Three friends taking a selfie at a night football game in a packed stadium" },
-  { id: "2026-11-15_00-31-27", width: 696, height: 526, alt: "Selfie with friends in the stands at a night game" },
-  { id: "2026-11-15_00-31-11", width: 800, height: 772, alt: "Selfie of a smiling bearded man in a black T-shirt" },
-  { id: "2026-11-15_00-30-58", width: 700, height: 514, alt: "Two friends smiling in a booth at a Japanese restaurant" },
-  { id: "2026-11-15_00-30-52", width: 694, height: 430, alt: "A screen showing an old photo of two boys smiling outdoors" },
-  { id: "2026-11-15_00-30-44", width: 646, height: 800, alt: "Standing under the glowing Public Market neon sign at night" },
-  { id: "2026-11-15_00-30-37", width: 694, height: 748, alt: "Selfie with a friend outside a restaurant" },
-  { id: "2026-11-15_00-30-29", width: 608, height: 800, alt: "Selfie with a friend on a city street lined with tall buildings" },
-  { id: "2026-11-15_00-30-21", width: 466, height: 800, alt: "Three friends sitting on a ledge in front of snowy mountains" },
-  { id: "2026-11-15_00-30-09", width: 685, height: 800, alt: "Three friends posing inside a lit-up heart-shaped arch at night" },
-  { id: "2026-11-15_00-30-02", width: 598, height: 800, alt: "Laughing selfie with a friend at a restaurant" },
-  { id: "2026-11-15_00-29-54", width: 595, height: 800, alt: "Three friends posing in front of glowing yellow lights at a night market" },
-  { id: "2026-11-15_00-29-45", width: 600, height: 800, alt: "Four friends standing under a flower-covered arch at night" },
-  { id: "2026-11-15_00-29-37", width: 449, height: 800, alt: "Selfie in front of a rope net under a blue sky" },
-  { id: "2026-11-15_00-29-17", width: 595, height: 800, alt: "Close-up selfie mid-laugh" },
-  { id: "2026-11-15_00-29-14", width: 608, height: 800, alt: "A hand holding a coffee cup up to a cartoon panda mural" },
-  { id: "2026-11-15_00-29-05", width: 471, height: 800, alt: "Standing in front of a building entrance in a navy T-shirt" },
-  { id: "2026-11-15_00-28-29", width: 502, height: 800, alt: "Posing next to a giant fist sculpture on a city plaza" },
-  { id: "2026-11-15_00-27-53", width: 578, height: 800, alt: "Close-up selfie indoors with a playful expression" },
-  { id: "2026-11-15_00-27-36", width: 762, height: 800, alt: "Smiling selfie in a white T-shirt" },
-  { id: "2026-11-15_00-27-06", width: 800, height: 701, alt: "Sitting on granite rocks with Half Dome in the background" },
-  { id: "2026-11-15_00-26-56", width: 448, height: 800, alt: "Wearing a mixed-reality headset at a restaurant with a graffiti wall" },
-  { id: "2026-11-15_00-26-41", width: 656, height: 800, alt: "Smiling selfie in a black T-shirt" },
-  { id: "2026-11-15_00-26-30", width: 633, height: 800, alt: "Smiling selfie wearing a light-up headband" },
-  { id: "2026-11-15_00-26-11", width: 800, height: 622, alt: "Standing next to a giant yellow duck statue at a night festival" },
-  { id: "2026-10-03_18-03-45", width: 596, height: 800, alt: "Posing by a Welcome to Tokyo mural in an airport hallway" },
+  { id: "night-balcony", width: 620, height: 800, alt: "Posing on a balcony at night" },
+  { id: "beach-selfie", width: 602, height: 800, alt: "Selfie with a friend on a sunny beach" },
+  { id: "night-headband-selfie", width: 637, height: 800, alt: "Smiling night selfie in a sports headband" },
+  { id: "headset-on-forehead-selfie", width: 624, height: 800, alt: "Selfie with a mixed-reality headset pushed up on the forehead" },
+  { id: "bright-room-friends", width: 800, height: 539, alt: "Selfie with two friends in a bright room with plants" },
+  { id: "resort-selfie", width: 800, height: 527, alt: "Selfie with a friend in front of a resort building" },
+  { id: "snowfield-peace-sign", width: 656, height: 800, alt: "Crouching on a snowfield below a rocky slope, flashing a peace sign" },
+  { id: "cafe-mural-selfie", width: 800, height: 550, alt: "Tilted selfie with friends at a café with a colorful mural" },
+  { id: "rocky-trail-log", width: 616, height: 800, alt: "Sitting on a log on a rocky mountain trail, flashing a peace sign" },
+  { id: "meeting-room-group-selfie", width: 800, height: 554, alt: "Group selfie with five colleagues around a meeting room table" },
+  { id: "football-game-selfie", width: 700, height: 528, alt: "Three friends taking a selfie at a night football game in a packed stadium" },
+  { id: "night-game-friends", width: 696, height: 526, alt: "Selfie with friends in the stands at a night game" },
+  { id: "bearded-selfie", width: 800, height: 772, alt: "Selfie of a smiling bearded man in a black T-shirt" },
+  { id: "japanese-restaurant-friends", width: 700, height: 514, alt: "Two friends smiling in a booth at a Japanese restaurant" },
+  { id: "throwback-photo", width: 694, height: 430, alt: "A screen showing an old photo of two boys smiling outdoors" },
+  { id: "public-market-sign", width: 646, height: 800, alt: "Standing under the glowing Public Market neon sign at night" },
+  { id: "restaurant-selfie", width: 694, height: 748, alt: "Selfie with a friend outside a restaurant" },
+  { id: "city-street-selfie", width: 608, height: 800, alt: "Selfie with a friend on a city street lined with tall buildings" },
+  { id: "mountain-ledge-friends", width: 466, height: 800, alt: "Three friends sitting on a ledge in front of snowy mountains" },
+  { id: "heart-arch-friends", width: 685, height: 800, alt: "Three friends posing inside a lit-up heart-shaped arch at night" },
+  { id: "laughing-restaurant-selfie", width: 598, height: 800, alt: "Laughing selfie with a friend at a restaurant" },
+  { id: "night-market-friends", width: 595, height: 800, alt: "Three friends posing in front of glowing yellow lights at a night market" },
+  { id: "flower-arch-friends", width: 600, height: 800, alt: "Four friends standing under a flower-covered arch at night" },
+  { id: "rope-net-selfie", width: 449, height: 800, alt: "Selfie in front of a rope net under a blue sky" },
+  { id: "mid-laugh-selfie", width: 595, height: 800, alt: "Close-up selfie mid-laugh" },
+  { id: "panda-mural-coffee", width: 608, height: 800, alt: "A hand holding a coffee cup up to a cartoon panda mural" },
+  { id: "building-entrance", width: 471, height: 800, alt: "Standing in front of a building entrance in a navy T-shirt" },
+  { id: "fist-sculpture", width: 502, height: 800, alt: "Posing next to a giant fist sculpture on a city plaza" },
+  { id: "playful-selfie", width: 578, height: 800, alt: "Close-up selfie indoors with a playful expression" },
+  { id: "white-tee-selfie", width: 762, height: 800, alt: "Smiling selfie in a white T-shirt" },
+  { id: "half-dome-view", width: 800, height: 701, alt: "Sitting on granite rocks with Half Dome in the background" },
+  { id: "headset-dinner", width: 448, height: 800, alt: "Wearing a mixed-reality headset at a restaurant with a graffiti wall" },
+  { id: "black-tee-selfie", width: 656, height: 800, alt: "Smiling selfie in a black T-shirt" },
+  { id: "headband-light-selfie", width: 633, height: 800, alt: "Smiling selfie wearing a light-up headband" },
+  { id: "giant-duck-festival", width: 800, height: 622, alt: "Standing next to a giant yellow duck statue at a night festival" },
+  { id: "tokyo-welcome-mural", width: 596, height: 800, alt: "Posing by a Welcome to Tokyo mural in an airport hallway" },
 ];
+
+// Fisher–Yates shuffle, so every order is equally likely.
+function shuffled<T>(items: T[]): T[] {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
 
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
 const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
 
 function Gallery() {
+  const [order] = useState(() => shuffled(photos));
   const [current, setCurrent] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchX = useRef<number | null>(null);
 
   const step = (delta: number) =>
-    setCurrent((i) => (i === null ? i : (i + delta + photos.length) % photos.length));
+    setCurrent((i) => (i === null ? i : (i + delta + order.length) % order.length));
 
   // Open and close the viewer, and keep the page behind it from scrolling.
   useEffect(() => {
@@ -90,11 +111,11 @@ function Gallery() {
   useEffect(() => {
     if (current === null) return;
     for (const d of [-1, 1]) {
-      new Image().src = fullSrc(photos[(current + d + photos.length) % photos.length]);
+      new Image().src = fullSrc(order[(current + d + order.length) % order.length]);
     }
-  }, [current]);
+  }, [current, order]);
 
-  const photo = current === null ? null : photos[current];
+  const photo = current === null ? null : order[current];
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-16 md:py-20">
@@ -107,7 +128,7 @@ function Gallery() {
 
       {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
       <ul className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:9rem] after:grow-[999] after:content-[''] sm:[--row:12rem] lg:[--row:15rem]">
-        {photos.map((p, i) => {
+        {order.map((p, i) => {
           const ratio = p.width / p.height;
           return (
             <li
@@ -177,7 +198,7 @@ function Gallery() {
               className="max-h-[calc(100dvh-10rem)] max-w-full rounded-lg object-contain"
             />
             <p className="text-center text-sm text-white/80" aria-live="polite">
-              {photo.alt} · {current! + 1} of {photos.length}
+              {photo.alt} · {current! + 1} of {order.length}
             </p>
 
             <button
