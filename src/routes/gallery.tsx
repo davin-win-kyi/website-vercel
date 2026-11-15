@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Shuffle, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Music, Shuffle, X } from "lucide-react";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -94,6 +94,42 @@ function shuffled<T>(items: T[]): T[] {
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
 const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
 
+// "Tokyo Night Story", a 1980s city pop mix from the Vintage J-Pop Station YouTube channel.
+const MUSIC_VIDEO_ID = "794-o1fb8no";
+
+// Loads YouTube's player only when a visitor asks for music, then plays it on a loop.
+// Browsers don't allow sound before a visitor interacts, so this starts on their tap.
+function GalleryMusic() {
+  const [playing, setPlaying] = useState(false);
+
+  if (!playing) {
+    return (
+      <button
+        type="button"
+        onClick={() => setPlaying(true)}
+        className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-soft transition-colors hover:bg-secondary"
+      >
+        <Music className="h-4 w-4" aria-hidden />
+        Play music while you browse
+        <span className="hidden font-normal text-muted-foreground sm:inline">· Tokyo Night Story</span>
+      </button>
+    );
+  }
+
+  return (
+    <div className="mt-5 w-full max-w-sm overflow-hidden rounded-xl border border-border bg-black shadow-soft">
+      <iframe
+        className="block h-[216px] w-full"
+        src={`https://www.youtube-nocookie.com/embed/${MUSIC_VIDEO_ID}?autoplay=1&loop=1&playlist=${MUSIC_VIDEO_ID}&rel=0`}
+        title="Tokyo Night Story, 1980s city pop from Vintage J-Pop Station (YouTube player)"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      />
+    </div>
+  );
+}
+
 function Gallery() {
   const [order] = useState(() => [
     ...shuffled(photos.filter((p) => p.group)),
@@ -140,6 +176,7 @@ function Gallery() {
         <Shuffle className="h-4 w-4" aria-hidden />
         Refresh the browser to shuffle images!
       </p>
+      <GalleryMusic />
 
       {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
       <ul className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:9rem] after:grow-[999] after:content-[''] sm:[--row:12rem] lg:[--row:15rem]">
