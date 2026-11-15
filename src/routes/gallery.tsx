@@ -30,41 +30,42 @@ const fulls = import.meta.glob<string>("/src/assets/gallery/full/*.jpg", {
   import: "default",
 });
 
-type Photo = { id: string; width: number; height: number; alt: string };
+// `group` marks photos with two or more people; those are shown first.
+type Photo = { id: string; group?: boolean; width: number; height: number; alt: string };
 
-// Shown in a new random order on every visit. `id` names the image files in
+// Shown in a new random order on every visit, group photos first. `id` names the image files in
 // src/assets/gallery; width and height are the preview image's size.
 const photos: Photo[] = [
-  { id: "night-market-sign", width: 600, height: 800, alt: "Three friends standing in front of a tall glowing sign at a night market" },
-  { id: "soup-lunch-selfie", width: 800, height: 559, alt: "Selfie with a friend over bowls of soup at a restaurant" },
-  { id: "classroom-group-selfie", width: 800, height: 580, alt: "Group selfie with classmates in a classroom" },
-  { id: "seminar-room-group-selfie", width: 800, height: 594, alt: "Group selfie with classmates in a seminar room" },
+  { id: "night-market-sign", group: true, width: 600, height: 800, alt: "Three friends standing in front of a tall glowing sign at a night market" },
+  { id: "soup-lunch-selfie", group: true, width: 800, height: 559, alt: "Selfie with a friend over bowls of soup at a restaurant" },
+  { id: "classroom-group-selfie", group: true, width: 800, height: 580, alt: "Group selfie with classmates in a classroom" },
+  { id: "seminar-room-group-selfie", group: true, width: 800, height: 594, alt: "Group selfie with classmates in a seminar room" },
   { id: "jack-o-lanterns", width: 615, height: 800, alt: "Three carved jack-o'-lanterns on a kitchen cabinet" },
-  { id: "conference-table-group", width: 800, height: 581, alt: "A large group posing around a conference table" },
-  { id: "group-dinner", width: 800, height: 550, alt: "Friends gathered around a long table at a restaurant" },
+  { id: "conference-table-group", group: true, width: 800, height: 581, alt: "A large group posing around a conference table" },
+  { id: "group-dinner", group: true, width: 800, height: 550, alt: "Friends gathered around a long table at a restaurant" },
   { id: "night-balcony", width: 620, height: 800, alt: "Posing on a balcony at night" },
-  { id: "beach-selfie", width: 602, height: 800, alt: "Selfie with a friend on a sunny beach" },
+  { id: "beach-selfie", group: true, width: 602, height: 800, alt: "Selfie with a friend on a sunny beach" },
   { id: "night-headband-selfie", width: 637, height: 800, alt: "Smiling night selfie in a sports headband" },
   { id: "headset-on-forehead-selfie", width: 624, height: 800, alt: "Selfie with a mixed-reality headset pushed up on the forehead" },
-  { id: "bright-room-friends", width: 800, height: 539, alt: "Selfie with two friends in a bright room with plants" },
-  { id: "resort-selfie", width: 800, height: 527, alt: "Selfie with a friend in front of a resort building" },
+  { id: "bright-room-friends", group: true, width: 800, height: 539, alt: "Selfie with two friends in a bright room with plants" },
+  { id: "resort-selfie", group: true, width: 800, height: 527, alt: "Selfie with a friend in front of a resort building" },
   { id: "snowfield-peace-sign", width: 656, height: 800, alt: "Crouching on a snowfield below a rocky slope, flashing a peace sign" },
-  { id: "cafe-mural-selfie", width: 800, height: 550, alt: "Tilted selfie with friends at a café with a colorful mural" },
+  { id: "cafe-mural-selfie", group: true, width: 800, height: 550, alt: "Tilted selfie with friends at a café with a colorful mural" },
   { id: "rocky-trail-log", width: 616, height: 800, alt: "Sitting on a log on a rocky mountain trail, flashing a peace sign" },
-  { id: "meeting-room-group-selfie", width: 800, height: 554, alt: "Group selfie with five colleagues around a meeting room table" },
-  { id: "football-game-selfie", width: 700, height: 528, alt: "Three friends taking a selfie at a night football game in a packed stadium" },
-  { id: "night-game-friends", width: 696, height: 526, alt: "Selfie with friends in the stands at a night game" },
+  { id: "meeting-room-group-selfie", group: true, width: 800, height: 554, alt: "Group selfie with five colleagues around a meeting room table" },
+  { id: "football-game-selfie", group: true, width: 700, height: 528, alt: "Three friends taking a selfie at a night football game in a packed stadium" },
+  { id: "night-game-friends", group: true, width: 696, height: 526, alt: "Selfie with friends in the stands at a night game" },
   { id: "bearded-selfie", width: 800, height: 772, alt: "Selfie of a smiling bearded man in a black T-shirt" },
-  { id: "japanese-restaurant-friends", width: 700, height: 514, alt: "Two friends smiling in a booth at a Japanese restaurant" },
-  { id: "throwback-photo", width: 694, height: 430, alt: "A screen showing an old photo of two boys smiling outdoors" },
+  { id: "japanese-restaurant-friends", group: true, width: 700, height: 514, alt: "Two friends smiling in a booth at a Japanese restaurant" },
+  { id: "throwback-photo", group: true, width: 694, height: 430, alt: "A screen showing an old photo of two boys smiling outdoors" },
   { id: "public-market-sign", width: 646, height: 800, alt: "Standing under the glowing Public Market neon sign at night" },
-  { id: "restaurant-selfie", width: 694, height: 748, alt: "Selfie with a friend outside a restaurant" },
-  { id: "city-street-selfie", width: 608, height: 800, alt: "Selfie with a friend on a city street lined with tall buildings" },
-  { id: "mountain-ledge-friends", width: 466, height: 800, alt: "Three friends sitting on a ledge in front of snowy mountains" },
-  { id: "heart-arch-friends", width: 685, height: 800, alt: "Three friends posing inside a lit-up heart-shaped arch at night" },
-  { id: "laughing-restaurant-selfie", width: 598, height: 800, alt: "Laughing selfie with a friend at a restaurant" },
-  { id: "night-market-friends", width: 595, height: 800, alt: "Three friends posing in front of glowing yellow lights at a night market" },
-  { id: "flower-arch-friends", width: 600, height: 800, alt: "Four friends standing under a flower-covered arch at night" },
+  { id: "restaurant-selfie", group: true, width: 694, height: 748, alt: "Selfie with a friend outside a restaurant" },
+  { id: "city-street-selfie", group: true, width: 608, height: 800, alt: "Selfie with a friend on a city street lined with tall buildings" },
+  { id: "mountain-ledge-friends", group: true, width: 466, height: 800, alt: "Three friends sitting on a ledge in front of snowy mountains" },
+  { id: "heart-arch-friends", group: true, width: 685, height: 800, alt: "Three friends posing inside a lit-up heart-shaped arch at night" },
+  { id: "laughing-restaurant-selfie", group: true, width: 598, height: 800, alt: "Laughing selfie with a friend at a restaurant" },
+  { id: "night-market-friends", group: true, width: 595, height: 800, alt: "Three friends posing in front of glowing yellow lights at a night market" },
+  { id: "flower-arch-friends", group: true, width: 600, height: 800, alt: "Four friends standing under a flower-covered arch at night" },
   { id: "rope-net-selfie", width: 449, height: 800, alt: "Selfie in front of a rope net under a blue sky" },
   { id: "mid-laugh-selfie", width: 595, height: 800, alt: "Close-up selfie mid-laugh" },
   { id: "panda-mural-coffee", width: 608, height: 800, alt: "A hand holding a coffee cup up to a cartoon panda mural" },
@@ -94,7 +95,10 @@ const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
 const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
 
 function Gallery() {
-  const [order] = useState(() => shuffled(photos));
+  const [order] = useState(() => [
+    ...shuffled(photos.filter((p) => p.group)),
+    ...shuffled(photos.filter((p) => !p.group)),
+  ]);
   const [current, setCurrent] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchX = useRef<number | null>(null);
