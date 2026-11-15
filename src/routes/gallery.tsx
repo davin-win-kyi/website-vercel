@@ -35,6 +35,13 @@ type Photo = { id: string; width: number; height: number; alt: string };
 // Shown in a new random order on every visit. `id` names the image files in
 // src/assets/gallery; width and height are the preview image's size.
 const photos: Photo[] = [
+  { id: "night-market-sign", width: 600, height: 800, alt: "Three friends standing in front of a tall glowing sign at a night market" },
+  { id: "soup-lunch-selfie", width: 800, height: 559, alt: "Selfie with a friend over bowls of soup at a restaurant" },
+  { id: "classroom-group-selfie", width: 800, height: 580, alt: "Group selfie with classmates in a classroom" },
+  { id: "seminar-room-group-selfie", width: 800, height: 594, alt: "Group selfie with classmates in a seminar room" },
+  { id: "jack-o-lanterns", width: 615, height: 800, alt: "Three carved jack-o'-lanterns on a kitchen cabinet" },
+  { id: "conference-table-group", width: 800, height: 581, alt: "A large group posing around a conference table" },
+  { id: "group-dinner", width: 800, height: 550, alt: "Friends gathered around a long table at a restaurant" },
   { id: "night-balcony", width: 620, height: 800, alt: "Posing on a balcony at night" },
   { id: "beach-selfie", width: 602, height: 800, alt: "Selfie with a friend on a sunny beach" },
   { id: "night-headband-selfie", width: 637, height: 800, alt: "Smiling night selfie in a sports headband" },
