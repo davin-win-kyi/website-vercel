@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Shuffle, X } from "lucide-react";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -131,6 +131,10 @@ function Gallery() {
       </h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
         Moments with friends, trips, and everything in between.
+      </p>
+      <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+        <Shuffle className="h-4 w-4" aria-hidden />
+        Refresh the browser to shuffle images!
       </p>
 
       {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
