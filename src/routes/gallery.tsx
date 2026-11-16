@@ -190,7 +190,7 @@ function Gallery() {
       <GalleryMusic />
 
       {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
-      <ul className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:9rem] after:grow-[999] after:content-[''] sm:[--row:12rem] lg:[--row:15rem]">
+      <ul className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:11rem] after:grow-[999] after:content-[''] sm:[--row:14rem] lg:[--row:17rem]">
         {order.map((p, i) => {
           const ratio = p.width / p.height;
           return (
@@ -232,7 +232,7 @@ function Gallery() {
       >
         {photo && (
           <div
-            className="relative flex h-full w-full flex-col items-center justify-center gap-4 px-4 py-16 sm:px-20"
+            className="relative flex h-full w-full flex-col items-center justify-center gap-4 px-0 py-16 sm:px-20"
             onClick={(e) => {
               if (e.target === e.currentTarget) dialogRef.current?.close();
             }}
@@ -250,17 +250,22 @@ function Gallery() {
               type="button"
               onClick={() => dialogRef.current?.close()}
               aria-label="Close photo viewer"
-              className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+              className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/50 ring-1 ring-white/25 transition-colors hover:bg-black/70"
             >
               <X className="h-5 w-5" aria-hidden />
             </button>
 
+            {/* Fill the space left around the caption and controls, keeping the photo's shape. */}
             <img
               src={fullSrc(photo)}
               alt={photo.alt}
-              className="max-h-[calc(100dvh-10rem)] max-w-full rounded-lg object-contain"
+              className="h-auto object-contain sm:rounded-lg"
+              style={{
+                width: `min(100%, calc((100dvh - 11rem) * ${photo.width / photo.height}))`,
+                aspectRatio: `${photo.width} / ${photo.height}`,
+              }}
             />
-            <p className="text-center text-sm text-white/80" aria-live="polite">
+            <p className="px-4 text-center text-sm text-white/80" aria-live="polite">
               {photo.caption} · {current! + 1} of {order.length}
             </p>
 
@@ -268,7 +273,7 @@ function Gallery() {
               type="button"
               onClick={() => step(-1)}
               aria-label="Previous photo"
-              className="absolute left-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20 sm:left-6"
+              className="absolute left-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 ring-1 ring-white/25 transition-colors hover:bg-black/70 sm:left-6"
             >
               <ChevronLeft className="h-6 w-6" aria-hidden />
             </button>
@@ -276,7 +281,7 @@ function Gallery() {
               type="button"
               onClick={() => step(1)}
               aria-label="Next photo"
-              className="absolute right-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20 sm:right-6"
+              className="absolute right-2 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 ring-1 ring-white/25 transition-colors hover:bg-black/70 sm:right-6"
             >
               <ChevronRight className="h-6 w-6" aria-hidden />
             </button>
