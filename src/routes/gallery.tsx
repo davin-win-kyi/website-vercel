@@ -48,6 +48,10 @@ type Photo = {
 // `lead` set somewhere in the first two rows. `id` names the image files in src/assets/gallery; width
 // and height are the preview image's size.
 const photos: Photo[] = [
+  { id: "night-market-red-carpet", group: true, width: 800, height: 782, caption: "Night market, full stomachs.", alt: "Three friends standing on a red carpet in front of a tall glowing sign at a night market" },
+  { id: "peace-sign-selfie", group: true, width: 597, height: 800, caption: "Two grins, one peace sign.", alt: "Two friends grinning in a selfie, one flashing a peace sign, beside an orange wall" },
+  { id: "waterfront-sunset-selfie", group: true, width: 800, height: 599, caption: "Sunset squad, assembled.", alt: "Selfie with three friends on a dock at dusk, with calm water and lit-up houses behind them" },
+  { id: "graduation-roses", group: true, lead: "graduation", width: 602, height: 800, caption: "Degree done, roses in hand.", alt: "In a graduation gown and purple stole, holding red roses beside two guests outside Alaska Airlines Field" },
   { id: "lab-aviators", width: 800, height: 660, caption: "Shades on, code compiling.", alt: "Leaning back in aviator sunglasses in an office with computer monitors" },
   { id: "snack-mural", width: 774, height: 800, caption: "The mural said it, not me.", alt: "Posing in front of a colorful mural of cartoon snacks" },
   { id: "graduation-selfie", group: true, lead: "graduation", width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
@@ -58,7 +62,6 @@ const photos: Photo[] = [
   { id: "sunny-plaza-pair", group: true, width: 733, height: 800, caption: "Peak sunglasses weather.", alt: "Two people posing on a sunny plaza lined with flags" },
   { id: "pumpkin-carving", width: 757, height: 800, caption: "South Park would approve.", alt: "Two freshly carved jack-o'-lanterns on a kitchen counter" },
   { id: "summit-selfie", group: true, lead: "summit", width: 800, height: 619, caption: "Cloud level: unlocked.", alt: "Selfie with a friend on a mountain summit above the clouds" },
-  { id: "night-market-sign", group: true, width: 800, height: 800, caption: "Night market, full stomachs.", alt: "Three friends standing in front of a tall glowing sign at a night market" },
   { id: "classroom-group-selfie", group: true, width: 800, height: 580, caption: "Class dismissed, selfie mandatory.", alt: "Group selfie with classmates in a classroom" },
   { id: "jack-o-lanterns", width: 615, height: 800, caption: "Simply gourd-geous.", alt: "Three carved jack-o'-lanterns on a kitchen cabinet" },
   { id: "conference-table-group", group: true, width: 800, height: 581, caption: "This meeting could've been a photo.", alt: "A large group posing around a conference table" },
