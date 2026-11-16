@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Music, Shuffle, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Music, Pause, Play, Shuffle, X } from "lucide-react";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -107,36 +107,190 @@ const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
 
 // "Tokyo Night Story", a 1980s city pop mix from the Vintage J-Pop Station YouTube channel.
 const MUSIC_VIDEO_ID = "794-o1fb8no";
+const MUSIC_TITLE = "Tokyo Night Story";
+const PLAYER_ORIGIN = "https://www.youtube-nocookie.com";
 
-// Loads YouTube's player only when a visitor asks for music, then plays it on a loop.
-// Browsers don't allow sound before a visitor interacts, so this starts on their tap.
+// Player states that YouTube reports.
+const YT_PLAYING = 1;
+const YT_PAUSED = 2;
+
+// Sends the player a message in the format YouTube's own IFrame API script uses.
+function tellPlayer(frame: HTMLIFrameElement | null, message: Record<string, unknown>) {
+  frame?.contentWindow?.postMessage(
+    JSON.stringify({ ...message, id: 1, channel: "widget" }),
+    PLAYER_ORIGIN,
+  );
+}
+
+const command = (frame: HTMLIFrameElement | null, func: string, args: unknown[] = []) =>
+  tellPlayer(frame, { event: "command", func, args });
+
+// Little bars that bounce while the music plays (they hold still for reduced motion).
+function SoundBars() {
+  return (
+    <span aria-hidden className="flex h-3 items-end gap-0.5">
+      {[0, 0.3, 0.6].map((delay) => (
+        <span
+          key={delay}
+          className="sound-bar h-full w-[3px] rounded-full bg-foreground/60"
+          style={{ animationDelay: `-${delay}s` }}
+        />
+      ))}
+    </span>
+  );
+}
+
+type MusicState = "off" | "starting" | "playing" | "paused";
+
+// Plays the song from a hidden YouTube player, loaded only once a visitor asks for music and
+// controlled by our own play/pause button. Some browsers (Safari, and every browser on iPhone)
+// only start sound from a tap on the player itself; there the player shows until the song
+// starts, then hides again.
 function GalleryMusic() {
-  const [playing, setPlaying] = useState(false);
+  const [state, setState] = useState<MusicState>("off");
+  const [needsTap, setNeedsTap] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  const ready = useRef(false);
+  const wantsMusic = useRef(false);
 
-  if (!playing) {
-    return (
-      <button
-        type="button"
-        onClick={() => setPlaying(true)}
-        className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-soft transition-colors hover:bg-secondary"
-      >
-        <Music className="h-4 w-4" aria-hidden />
-        Play music while you browse
-        <span className="hidden font-normal text-muted-foreground sm:inline">· Tokyo Night Story</span>
-      </button>
-    );
-  }
+  // Follow what the player reports, so the button and note always match what you hear.
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      const frame = frameRef.current;
+      if (!frame || event.source !== frame.contentWindow) return;
+      let data: { event?: unknown; info?: unknown } | null;
+      try {
+        data = JSON.parse(event.data);
+      } catch {
+        return;
+      }
+      if (!data || typeof data !== "object") return;
+
+      if (data.event === "onReady" && !ready.current) {
+        ready.current = true;
+        command(frame, "addEventListener", ["onStateChange"]);
+        command(frame, "addEventListener", ["onAutoplayBlocked"]);
+        if (wantsMusic.current) command(frame, "playVideo");
+        return;
+      }
+      if (data.event === "onAutoplayBlocked") {
+        setNeedsTap(true);
+        setState("paused");
+        return;
+      }
+      const reported =
+        data.event === "onStateChange"
+          ? data.info
+          : (data.info as { playerState?: unknown } | null | undefined)?.playerState;
+      if (reported === YT_PLAYING) {
+        wantsMusic.current = true;
+        setNeedsTap(false);
+        setState("playing");
+      } else if (reported === YT_PAUSED) {
+        wantsMusic.current = false;
+        setState("paused");
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  // Once the player's page loads, say hello until it answers, as YouTube's own script does.
+  useEffect(() => {
+    if (!loaded) return;
+    let tries = 0;
+    const timer = window.setInterval(() => {
+      if (ready.current || ++tries > 40) window.clearInterval(timer);
+      else tellPlayer(frameRef.current, { event: "listening" });
+    }, 250);
+    return () => window.clearInterval(timer);
+  }, [loaded]);
+
+  // If the song still hasn't started after a while, show the player so the visitor can start it.
+  useEffect(() => {
+    if (state !== "starting" || needsTap) return;
+    const timer = window.setTimeout(() => {
+      setNeedsTap(true);
+      setState("paused");
+    }, 12000);
+    return () => window.clearTimeout(timer);
+  }, [state, needsTap]);
+
+  const toggle = () => {
+    const play = state === "off" || state === "paused";
+    wantsMusic.current = play;
+    // The first press loads the player, which starts the song as soon as it's ready.
+    if (state !== "off") command(frameRef.current, play ? "playVideo" : "pauseVideo");
+    setState(play ? "starting" : "paused");
+  };
+
+  const on = state === "starting" || state === "playing";
 
   return (
-    <div className="mt-5 w-full max-w-sm overflow-hidden rounded-xl border border-border bg-black shadow-soft">
-      <iframe
-        className="block h-[216px] w-full"
-        src={`https://www.youtube-nocookie.com/embed/${MUSIC_VIDEO_ID}?autoplay=1&loop=1&playlist=${MUSIC_VIDEO_ID}&rel=0`}
-        title="Tokyo Night Story, 1980s city pop from Vintage J-Pop Station (YouTube player)"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      />
+    <div className="mt-5">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <button
+          type="button"
+          onClick={toggle}
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground shadow-soft transition-colors hover:bg-secondary"
+        >
+          {state === "off" ? (
+            <Music className="h-4 w-4" aria-hidden />
+          ) : on ? (
+            <Pause className="h-4 w-4" aria-hidden />
+          ) : (
+            <Play className="h-4 w-4" aria-hidden />
+          )}
+          {state === "off" ? "Play music while you browse" : on ? "Pause music" : "Play music"}
+          {state === "off" && (
+            <span className="hidden font-normal text-muted-foreground sm:inline">
+              · {MUSIC_TITLE}
+            </span>
+          )}
+        </button>
+
+        {/* Says what's playing, since the player itself stays out of sight. */}
+        <p className="flex items-center gap-2 text-sm text-muted-foreground" aria-live="polite">
+          {needsTap ? (
+            "Tap play on the video below to start the music."
+          ) : state === "starting" ? (
+            `Loading ${MUSIC_TITLE}…`
+          ) : state === "playing" ? (
+            <>
+              <SoundBars />
+              <span>
+                Now playing: <span className="font-medium text-foreground">{MUSIC_TITLE}</span>
+                <span className="hidden sm:inline"> · Vintage J-Pop Station</span>
+              </span>
+            </>
+          ) : state === "paused" ? (
+            `Paused: ${MUSIC_TITLE}`
+          ) : null}
+        </p>
+      </div>
+
+      {state !== "off" && (
+        <div
+          inert={!needsTap}
+          className={
+            needsTap
+              ? "mt-3 aspect-video w-full max-w-sm overflow-hidden rounded-xl border border-border bg-black shadow-soft"
+              : "pointer-events-none fixed bottom-0 left-0 h-[200px] w-[200px] opacity-0"
+          }
+        >
+          <iframe
+            ref={frameRef}
+            className="block h-full w-full"
+            src={`${PLAYER_ORIGIN}/embed/${MUSIC_VIDEO_ID}?loop=1&playlist=${MUSIC_VIDEO_ID}&playsinline=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
+            title={`YouTube player for ${MUSIC_TITLE}`}
+            tabIndex={needsTap ? undefined : -1}
+            allow="autoplay; encrypted-media"
+            referrerPolicy="strict-origin-when-cross-origin"
+            onLoad={() => setLoaded(true)}
+          />
+        </div>
+      )}
     </div>
   );
 }

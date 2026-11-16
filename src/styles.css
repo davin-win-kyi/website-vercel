@@ -225,10 +225,27 @@
   animation: blink-cursor 1s step-end infinite;
 }
 
+/* Bars that bounce beside the gallery's "Now playing" note. */
+@keyframes sound-bar {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.sound-bar {
+  transform-origin: bottom;
+  animation: sound-bar 0.9s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .blob-animated,
   .blob-bubbly,
-  .cursor-blink {
+  .cursor-blink,
+  .sound-bar {
     animation: none;
   }
 }
