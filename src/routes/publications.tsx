@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { Expand, X } from "lucide-react";
 import sonoImg from "@/assets/pub-sonocraftar-fig.png";
 import taskImg from "@/assets/pub-taskaudit-fig.jpg";
 import romansImg from "@/assets/pub-romans-fig.png";
@@ -8,6 +10,15 @@ import targetedImg from "@/assets/targeted_interaction_agents.png";
 import interImg from "@/assets/intera11y.png";
 import eyeqImg from "@/assets/eyeq.jpg";
 import pageAssistImg from "@/assets/pageassist.png";
+import sonoThumb from "@/assets/pub-thumbs/sonocraftar.jpg";
+import taskThumb from "@/assets/pub-thumbs/taskaudit.jpg";
+import romansThumb from "@/assets/pub-thumbs/romans.png";
+import previewThumb from "@/assets/pub-thumbs/previewar.jpg";
+import translateThumb from "@/assets/pub-thumbs/translatear.jpg";
+import targetedThumb from "@/assets/pub-thumbs/targeted-agents.png";
+import interThumb from "@/assets/pub-thumbs/intera11y.png";
+import eyeqThumb from "@/assets/pub-thumbs/eyeq.jpg";
+import pageAssistThumb from "@/assets/pub-thumbs/pageassist.png";
 
 export const Route = createFileRoute("/publications")({
   head: () => ({
@@ -34,7 +45,10 @@ type Link = { label: string; href: string };
 
 type Publication = {
   title: string;
+  // `image` is the full figure, shown when it's clicked. `thumb` is a 2:1 crop of its most
+  // telling part, sized to fill the card.
   image?: string;
+  thumb?: string;
   imageLabel?: string;
   venue: string;
   authors: { name: string; emphasis?: boolean; coFirst?: boolean }[];
@@ -48,6 +62,7 @@ const publications: Publication[] = [
     title:
       "PageAssist: End-User Authoring of Generative Interfaces for Progress Tracking on Webpages",
     image: pageAssistImg,
+    thumb: pageAssistThumb,
     imageLabel: "PageAssist",
     venue: "IUI '27 Poster · In submission",
     authors: [
@@ -63,6 +78,7 @@ const publications: Publication[] = [
   {
     title: "InterA11y: Interactive Web Accessibility Error Detection with LLM Agents",
     image: interImg,
+    thumb: interThumb,
     imageLabel: "InterA11y",
     venue: "TheWebConf '27 · In submission",
     authors: [
@@ -86,6 +102,7 @@ const publications: Publication[] = [
   {
     title: "EyeQ: Exploring Corneal Reflection for Mobile Context Sensing",
     image: eyeqImg,
+    thumb: eyeqThumb,
     imageLabel: "EyeQ",
     venue: "CHI '27 · In submission",
     authors: [
@@ -111,6 +128,7 @@ const publications: Publication[] = [
   {
     title: "PreviewAR: Sketching Spaces for Scale-Aware Product Discovery in AR",
     image: previewImg,
+    thumb: previewThumb,
     imageLabel: "PreviewAR",
     venue: "UIST '26 Poster · To appear",
     authors: [
@@ -138,6 +156,7 @@ const publications: Publication[] = [
     title:
       "TranslateAR: Towards Style-Preserving In-Situ Text Translation in Augmented Reality",
     image: translateImg,
+    thumb: translateThumb,
     imageLabel: "TranslateAR",
     venue: "UIST '26 Demo · To appear",
     authors: [
@@ -164,6 +183,7 @@ const publications: Publication[] = [
   {
     title: "Targeted Interaction Agents for Web Accessibility Evaluation",
     image: targetedImg,
+    thumb: targetedThumb,
     imageLabel: "Web Accessibility Agents",
     venue: "UIST '26 Adjunct · To appear",
     authors: [
@@ -191,6 +211,7 @@ const publications: Publication[] = [
     title:
       "SonoCraftAR: Towards Supporting Personalized Authoring of Sound-Reactive AR Interfaces by Deaf and Hard of Hearing Users",
     image: sonoImg,
+    thumb: sonoThumb,
     venue: "ISMAR '25 Workshop",
     authors: [
       { name: "Davin Win Kyi", emphasis: true, coFirst: true },
@@ -220,6 +241,7 @@ const publications: Publication[] = [
     title:
       "TaskAudit: Detecting Functiona11ity Errors in Mobile Apps via Agentic Task Execution",
     image: taskImg,
+    thumb: taskThumb,
     venue: "CHI '26",
     authors: [
       { name: "Mingyuan Zhong" },
@@ -250,6 +272,7 @@ const publications: Publication[] = [
     title:
       "Do as the Romans Do: Learning Universal Behaviors from Heterogeneous Agents",
     image: romansImg,
+    thumb: romansThumb,
     venue: "arXiv '26",
     authors: [
       { name: "Caleb Chang" },
@@ -268,7 +291,27 @@ const publications: Publication[] = [
   },
 ];
 
+// Starts downloading a full figure so it's ready by the time the viewer opens.
+function preload(src: string) {
+  new Image().src = src;
+}
+
 function Publications() {
+  const [viewing, setViewing] = useState<Publication | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  // Open and close the figure viewer, and keep the page behind it from scrolling.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    if (viewing && !dialog.open) dialog.showModal();
+    if (!viewing && dialog.open) dialog.close();
+    document.documentElement.style.overflow = viewing ? "hidden" : "";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [viewing]);
+
   return (
     <div className="mx-auto max-w-6xl px-5 py-16 md:py-20">
       <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
@@ -281,25 +324,39 @@ function Publications() {
       <div className="mt-12 grid gap-10 md:grid-cols-2">
         {publications.map((p) => (
           <article key={p.title} className="flex flex-col">
-            <div className="flex aspect-[2/1] items-center justify-center overflow-hidden rounded-xl border border-border bg-secondary/40 p-4 shadow-soft">
-              {p.image ? (
+            {p.image && p.thumb ? (
+              <button
+                type="button"
+                onClick={() => setViewing(p)}
+                onPointerEnter={() => p.image && preload(p.image)}
+                onFocus={() => p.image && preload(p.image)}
+                className="group relative block aspect-[2/1] w-full cursor-zoom-in overflow-hidden rounded-xl border border-border bg-white shadow-soft"
+              >
                 <img
-                  src={p.image}
-                  alt={`Figure from ${p.title}`}
+                  src={p.thumb}
+                  alt=""
                   loading="lazy"
-                  width={1024}
-                  height={1024}
-                  className="max-h-full max-w-full rounded-lg object-contain"
+                  decoding="async"
+                  width={1000}
+                  height={500}
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
-              ) : (
+                {/* Shown on hover and keyboard focus, and always on touch screens. */}
+                <span className="pointer-events-none absolute bottom-2.5 right-2.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 pointer-coarse:opacity-100">
+                  <Expand className="h-4 w-4" aria-hidden />
+                </span>
+                <span className="sr-only">View the full figure from {p.title}</span>
+              </button>
+            ) : (
+              <div className="flex aspect-[2/1] items-center justify-center rounded-xl border border-border bg-secondary/40 p-4 shadow-soft">
                 <span
                   aria-hidden="true"
                   className="max-w-sm px-6 text-center text-2xl font-semibold tracking-tight text-muted-foreground"
                 >
                   {p.imageLabel ?? p.title}
                 </span>
-              )}
-            </div>
+              </div>
+            )}
 
             <p className="mt-6 text-sm font-medium text-muted-foreground">
               {p.venue}
@@ -353,6 +410,38 @@ function Publications() {
           </article>
         ))}
       </div>
+
+      <dialog
+        ref={dialogRef}
+        aria-label="Figure viewer"
+        onClose={() => setViewing(null)}
+        className="m-0 h-dvh max-h-none w-dvw max-w-none bg-transparent p-0 text-white backdrop:bg-black/90"
+      >
+        {viewing && (
+          <div
+            className="relative flex h-full w-full flex-col items-center justify-center gap-4 px-3 py-16 sm:px-10"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) dialogRef.current?.close();
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => dialogRef.current?.close()}
+              aria-label="Close figure viewer"
+              className="absolute right-4 top-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/50 ring-1 ring-white/25 transition-colors hover:bg-black/70"
+            >
+              <X className="h-5 w-5" aria-hidden />
+            </button>
+            {/* Figures are made for white paper, so they sit on white here too. */}
+            <img
+              src={viewing.image}
+              alt={`Figure from ${viewing.title}`}
+              className="max-h-[calc(100dvh-11rem)] w-auto max-w-full rounded-lg bg-white object-contain p-2 sm:p-4"
+            />
+            <p className="max-w-3xl px-4 text-center text-sm text-white/80">{viewing.title}</p>
+          </div>
+        )}
+      </dialog>
     </div>
   );
 }
