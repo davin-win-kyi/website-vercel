@@ -7,6 +7,7 @@ import translateImg from "@/assets/translatear.png";
 import targetedImg from "@/assets/targeted_interaction_agents.png";
 import interImg from "@/assets/intera11y.png";
 import eyeqImg from "@/assets/eyeq.jpg";
+import pageAssistImg from "@/assets/pageassist.png";
 
 export const Route = createFileRoute("/publications")({
   head: () => ({
@@ -43,6 +44,22 @@ type Publication = {
 };
 
 const publications: Publication[] = [
+  {
+    title:
+      "PageAssist: End-User Authoring of Generative Interfaces for Progress Tracking on Webpages",
+    image: pageAssistImg,
+    imageLabel: "PageAssist",
+    venue: "IUI '27 Poster · In submission",
+    authors: [
+      { name: "Davin Win Kyi", emphasis: true },
+      { name: "Mingyuan Zhong" },
+      { name: "James Fogarty" },
+      { name: "Jacob O. Wobbrock" },
+    ],
+    blurb:
+      "A conversational tool that lets web users, including people with cognitive accessibility needs, build their own interfaces for tracking progress through tasks like tutorials and job applications, then reuse them across webpages and keep them in sync as pages change.",
+    links: [],
+  },
   {
     title: "InterA11y: Interactive Web Accessibility Error Detection with LLM Agents",
     image: interImg,
@@ -317,20 +334,22 @@ function Publications() {
               {p.blurb}
             </p>
 
-            <div className="mt-5 flex flex-wrap gap-5">
-              {p.links.map((l) => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-bold uppercase tracking-wide text-foreground underline-offset-4 transition-colors hover:text-muted-foreground hover:underline"
-                >
-                  {l.label}
-                  <span className="sr-only"> for {p.title}</span>
-                </a>
-              ))}
-            </div>
+            {p.links.length > 0 && (
+              <div className="mt-5 flex flex-wrap gap-5">
+                {p.links.map((l) => (
+                  <a
+                    key={l.label}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-bold uppercase tracking-wide text-foreground underline-offset-4 transition-colors hover:text-muted-foreground hover:underline"
+                  >
+                    {l.label}
+                    <span className="sr-only"> for {p.title}</span>
+                  </a>
+                ))}
+              </div>
+            )}
           </article>
         ))}
       </div>
