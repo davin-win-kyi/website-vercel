@@ -48,6 +48,7 @@ type Photo = {
 // `lead` set somewhere in the first two rows. `id` names the image files in src/assets/gallery; width
 // and height are the preview image's size.
 const photos: Photo[] = [
+  { id: "lab-aviators", width: 800, height: 660, caption: "Shades on, code compiling.", alt: "Leaning back in aviator sunglasses in an office with computer monitors" },
   { id: "snack-mural", width: 774, height: 800, caption: "The mural said it, not me.", alt: "Posing in front of a colorful mural of cartoon snacks" },
   { id: "graduation-selfie", group: true, lead: "graduation", width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
   { id: "graduation-friends", group: true, lead: "graduation", width: 800, height: 572, caption: "Officially overeducated.", alt: "Commencement selfie with classmates in graduation gowns" },
