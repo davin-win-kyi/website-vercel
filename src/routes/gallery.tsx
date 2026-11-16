@@ -31,8 +31,9 @@ const fulls = import.meta.glob<string>("/src/assets/gallery/full/*.jpg", {
 });
 
 // `group` marks photos with two or more people; those are shown first. `lead` names a set of
-// photos (like "graduation"); one of each set always appears in the first two rows. `caption`
-// appears under the photo in the viewer; `alt` describes what's in it for screen readers.
+// photos (like "graduation"); one of each set always appears in the first two rows, or as near
+// the top as fits on narrow screens. `caption` appears under the photo in the viewer; `alt`
+// describes what's in it for screen readers.
 type Photo = {
   id: string;
   group?: boolean;
@@ -55,7 +56,7 @@ const photos: Photo[] = [
   { id: "mountain-overlook-pair", group: true, width: 800, height: 587, caption: "Views worth the leg day.", alt: "Posing with a friend on a rocky mountain overlook" },
   { id: "sunny-plaza-pair", group: true, width: 733, height: 800, caption: "Peak sunglasses weather.", alt: "Two people posing on a sunny plaza lined with flags" },
   { id: "pumpkin-carving", width: 757, height: 800, caption: "South Park would approve.", alt: "Two freshly carved jack-o'-lanterns on a kitchen counter" },
-  { id: "summit-selfie", group: true, width: 800, height: 619, caption: "Cloud level: unlocked.", alt: "Selfie with a friend on a mountain summit above the clouds" },
+  { id: "summit-selfie", group: true, lead: "summit", width: 800, height: 619, caption: "Cloud level: unlocked.", alt: "Selfie with a friend on a mountain summit above the clouds" },
   { id: "night-market-sign", group: true, width: 800, height: 800, caption: "Night market, full stomachs.", alt: "Three friends standing in front of a tall glowing sign at a night market" },
   { id: "classroom-group-selfie", group: true, width: 800, height: 580, caption: "Class dismissed, selfie mandatory.", alt: "Group selfie with classmates in a classroom" },
   { id: "jack-o-lanterns", width: 615, height: 800, caption: "Simply gourd-geous.", alt: "Three carved jack-o'-lanterns on a kitchen cabinet" },
@@ -141,19 +142,23 @@ function rowsOf(order: Photo[], { width, rowHeight, gap }: RowLayout): number[] 
   });
 }
 
-// Puts the lead photos at random spots within the first two rows.
+// Puts the lead photos at random spots within the first two rows. When they can't all fit
+// there (a phone row holds just one wide photo), it allows one more row at a time.
 function placeLeads(leads: Photo[], rest: Photo[], layout: RowLayout): Photo[] {
   const leadsFirst = [...leads, ...rest];
-  if (!(layout.width > 0 && layout.rowHeight > 0)) return leadsFirst;
-  const topSlots = rowsOf(leadsFirst, layout).filter((row) => row <= 1).length;
-  for (let attempt = 0; attempt < 50 && topSlots >= leads.length; attempt++) {
-    const slots = shuffled([...Array(topSlots).keys()])
-      .slice(0, leads.length)
-      .sort((a, b) => a - b);
-    const order = [...rest];
-    slots.forEach((slot, i) => order.splice(slot, 0, leads[i]));
-    const rows = rowsOf(order, layout);
-    if (leads.every((p) => rows[order.indexOf(p)] <= 1)) return order;
+  if (!leads.length || !(layout.width > 0 && layout.rowHeight > 0)) return leadsFirst;
+  const restRows = rowsOf(rest, layout);
+  for (let rowLimit = 2; rowLimit <= Math.max(2, leads.length); rowLimit++) {
+    const slotCount = Math.max(leads.length, restRows.filter((row) => row < rowLimit).length);
+    for (let attempt = 0; attempt < 50; attempt++) {
+      const slots = shuffled([...Array(slotCount).keys()])
+        .slice(0, leads.length)
+        .sort((a, b) => a - b);
+      const order = [...rest];
+      shuffled(leads).forEach((lead, i) => order.splice(slots[i], 0, lead));
+      const rows = rowsOf(order, layout);
+      if (leads.every((p) => rows[order.indexOf(p)] < rowLimit)) return order;
+    }
   }
   return leadsFirst;
 }
@@ -377,7 +382,7 @@ function Gallery() {
     setCurrent((i) => (i === null ? i : (i + delta + order.length) % order.length));
 
   // Once the list's size is known, and before the page is shown, move the lead photos to random
-  // spots within the first two rows. (Rows depend on screen width, so this can't happen sooner.)
+  // spots near the top. (Rows depend on screen width, so this can't happen sooner.)
   useLayoutEffect(() => {
     if (listRef.current) setOrder(placeLeads(leads, rest, measureRows(listRef.current)));
   }, [leads, rest]);
