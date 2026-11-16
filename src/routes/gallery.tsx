@@ -30,23 +30,26 @@ const fulls = import.meta.glob<string>("/src/assets/gallery/full/*.jpg", {
   import: "default",
 });
 
-// `group` marks photos with two or more people; those are shown first. `caption` appears
+// `group` marks photos with two or more people; those are shown first. `lead` names a set of
+// photos (like "graduation") that the gallery always opens with one of. `caption` appears
 // under the photo in the viewer; `alt` describes what's in it for screen readers.
 type Photo = {
   id: string;
   group?: boolean;
+  lead?: string;
   width: number;
   height: number;
   caption: string;
   alt: string;
 };
 
-// Shown in a new random order on every visit, group photos first. `id` names the image files in
-// src/assets/gallery; width and height are the preview image's size.
+// Shown in a new random order on every visit: one photo from each `lead` set first, then the
+// other group photos, then the rest. `id` names the image files in src/assets/gallery; width
+// and height are the preview image's size.
 const photos: Photo[] = [
   { id: "snack-mural", width: 774, height: 800, caption: "The mural said it, not me.", alt: "Posing in front of a colorful mural of cartoon snacks" },
-  { id: "graduation-selfie", group: true, width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
-  { id: "graduation-friends", group: true, width: 800, height: 572, caption: "Officially overeducated.", alt: "Commencement selfie with classmates in graduation gowns" },
+  { id: "graduation-selfie", group: true, lead: "graduation", width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
+  { id: "graduation-friends", group: true, lead: "graduation", width: 800, height: 572, caption: "Officially overeducated.", alt: "Commencement selfie with classmates in graduation gowns" },
   { id: "driving-range-swing", width: 465, height: 800, caption: "Fore! (Probably.)", alt: "Mid-swing at a golf driving range on a sunny day" },
   { id: "living-room-pose", width: 800, height: 550, caption: "Home gym, open for business.", alt: "Playful arms-up pose in sunglasses in a living room" },
   { id: "mountain-overlook-pair", group: true, width: 800, height: 587, caption: "Views worth the leg day.", alt: "Posing with a friend on a rocky mountain overlook" },
@@ -65,8 +68,8 @@ const photos: Photo[] = [
   { id: "snowfield-peace-sign", width: 656, height: 800, caption: "Snow problem.", alt: "Crouching on a snowfield below a rocky slope, flashing a peace sign" },
   { id: "cafe-mural-selfie", group: true, width: 800, height: 550, caption: "Camera angle: optional.", alt: "Tilted selfie with friends at a café with a colorful mural" },
   { id: "rocky-trail-log", width: 616, height: 800, caption: "Log off, peace out.", alt: "Sitting on a log on a rocky mountain trail, flashing a peace sign" },
-  { id: "football-game-selfie", group: true, width: 700, height: 528, caption: "Game day, undefeated in selfies.", alt: "Three friends taking a selfie at a night football game in a packed stadium" },
-  { id: "night-game-friends", group: true, width: 696, height: 526, caption: "Photobomb: approved.", alt: "Selfie with friends in the stands at a night game" },
+  { id: "football-game-selfie", group: true, lead: "football", width: 700, height: 528, caption: "Game day, undefeated in selfies.", alt: "Three friends taking a selfie at a night football game in a packed stadium" },
+  { id: "night-game-friends", group: true, lead: "football", width: 696, height: 526, caption: "Photobomb: approved.", alt: "Selfie with friends in the stands at a night game" },
   { id: "bearded-selfie", width: 800, height: 772, caption: "The beard era.", alt: "Selfie of a smiling bearded man in a black T-shirt" },
   { id: "japanese-restaurant-friends", group: true, width: 700, height: 514, caption: "Sushi first, questions later.", alt: "Two friends smiling in a booth at a Japanese restaurant" },
   { id: "throwback-photo", group: true, width: 694, height: 430, caption: "Throwback on the big screen.", alt: "A screen showing an old photo of two boys smiling outdoors" },
@@ -100,6 +103,22 @@ function shuffled<T>(items: T[]): T[] {
     [result[i], result[j]] = [result[j], result[i]];
   }
   return result;
+}
+
+function pickOne<T>(items: T[]): T {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+// One photo from each `lead` set (in random order), then the other group photos, then the rest.
+function galleryOrder(): Photo[] {
+  const setNames = [...new Set(photos.flatMap((p) => (p.lead ? [p.lead] : [])))];
+  const leads = shuffled(setNames.map((name) => pickOne(photos.filter((p) => p.lead === name))));
+  const rest = photos.filter((p) => !leads.includes(p));
+  return [
+    ...leads,
+    ...shuffled(rest.filter((p) => p.group)),
+    ...shuffled(rest.filter((p) => !p.group)),
+  ];
 }
 
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
@@ -296,10 +315,7 @@ function GalleryMusic() {
 }
 
 function Gallery() {
-  const [order] = useState(() => [
-    ...shuffled(photos.filter((p) => p.group)),
-    ...shuffled(photos.filter((p) => !p.group)),
-  ]);
+  const [order] = useState(galleryOrder);
   const [current, setCurrent] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchX = useRef<number | null>(null);
