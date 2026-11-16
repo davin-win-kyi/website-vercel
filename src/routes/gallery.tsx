@@ -52,7 +52,6 @@ const photos: Photo[] = [
   { id: "mountain-overlook-pair", group: true, width: 800, height: 587, caption: "Views worth the leg day.", alt: "Posing with a friend on a rocky mountain overlook" },
   { id: "sunny-plaza-pair", group: true, width: 733, height: 800, caption: "Peak sunglasses weather.", alt: "Two people posing on a sunny plaza lined with flags" },
   { id: "pumpkin-carving", width: 757, height: 800, caption: "South Park would approve.", alt: "Two freshly carved jack-o'-lanterns on a kitchen counter" },
-  { id: "glass-building-pair", group: true, width: 480, height: 480, caption: "Architecture appreciation society.", alt: "Two people standing outside a modern glass building by bike racks" },
   { id: "summit-selfie", group: true, width: 800, height: 619, caption: "Cloud level: unlocked.", alt: "Selfie with a friend on a mountain summit above the clouds" },
   { id: "night-market-sign", group: true, width: 600, height: 800, caption: "Night market, full stomachs.", alt: "Three friends standing in front of a tall glowing sign at a night market" },
   { id: "classroom-group-selfie", group: true, width: 800, height: 580, caption: "Class dismissed, selfie mandatory.", alt: "Group selfie with classmates in a classroom" },
