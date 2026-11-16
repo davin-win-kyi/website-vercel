@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Music, Pause, Play, Shuffle, X } from "lucide-react";
 
 export const Route = createFileRoute("/gallery")({
@@ -31,8 +31,8 @@ const fulls = import.meta.glob<string>("/src/assets/gallery/full/*.jpg", {
 });
 
 // `group` marks photos with two or more people; those are shown first. `lead` names a set of
-// photos (like "graduation") that the gallery always opens with one of. `caption` appears
-// under the photo in the viewer; `alt` describes what's in it for screen readers.
+// photos (like "graduation"); one of each set always appears in the first two rows. `caption`
+// appears under the photo in the viewer; `alt` describes what's in it for screen readers.
 type Photo = {
   id: string;
   group?: boolean;
@@ -43,8 +43,8 @@ type Photo = {
   alt: string;
 };
 
-// Shown in a new random order on every visit: one photo from each `lead` set first, then the
-// other group photos, then the rest. `id` names the image files in src/assets/gallery; width
+// Shown in a new random order on every visit: group photos first, with one photo from each
+// `lead` set somewhere in the first two rows. `id` names the image files in src/assets/gallery; width
 // and height are the preview image's size.
 const photos: Photo[] = [
   { id: "snack-mural", width: 774, height: 800, caption: "The mural said it, not me.", alt: "Posing in front of a colorful mural of cartoon snacks" },
@@ -109,16 +109,67 @@ function pickOne<T>(items: T[]): T {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-// One photo from each `lead` set (in random order), then the other group photos, then the rest.
-function galleryOrder(): Photo[] {
+// This visit's picks: one photo at random from each `lead` set, and everything else shuffled
+// with the group photos first.
+function pickPhotos() {
   const setNames = [...new Set(photos.flatMap((p) => (p.lead ? [p.lead] : [])))];
   const leads = shuffled(setNames.map((name) => pickOne(photos.filter((p) => p.lead === name))));
-  const rest = photos.filter((p) => !leads.includes(p));
-  return [
-    ...leads,
-    ...shuffled(rest.filter((p) => p.group)),
-    ...shuffled(rest.filter((p) => !p.group)),
+  const others = photos.filter((p) => !leads.includes(p));
+  const rest = [
+    ...shuffled(others.filter((p) => p.group)),
+    ...shuffled(others.filter((p) => !p.group)),
   ];
+  return { leads, rest };
+}
+
+type RowLayout = { width: number; rowHeight: number; gap: number };
+
+// Which row each photo lands in, by the rule the browser uses to wrap the list: a photo joins
+// the current row while its starting width (row height × its shape) still fits. Rows break a
+// pixel early here, so the browser's rounding can only move a photo up a row, never down.
+function rowsOf(order: Photo[], { width, rowHeight, gap }: RowLayout): number[] {
+  let row = 0;
+  let used = 0;
+  return order.map((p) => {
+    const base = rowHeight * (p.width / p.height);
+    if (used > 0 && used + gap + base > width - 1) {
+      row += 1;
+      used = 0;
+    }
+    used += (used > 0 ? gap : 0) + base;
+    return row;
+  });
+}
+
+// Puts the lead photos at random spots within the first two rows.
+function placeLeads(leads: Photo[], rest: Photo[], layout: RowLayout): Photo[] {
+  const leadsFirst = [...leads, ...rest];
+  if (!(layout.width > 0 && layout.rowHeight > 0)) return leadsFirst;
+  const topSlots = rowsOf(leadsFirst, layout).filter((row) => row <= 1).length;
+  for (let attempt = 0; attempt < 50 && topSlots >= leads.length; attempt++) {
+    const slots = shuffled([...Array(topSlots).keys()])
+      .slice(0, leads.length)
+      .sort((a, b) => a - b);
+    const order = [...rest];
+    slots.forEach((slot, i) => order.splice(slot, 0, leads[i]));
+    const rows = rowsOf(order, layout);
+    if (leads.every((p) => rows[order.indexOf(p)] <= 1)) return order;
+  }
+  return leadsFirst;
+}
+
+// The list's width, row height and gap, in pixels.
+function measureRows(list: HTMLElement): RowLayout {
+  const probe = document.createElement("div");
+  probe.style.cssText = "position: absolute; visibility: hidden; width: var(--row)";
+  list.append(probe);
+  const rowHeight = probe.getBoundingClientRect().width;
+  probe.remove();
+  return {
+    width: list.getBoundingClientRect().width,
+    rowHeight,
+    gap: parseFloat(getComputedStyle(list).columnGap) || 0,
+  };
 }
 
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
@@ -315,13 +366,21 @@ function GalleryMusic() {
 }
 
 function Gallery() {
-  const [order] = useState(galleryOrder);
+  const [{ leads, rest }] = useState(pickPhotos);
+  const [order, setOrder] = useState(() => [...leads, ...rest]);
+  const listRef = useRef<HTMLUListElement>(null);
   const [current, setCurrent] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchX = useRef<number | null>(null);
 
   const step = (delta: number) =>
     setCurrent((i) => (i === null ? i : (i + delta + order.length) % order.length));
+
+  // Once the list's size is known, and before the page is shown, move the lead photos to random
+  // spots within the first two rows. (Rows depend on screen width, so this can't happen sooner.)
+  useLayoutEffect(() => {
+    if (listRef.current) setOrder(placeLeads(leads, rest, measureRows(listRef.current)));
+  }, [leads, rest]);
 
   // Open and close the viewer, and keep the page behind it from scrolling.
   useEffect(() => {
@@ -360,7 +419,10 @@ function Gallery() {
       <GalleryMusic />
 
       {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
-      <ul className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:11rem] after:grow-[999] after:content-[''] sm:[--row:14rem] lg:[--row:17rem]">
+      <ul
+        ref={listRef}
+        className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:11rem] after:grow-[999] after:content-[''] sm:[--row:14rem] lg:[--row:17rem]"
+      >
         {order.map((p, i) => {
           const ratio = p.width / p.height;
           return (
