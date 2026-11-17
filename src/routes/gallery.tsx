@@ -58,7 +58,7 @@ type Photo = {
 // `lead` set beside it (or just below it), then the rest with group photos first. `id` names the
 // image files in src/assets/gallery; width and height are the preview image's size.
 const photos: Photo[] = [
-  { id: "night-market-red-carpet", group: true, width: 800, height: 782, caption: "Night market, full stomachs.", alt: "Three friends standing on a red carpet in front of a tall glowing sign at a night market" },
+  { id: "night-market-red-carpet", group: true, width: 800, height: 787, caption: "Night market, full stomachs.", alt: "Three friends standing on a red carpet in front of a tall glowing sign at a night market" },
   { id: "peace-sign-selfie", group: true, width: 597, height: 800, caption: "Two grins, one peace sign.", alt: "Two friends grinning in a selfie, one flashing a peace sign, beside an orange wall" },
   { id: "waterfront-sunset-selfie", group: true, width: 800, height: 599, caption: "Sunset squad, assembled.", alt: "Selfie with three friends on a dock at dusk, with calm water and lit-up houses behind them" },
   { id: "graduation-roses", group: true, featured: true, width: 602, height: 800, caption: "Degree done, roses in hand.", alt: "With parents on graduation day, holding red roses in a graduation gown and purple stole outside Alaska Airlines Field" },
