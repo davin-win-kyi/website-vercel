@@ -30,35 +30,35 @@ const fulls = import.meta.glob<string>("/src/assets/gallery/full/*.jpg", {
   import: "default",
 });
 
-// `group` marks photos with two or more people, and `topic` marks graduation and football game
-// photos. The graduation photos are shown first, then the football ones, then the other group
-// photos, then the rest. `caption` appears under the photo in the viewer; `alt` describes what's
-// in it for screen readers.
+// `top` puts a photo near the top of the page: the photos marked 1 (graduation) come first, then
+// 2 (the football game), then 3 (other favorites). `group` marks photos with two or more people,
+// which come next, before the rest. `caption` appears under the photo in the viewer; `alt`
+// describes what's in it for screen readers.
 type Photo = {
   id: string;
   group?: boolean;
-  topic?: "graduation" | "football";
+  top?: 1 | 2 | 3;
   width: number;
   height: number;
   caption: string;
   alt: string;
 };
 
-// Shown in a new random order on every visit: the graduation photos first, then the football
-// game photos, then the other group photos, then the rest. `id` names the image files in
-// src/assets/gallery; width and height are the preview image's size.
+// Shown in a new random order on every visit: the `top` photos first, then the other group
+// photos, then the rest. `id` names the image files in src/assets/gallery; width and height are
+// the preview image's size.
 const photos: Photo[] = [
   { id: "night-market-red-carpet", group: true, width: 800, height: 787, caption: "Night market, full stomachs.", alt: "Three friends standing on a red carpet in front of a tall glowing sign at a night market" },
   { id: "peace-sign-selfie", group: true, width: 597, height: 800, caption: "Two grins, one peace sign.", alt: "Two friends grinning in a selfie, one flashing a peace sign, beside an orange wall" },
   { id: "waterfront-sunset-selfie", group: true, width: 800, height: 599, caption: "Sunset squad, assembled.", alt: "Selfie with three friends on a dock at dusk, with calm water and lit-up houses behind them" },
-  { id: "graduation-roses", group: true, topic: "graduation", width: 602, height: 800, caption: "Degree done, roses in hand.", alt: "With parents on graduation day, holding red roses in a graduation gown and purple stole outside Alaska Airlines Field" },
+  { id: "graduation-roses", group: true, top: 1, width: 602, height: 800, caption: "Degree done, roses in hand.", alt: "With parents on graduation day, holding red roses in a graduation gown and purple stole outside Alaska Airlines Field" },
   { id: "lab-aviators", width: 800, height: 660, caption: "Shades on, code compiling.", alt: "Leaning back in aviator sunglasses in an office with computer monitors" },
   { id: "snack-mural", width: 774, height: 800, caption: "The mural said it, not me.", alt: "Posing in front of a colorful mural of cartoon snacks" },
-  { id: "graduation-selfie", group: true, topic: "graduation", width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
-  { id: "graduation-friends", group: true, topic: "graduation", width: 800, height: 572, caption: "Officially overeducated.", alt: "Commencement selfie with classmates in graduation gowns" },
+  { id: "graduation-selfie", group: true, top: 1, width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
+  { id: "graduation-friends", group: true, top: 1, width: 800, height: 572, caption: "Officially overeducated.", alt: "Commencement selfie with classmates in graduation gowns" },
   { id: "driving-range-swing", width: 465, height: 800, caption: "Fore! (Probably.)", alt: "Mid-swing at a golf driving range on a sunny day" },
   { id: "living-room-pose", width: 800, height: 550, caption: "Home gym, open for business.", alt: "Playful arms-up pose in sunglasses in a living room" },
-  { id: "mountain-overlook-pair", group: true, width: 800, height: 587, caption: "Views worth the leg day.", alt: "Posing with a friend on a rocky mountain overlook" },
+  { id: "mountain-overlook-pair", group: true, top: 3, width: 800, height: 587, caption: "Views worth the leg day.", alt: "Posing with mom on a rocky mountain overlook" },
   { id: "sunny-plaza-pair", group: true, width: 733, height: 800, caption: "Peak sunglasses weather.", alt: "Two people posing on a sunny plaza lined with flags" },
   { id: "pumpkin-carving", width: 757, height: 800, caption: "South Park would approve.", alt: "Two freshly carved jack-o'-lanterns on a kitchen counter" },
   { id: "summit-selfie", group: true, width: 800, height: 619, caption: "Cloud level: unlocked.", alt: "Selfie with a friend on a mountain summit above the clouds" },
@@ -68,13 +68,13 @@ const photos: Photo[] = [
   { id: "night-balcony", width: 620, height: 800, caption: "Balcony at night, very album cover.", alt: "Posing on a balcony at night" },
   { id: "night-headband-selfie", width: 637, height: 800, caption: "Smiling past bedtime.", alt: "Smiling night selfie in a sports headband" },
   { id: "headset-on-forehead-selfie", width: 624, height: 800, caption: "Reality: temporarily restored.", alt: "Selfie with a mixed-reality headset pushed up on the forehead" },
-  { id: "bright-room-friends", group: true, width: 800, height: 539, caption: "Plant-based friendship.", alt: "Selfie with two friends in a bright room with plants" },
+  { id: "bright-room-friends", group: true, top: 3, width: 800, height: 539, caption: "Plant-based friendship.", alt: "Selfie with two friends in a bright room with plants" },
   { id: "resort-selfie", group: true, width: 800, height: 527, caption: "Out of office.", alt: "Selfie with a friend in front of a resort building" },
   { id: "snowfield-peace-sign", width: 656, height: 800, caption: "Snow problem.", alt: "Crouching on a snowfield below a rocky slope, flashing a peace sign" },
   { id: "cafe-mural-selfie", group: true, width: 800, height: 550, caption: "Camera angle: optional.", alt: "Tilted selfie with friends at a café with a colorful mural" },
   { id: "rocky-trail-log", width: 616, height: 800, caption: "Log off, peace out.", alt: "Sitting on a log on a rocky mountain trail, flashing a peace sign" },
-  { id: "football-game-selfie", group: true, topic: "football", width: 700, height: 528, caption: "Game day, undefeated in selfies.", alt: "Three friends taking a selfie at a night football game in a packed stadium" },
-  { id: "night-game-friends", group: true, topic: "football", width: 696, height: 526, caption: "Photobomb: approved.", alt: "Selfie with friends in the stands at a night game" },
+  { id: "football-game-selfie", group: true, top: 2, width: 700, height: 528, caption: "Game day, undefeated in selfies.", alt: "Three friends taking a selfie at a night football game in a packed stadium" },
+  { id: "night-game-friends", group: true, top: 2, width: 696, height: 526, caption: "Photobomb: approved.", alt: "Selfie with friends in the stands at a night game" },
   { id: "bearded-selfie", width: 800, height: 772, caption: "The beard era.", alt: "Selfie of a smiling bearded man in a black T-shirt" },
   { id: "japanese-restaurant-friends", group: true, width: 700, height: 514, caption: "Sushi first, questions later.", alt: "Two friends smiling in a booth at a Japanese restaurant" },
   { id: "throwback-photo", group: true, width: 694, height: 430, caption: "Throwback on the big screen.", alt: "A screen showing an old photo of two boys smiling outdoors" },
@@ -110,14 +110,13 @@ function shuffled<T>(items: T[]): T[] {
   return result;
 }
 
-// This visit's order: the graduation photos, then the football game photos, then the other group
-// photos, then the rest, each part shuffled.
+// This visit's order: the `top` photos by number, then the other group photos, then the rest, each
+// part shuffled.
 function pickOrder(): Photo[] {
   return [
-    ...shuffled(photos.filter((p) => p.topic === "graduation")),
-    ...shuffled(photos.filter((p) => p.topic === "football")),
-    ...shuffled(photos.filter((p) => p.group && !p.topic)),
-    ...shuffled(photos.filter((p) => !p.group)),
+    ...[1, 2, 3].flatMap((rank) => shuffled(photos.filter((p) => p.top === rank))),
+    ...shuffled(photos.filter((p) => !p.top && p.group)),
+    ...shuffled(photos.filter((p) => !p.top && !p.group)),
   ];
 }
 
