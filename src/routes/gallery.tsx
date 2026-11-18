@@ -1,13 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  type CSSProperties,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Music, Pause, Play, Shuffle, X } from "lucide-react";
 
 export const Route = createFileRoute("/gallery")({
@@ -38,40 +30,37 @@ const fulls = import.meta.glob<string>("/src/assets/gallery/full/*.jpg", {
   import: "default",
 });
 
-// `group` marks photos with two or more people; those are shown first. `lead` names a set of
-// photos (like "football"); one of each set is always shown near the top. `featured` marks the
-// photo shown larger at the very top: as tall as the rows of photos beside it, or across the
-// full width on phones. `caption` appears under the photo in the viewer; `alt` describes what's
-// in it for screen readers.
+// `group` marks photos with two or more people and `graduation` marks graduation photos. The
+// graduation photos are shown first, then the other group photos, then the rest. `caption`
+// appears under the photo in the viewer; `alt` describes what's in it for screen readers.
 type Photo = {
   id: string;
   group?: boolean;
-  lead?: string;
-  featured?: boolean;
+  graduation?: boolean;
   width: number;
   height: number;
   caption: string;
   alt: string;
 };
 
-// Shown in a new random order on every visit: the featured photo first, one photo from each
-// `lead` set beside it (or just below it), then the rest with group photos first. `id` names the
-// image files in src/assets/gallery; width and height are the preview image's size.
+// Shown in a new random order on every visit: the graduation photos first, then the other group
+// photos, then the rest. `id` names the image files in src/assets/gallery; width and height are
+// the preview image's size.
 const photos: Photo[] = [
   { id: "night-market-red-carpet", group: true, width: 800, height: 787, caption: "Night market, full stomachs.", alt: "Three friends standing on a red carpet in front of a tall glowing sign at a night market" },
   { id: "peace-sign-selfie", group: true, width: 597, height: 800, caption: "Two grins, one peace sign.", alt: "Two friends grinning in a selfie, one flashing a peace sign, beside an orange wall" },
   { id: "waterfront-sunset-selfie", group: true, width: 800, height: 599, caption: "Sunset squad, assembled.", alt: "Selfie with three friends on a dock at dusk, with calm water and lit-up houses behind them" },
-  { id: "graduation-roses", group: true, featured: true, width: 602, height: 800, caption: "Degree done, roses in hand.", alt: "With parents on graduation day, holding red roses in a graduation gown and purple stole outside Alaska Airlines Field" },
+  { id: "graduation-roses", group: true, graduation: true, width: 602, height: 800, caption: "Degree done, roses in hand.", alt: "With parents on graduation day, holding red roses in a graduation gown and purple stole outside Alaska Airlines Field" },
   { id: "lab-aviators", width: 800, height: 660, caption: "Shades on, code compiling.", alt: "Leaning back in aviator sunglasses in an office with computer monitors" },
   { id: "snack-mural", width: 774, height: 800, caption: "The mural said it, not me.", alt: "Posing in front of a colorful mural of cartoon snacks" },
-  { id: "graduation-selfie", group: true, lead: "graduation", width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
-  { id: "graduation-friends", group: true, lead: "graduation", width: 800, height: 572, caption: "Officially overeducated.", alt: "Commencement selfie with classmates in graduation gowns" },
+  { id: "graduation-selfie", group: true, graduation: true, width: 800, height: 565, caption: "We did it (somehow).", alt: "Selfie with friends in graduation caps and gowns at commencement" },
+  { id: "graduation-friends", group: true, graduation: true, width: 800, height: 572, caption: "Officially overeducated.", alt: "Commencement selfie with classmates in graduation gowns" },
   { id: "driving-range-swing", width: 465, height: 800, caption: "Fore! (Probably.)", alt: "Mid-swing at a golf driving range on a sunny day" },
   { id: "living-room-pose", width: 800, height: 550, caption: "Home gym, open for business.", alt: "Playful arms-up pose in sunglasses in a living room" },
   { id: "mountain-overlook-pair", group: true, width: 800, height: 587, caption: "Views worth the leg day.", alt: "Posing with a friend on a rocky mountain overlook" },
   { id: "sunny-plaza-pair", group: true, width: 733, height: 800, caption: "Peak sunglasses weather.", alt: "Two people posing on a sunny plaza lined with flags" },
   { id: "pumpkin-carving", width: 757, height: 800, caption: "South Park would approve.", alt: "Two freshly carved jack-o'-lanterns on a kitchen counter" },
-  { id: "summit-selfie", group: true, lead: "summit", width: 800, height: 619, caption: "Cloud level: unlocked.", alt: "Selfie with a friend on a mountain summit above the clouds" },
+  { id: "summit-selfie", group: true, width: 800, height: 619, caption: "Cloud level: unlocked.", alt: "Selfie with a friend on a mountain summit above the clouds" },
   { id: "classroom-group-selfie", group: true, width: 800, height: 580, caption: "Class dismissed, selfie mandatory.", alt: "Group selfie with classmates in a classroom" },
   { id: "jack-o-lanterns", width: 615, height: 800, caption: "Simply gourd-geous.", alt: "Three carved jack-o'-lanterns on a kitchen cabinet" },
   { id: "conference-table-group", group: true, width: 800, height: 581, caption: "This meeting could've been a photo.", alt: "A large group posing around a conference table" },
@@ -83,8 +72,8 @@ const photos: Photo[] = [
   { id: "snowfield-peace-sign", width: 656, height: 800, caption: "Snow problem.", alt: "Crouching on a snowfield below a rocky slope, flashing a peace sign" },
   { id: "cafe-mural-selfie", group: true, width: 800, height: 550, caption: "Camera angle: optional.", alt: "Tilted selfie with friends at a café with a colorful mural" },
   { id: "rocky-trail-log", width: 616, height: 800, caption: "Log off, peace out.", alt: "Sitting on a log on a rocky mountain trail, flashing a peace sign" },
-  { id: "football-game-selfie", group: true, lead: "football", width: 700, height: 528, caption: "Game day, undefeated in selfies.", alt: "Three friends taking a selfie at a night football game in a packed stadium" },
-  { id: "night-game-friends", group: true, lead: "football", width: 696, height: 526, caption: "Photobomb: approved.", alt: "Selfie with friends in the stands at a night game" },
+  { id: "football-game-selfie", group: true, width: 700, height: 528, caption: "Game day, undefeated in selfies.", alt: "Three friends taking a selfie at a night football game in a packed stadium" },
+  { id: "night-game-friends", group: true, width: 696, height: 526, caption: "Photobomb: approved.", alt: "Selfie with friends in the stands at a night game" },
   { id: "bearded-selfie", width: 800, height: 772, caption: "The beard era.", alt: "Selfie of a smiling bearded man in a black T-shirt" },
   { id: "japanese-restaurant-friends", group: true, width: 700, height: 514, caption: "Sushi first, questions later.", alt: "Two friends smiling in a booth at a Japanese restaurant" },
   { id: "throwback-photo", group: true, width: 694, height: 430, caption: "Throwback on the big screen.", alt: "A screen showing an old photo of two boys smiling outdoors" },
@@ -111,214 +100,23 @@ const photos: Photo[] = [
 ];
 
 // Fisher–Yates shuffle, so every order is equally likely.
-function shuffled<T>(items: T[], random: () => number = Math.random): T[] {
+function shuffled<T>(items: T[]): T[] {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
+    const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
   }
   return result;
 }
 
-function pickOne<T>(items: T[]): T {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-// Random numbers that come out the same for the same seed (the mulberry32 generator).
-function seededRandom(seed: number): () => number {
-  let state = seed >>> 0;
-  return () => {
-    state = (state + 0x6d2b79f5) >>> 0;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-type Picks = {
-  featured: Photo | null;
-  leads: Photo[];
-  rest: Photo[];
-  // The lead photos and the first two of the rest, in the order they'd sit beside the featured
-  // photo.
-  besideOrder: Photo[];
-  // Seeds any random choice made while laying out, so laying out again after a resize makes
-  // the same choices.
-  seed: number;
-};
-
-// This visit's picks: the featured photo, one photo at random from each `lead` set, and
-// everything else shuffled with the group photos first.
-function pickPhotos(): Picks {
-  const featured = photos.find((p) => p.featured) ?? null;
-  const pool = photos.filter((p) => p !== featured);
-  const setNames = [...new Set(pool.flatMap((p) => (p.lead ? [p.lead] : [])))];
-  const leads = shuffled(setNames.map((name) => pickOne(pool.filter((p) => p.lead === name))));
-  const others = pool.filter((p) => !leads.includes(p));
-  const rest = [
-    ...shuffled(others.filter((p) => p.group)),
-    ...shuffled(others.filter((p) => !p.group)),
+// This visit's order: the graduation photos, then the other group photos, then the rest, each
+// part shuffled.
+function pickOrder(): Photo[] {
+  return [
+    ...shuffled(photos.filter((p) => p.graduation)),
+    ...shuffled(photos.filter((p) => p.group && !p.graduation)),
+    ...shuffled(photos.filter((p) => !p.group)),
   ];
-  return {
-    featured,
-    leads,
-    rest,
-    besideOrder: shuffled([...leads, ...rest.slice(0, 2)]),
-    seed: Math.floor(Math.random() * 2 ** 32),
-  };
-}
-
-type RowLayout = { width: number; rowHeight: number; gap: number };
-
-// Which row each photo lands in, by the rule the browser uses to wrap the list: a photo joins
-// the current row while its starting width (row height × its shape) still fits. Rows break a
-// pixel early here, so the browser's rounding can only move a photo up a row, never down.
-function rowsOf(order: Photo[], { width, rowHeight, gap }: RowLayout): number[] {
-  let row = 0;
-  let used = 0;
-  return order.map((p) => {
-    const base = rowHeight * (p.width / p.height);
-    if (used > 0 && used + gap + base > width - 1) {
-      row += 1;
-      used = 0;
-    }
-    used += (used > 0 ? gap : 0) + base;
-    return row;
-  });
-}
-
-// Puts the lead photos at random spots within the first two rows. When they can't all fit
-// there (a phone row holds just one wide photo), it allows one more row at a time.
-function placeLeads(
-  leads: Photo[],
-  rest: Photo[],
-  layout: RowLayout,
-  random: () => number,
-): Photo[] {
-  const leadsFirst = [...leads, ...rest];
-  if (!leads.length || !(layout.width > 0 && layout.rowHeight > 0)) return leadsFirst;
-  const restRows = rowsOf(rest, layout);
-  for (let rowLimit = 2; rowLimit <= Math.max(2, leads.length); rowLimit++) {
-    const slotCount = Math.max(leads.length, restRows.filter((row) => row < rowLimit).length);
-    for (let attempt = 0; attempt < 50; attempt++) {
-      const slots = shuffled([...Array(slotCount).keys()], random)
-        .slice(0, leads.length)
-        .sort((a, b) => a - b);
-      const order = [...rest];
-      shuffled(leads, random).forEach((lead, i) => order.splice(slots[i], 0, lead));
-      const rows = rowsOf(order, layout);
-      if (leads.every((p) => rows[order.indexOf(p)] < rowLimit)) return order;
-    }
-  }
-  return leadsFirst;
-}
-
-// The list's width, row height and gap, in pixels.
-function measureRows(list: HTMLElement): RowLayout {
-  const probe = document.createElement("div");
-  probe.style.cssText = "position: absolute; visibility: hidden; width: var(--row)";
-  list.append(probe);
-  const rowHeight = probe.getBoundingClientRect().width;
-  probe.remove();
-  return {
-    width: list.getBoundingClientRect().width,
-    rowHeight,
-    gap: parseFloat(getComputedStyle(list).columnGap) || 0,
-  };
-}
-
-// Sizes the featured photo to be exactly as tall as the rows of photos beside it. A row sharing
-// width w is (w − its gaps) ÷ (the sum of its photos' width-to-height ratios) tall, so "featured
-// width = its ratio × the rows' total height" can be solved for the width directly.
-function fitBeside(featured: Photo, rows: Photo[][], { width, gap }: RowLayout) {
-  const ratio = featured.width / featured.height;
-  const sums = rows.map((row) => row.reduce((sum, p) => sum + p.width / p.height, 0));
-  const a = sums.reduce((total, sum) => total + 1 / sum, 0);
-  const c =
-    rows.reduce((total, row, i) => total + (width - row.length * gap) / sums[i], 0) +
-    (rows.length - 1) * gap;
-  const featuredWidth = (ratio * c) / (1 + ratio * a);
-  return {
-    featuredWidth,
-    height: featuredWidth / ratio,
-    rowHeights: rows.map((row, i) => (width - featuredWidth - row.length * gap) / sums[i]),
-  };
-}
-
-type Mosaic = { share: number; rows: Photo[][]; below: Photo[] };
-
-// Puts the lead photos (and up to two others, to even out the rows) in two or three rows beside
-// the featured photo. Of the ways to split them, keeps the one where the featured photo comes
-// out nearest two ordinary rows tall and the rows are most alike, with every lead photo beside
-// it if there's room (any left out start the rows below). Null when no split fits, as on
-// phones.
-function planMosaic(picks: Picks, layout: RowLayout): Mosaic | null {
-  const { featured, leads, rest, besideOrder } = picks;
-  if (!featured) return null;
-  const { rowHeight, gap } = layout;
-  const groups = [0, 1, 2].map((extra) => {
-    const chosen = [...leads, ...rest.slice(0, extra)];
-    return besideOrder.filter((p) => chosen.includes(p));
-  });
-  groups.push(besideOrder.filter((p) => leads.includes(p)).slice(0, 2));
-  let best: (Mosaic & { score: number }) | null = null;
-  for (const group of groups) {
-    const leftOut = leads.filter((p) => !group.includes(p));
-    // Every way to cut the group, in order, into two or three rows.
-    const splits: Photo[][][] = [];
-    for (let a = 1; a < group.length; a++) {
-      splits.push([group.slice(0, a), group.slice(a)]);
-      for (let b = a + 1; b < group.length; b++) {
-        splits.push([group.slice(0, a), group.slice(a, b), group.slice(b)]);
-      }
-    }
-    for (const rows of splits) {
-      const fit = fitBeside(featured, rows, layout);
-      const fits =
-        fit.height >= 1.6 * rowHeight &&
-        fit.height <= 2.6 * rowHeight &&
-        fit.rowHeights.every((h) => h >= 0.68 * rowHeight && h <= 1.5 * rowHeight);
-      if (!fits) continue;
-      const score =
-        Math.abs(Math.log(fit.height / (2 * rowHeight + gap))) +
-        0.6 * Math.log(Math.max(...fit.rowHeights) / Math.min(...fit.rowHeights)) +
-        0.5 * leftOut.length +
-        0.05 * (group.length + leftOut.length - leads.length);
-      if (!best || score < best.score) {
-        best = {
-          score,
-          share: fit.featuredWidth / layout.width,
-          rows,
-          below: [...leftOut, ...rest.filter((p) => !group.includes(p))],
-        };
-      }
-    }
-  }
-  return best;
-}
-
-type Arrangement = {
-  featured: Photo | null;
-  // The rows beside the featured photo, and the share of the width it takes. With no rows
-  // beside it, it spans the full width.
-  beside: Photo[][];
-  share: number;
-  below: Photo[];
-};
-
-// Where every photo goes at this width. It depends only on this visit's picks and the layout,
-// so working it out again after a resize keeps the same choices.
-function arrange(picks: Picks, layout: RowLayout | null): Arrangement {
-  const { featured, leads, rest } = picks;
-  const mosaic = layout ? planMosaic(picks, layout) : null;
-  if (mosaic) return { featured, beside: mosaic.rows, share: mosaic.share, below: mosaic.below };
-  return {
-    featured,
-    beside: [],
-    share: 1,
-    below: layout ? placeLeads(leads, rest, layout, seededRandom(picks.seed)) : [...leads, ...rest],
-  };
 }
 
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
@@ -514,110 +312,36 @@ function GalleryMusic() {
   );
 }
 
-type TileProps = {
-  photo: Photo;
-  onOpen: () => void;
-  className?: string;
-  style?: CSSProperties;
-  // Take the height of its slot instead of following the photo's own shape.
-  fill?: boolean;
-  // The photo shown larger: loaded first, and at full size on sharp screens.
-  featured?: boolean;
-};
-
-// One photo on the page; clicking it opens the viewer.
-function Tile({ photo: p, onOpen, className = "", style, fill, featured }: TileProps) {
-  return (
-    <div role="listitem" className={`min-w-0 ${className}`} style={style}>
-      <button
-        type="button"
-        onClick={onOpen}
-        className={`group relative block w-full overflow-hidden rounded-lg bg-secondary ${fill ? "h-full" : ""}`}
-        style={fill ? undefined : { aspectRatio: `${p.width} / ${p.height}` }}
-      >
-        <img
-          src={thumbSrc(p)}
-          srcSet={featured ? `${thumbSrc(p)} 1x, ${fullSrc(p)} 2x` : undefined}
-          alt={p.alt}
-          width={p.width}
-          height={p.height}
-          loading={featured ? "eager" : "lazy"}
-          fetchPriority={featured ? "high" : undefined}
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-        />
-      </button>
-    </div>
-  );
-}
-
 function Gallery() {
-  const [picks] = useState(pickPhotos);
-  const [layout, setLayout] = useState<RowLayout | null>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-  const [currentId, setCurrentId] = useState<string | null>(null);
+  const [order] = useState(pickOrder);
+  const [current, setCurrent] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchX = useRef<number | null>(null);
 
-  const arrangement = useMemo(() => arrange(picks, layout), [picks, layout]);
-  const { featured, beside, share, below } = arrangement;
-  // The viewer steps through the photos in the same order as the page.
-  const order = useMemo(
-    () => [...(featured ? [featured] : []), ...beside.flat(), ...below],
-    [featured, beside, below],
-  );
-  const current = order.findIndex((p) => p.id === currentId);
-  const photo = current < 0 ? null : order[current];
-  const viewing = photo !== null;
-
-  const step = (delta: number) => {
-    if (current >= 0) setCurrentId(order[(current + delta + order.length) % order.length].id);
-  };
-
-  // Measures the rows, which decide where each photo goes. Skipped while the viewer is open,
-  // since hiding the page's scrollbar changes its width for that time.
-  const measure = useCallback(() => {
-    const list = listRef.current;
-    if (!list || dialogRef.current?.open) return;
-    const next = measureRows(list);
-    setLayout((prev) =>
-      prev && Math.abs(prev.width - next.width) < 0.5 && prev.rowHeight === next.rowHeight
-        ? prev
-        : next,
-    );
-  }, []);
-
-  // Measure before the page is shown, and again whenever its width changes.
-  useLayoutEffect(() => {
-    measure();
-    const observer = new ResizeObserver(measure);
-    if (listRef.current) observer.observe(listRef.current);
-    return () => observer.disconnect();
-  }, [measure]);
+  const step = (delta: number) =>
+    setCurrent((i) => (i === null ? i : (i + delta + order.length) % order.length));
 
   // Open and close the viewer, and keep the page behind it from scrolling.
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    if (viewing && !dialog.open) dialog.showModal();
-    if (!viewing && dialog.open) dialog.close();
-    document.documentElement.style.overflow = viewing ? "hidden" : "";
-    // The window may have been resized while the viewer was open.
-    if (!viewing) measure();
+    if (current !== null && !dialog.open) dialog.showModal();
+    if (current === null && dialog.open) dialog.close();
+    document.documentElement.style.overflow = current !== null ? "hidden" : "";
     return () => {
       document.documentElement.style.overflow = "";
     };
-  }, [viewing, measure]);
+  }, [current]);
 
   // Load the neighboring photos ahead of time so moving between them feels instant.
   useEffect(() => {
-    if (current < 0) return;
+    if (current === null) return;
     for (const d of [-1, 1]) {
       new Image().src = fullSrc(order[(current + d + order.length) % order.length]);
     }
   }, [current, order]);
 
-  const open = (p: Photo) => () => setCurrentId(p.id);
+  const photo = current === null ? null : order[current];
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-16 md:py-20">
@@ -633,61 +357,41 @@ function Gallery() {
       </p>
       <GalleryMusic />
 
-      <div role="list" className="mt-10 [--row:11rem] sm:[--row:14rem] lg:[--row:17rem]">
-        {/* The featured photo, as tall as the two or three rows of photos beside it. Where there
-            isn't room beside it (on phones), it spans the full width above the rows instead. */}
-        {featured && (
-          <div className="mb-2 flex gap-2">
-            <Tile
-              photo={featured}
-              featured
-              fill={beside.length > 0}
-              className={beside.length > 0 ? "shrink-0" : "w-full"}
-              style={beside.length > 0 ? { width: `${share * 100}%` } : undefined}
-              onOpen={open(featured)}
-            />
-            {beside.length > 0 && (
-              <div className="flex min-w-0 flex-1 flex-col gap-2">
-                {/* Each row fills the width exactly, as sized. Grow factors are scaled up because
-                    a row only fills when they add up to at least 1, and a row may hold just one
-                    tall photo. */}
-                {beside.map((row, i) => (
-                  <div key={i} className="flex gap-2">
-                    {row.map((p) => (
-                      <Tile
-                        key={p.id}
-                        photo={p}
-                        style={{ flex: `${(100 * p.width) / p.height} 1 0%` }}
-                        onOpen={open(p)}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
-        <div ref={listRef} className="flex flex-wrap gap-2 after:grow-[999] after:content-['']">
-          {below.map((p) => {
-            const ratio = p.width / p.height;
-            return (
-              <Tile
-                key={p.id}
-                photo={p}
-                style={{ flexGrow: ratio, flexBasis: `calc(var(--row) * ${ratio})` }}
-                onOpen={open(p)}
-              />
-            );
-          })}
-        </div>
-      </div>
+      {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
+      <ul className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:11rem] after:grow-[999] after:content-[''] sm:[--row:14rem] lg:[--row:17rem]">
+        {order.map((p, i) => {
+          const ratio = p.width / p.height;
+          return (
+            <li
+              key={p.id}
+              className="min-w-0"
+              style={{ flexGrow: ratio, flexBasis: `calc(var(--row) * ${ratio})` }}
+            >
+              <button
+                type="button"
+                onClick={() => setCurrent(i)}
+                className="group block w-full overflow-hidden rounded-lg bg-secondary"
+                style={{ aspectRatio: `${p.width} / ${p.height}` }}
+              >
+                <img
+                  src={thumbSrc(p)}
+                  alt={p.alt}
+                  width={p.width}
+                  height={p.height}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                />
+              </button>
+            </li>
+          );
+        })}
+      </ul>
 
       <dialog
         ref={dialogRef}
         aria-label="Photo viewer"
-        onClose={() => setCurrentId(null)}
+        onClose={() => setCurrent(null)}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") step(1);
           if (e.key === "ArrowLeft") step(-1);
@@ -730,7 +434,7 @@ function Gallery() {
               }}
             />
             <p className="px-4 text-center text-sm text-white/80" aria-live="polite">
-              {photo.caption} · {current + 1} of {order.length}
+              {photo.caption} · {current! + 1} of {order.length}
             </p>
 
             <button
