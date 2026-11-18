@@ -42,9 +42,9 @@ function Index() {
 
   return (
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,34rem)] lg:justify-center lg:gap-x-20">
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,34rem)] lg:justify-center lg:gap-x-16 xl:gap-x-20">
         {/* Portrait */}
-        <div className="blob-bubbly w-64 justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-72 lg:w-80 lg:border-8 xl:w-88">
+        <div className="blob-bubbly w-72 justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-80 lg:w-84 lg:border-8 xl:w-100">
           <img
             src={profilePhoto}
             alt="Portrait of Davin Win Kyi"
