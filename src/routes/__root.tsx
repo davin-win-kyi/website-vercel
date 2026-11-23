@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import portrait from "@/assets/davin-win-kyi.jpg";
+import { SITE_URL } from "@/lib/site";
 
 
 function NotFoundComponent() {
@@ -90,10 +92,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Davin Kyi" },
       { name: "twitter:description", content: "M.S. Computer Science & Engineering student at the University of Washington researching AR, accessibility, and machine learning." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7cf73d8b-54d8-44e7-898f-600fcb4c2d68/id-preview-7815552f--c2c57904-7ca2-4fdc-8b92-fcf743bdd5fc.lovable.app-1781784185287.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7cf73d8b-54d8-44e7-898f-600fcb4c2d68/id-preview-7815552f--c2c57904-7ca2-4fdc-8b92-fcf743bdd5fc.lovable.app-1781784185287.png" },
+      // The portrait, which Google can show beside the site in search results.
+      { property: "og:image", content: SITE_URL + portrait },
+      { name: "twitter:image", content: SITE_URL + portrait },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    // Each page names its own canonical address; one here would be added to every page as well.
   }),
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

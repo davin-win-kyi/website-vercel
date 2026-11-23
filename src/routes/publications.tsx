@@ -19,6 +19,7 @@ import targetedThumb from "@/assets/pub-thumbs/targeted-agents.png";
 import interThumb from "@/assets/pub-thumbs/intera11y.png";
 import eyeqThumb from "@/assets/pub-thumbs/eyeq.jpg";
 import pageAssistThumb from "@/assets/pub-thumbs/pageassist.png";
+import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/publications")({
   head: () => ({
@@ -36,7 +37,7 @@ export const Route = createFileRoute("/publications")({
           "Research publications by Davin Win Kyi in augmented reality, accessibility, and machine learning.",
       },
     ],
-    links: [{ rel: "canonical", href: "/publications" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/publications` }],
   }),
   component: Publications,
 });

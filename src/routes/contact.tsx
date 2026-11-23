@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Mail, Github, Linkedin, GraduationCap, Send } from "lucide-react";
 import { z } from "zod";
 import { EMAIL } from "@/lib/links";
+import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/contact")({
       { property: "og:title", content: "Contact — Davin Win Kyi" },
       { property: "og:description", content: "Get in touch with Davin Win Kyi." },
     ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/contact` }],
   }),
   component: Contact,
 });

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FileText, GraduationCap, Briefcase } from "lucide-react";
 
-import portrait from "@/assets/about.jpg";
+import portrait from "@/assets/davin-win-kyi-portrait.jpg";
 import amazonLogo from "@/assets/amazon-logo.png";
 import uwLogo from "@/assets/uw-logo.png";
 import makeabilityLogo from "@/assets/makeability-logo.png";
@@ -10,6 +10,7 @@ import capitalOneLogo from "@/assets/capitalone-logo.png";
 import ansysLogo from "@/assets/ansys-logo.png";
 import pennymacLogo from "@/assets/pennymac-logo.png";
 import { RESUME_URL } from "@/lib/links";
+import { FULL_NAME, PERSON_ID, SHORT_NAME, SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -28,8 +29,28 @@ export const Route = createFileRoute("/about")({
         property: "og:description",
         content: "Education and experience of Davin Win Kyi.",
       },
+      // Marks this as the page about Davin Win Kyi, with the portrait as its main photo.
+      {
+        "script:ld+json": {
+          "@context": "https://schema.org",
+          "@type": "ProfilePage",
+          url: `${SITE_URL}/about`,
+          name: "About — Davin Win Kyi",
+          mainEntity: {
+            "@type": "Person",
+            "@id": PERSON_ID,
+            name: FULL_NAME,
+            alternateName: SHORT_NAME,
+          },
+          primaryImageOfPage: {
+            "@type": "ImageObject",
+            contentUrl: SITE_URL + portrait,
+            caption: "Portrait of Davin Win Kyi",
+          },
+        },
+      },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/about` }],
   }),
   component: About,
 });

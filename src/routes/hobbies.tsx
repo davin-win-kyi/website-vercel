@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef } from "react";
+import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/hobbies")({
   head: () => ({
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/hobbies")({
         content: "Snowboarding, golfing, lifting, and boxing.",
       },
     ],
-    links: [{ rel: "canonical", href: "/hobbies" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/hobbies` }],
   }),
   component: Hobbies,
 });

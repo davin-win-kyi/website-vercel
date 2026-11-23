@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef } from "react";
+import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/teaching")({
   head: () => ({
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/teaching")({
       { property: "og:title", content: "Teaching — Davin Win Kyi" },
       { property: "og:description", content: "Teaching assistant experience of Davin Win Kyi." },
     ],
-    links: [{ rel: "canonical", href: "/teaching" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/teaching` }],
   }),
   component: Teaching,
 });
