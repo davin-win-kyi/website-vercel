@@ -71,6 +71,8 @@ function Index() {
             alt="Portrait of Davin Win Kyi"
             width={900}
             height={900}
+            // The page's main image: fetched before anything else.
+            fetchPriority="high"
             className="aspect-square h-full w-full object-cover"
           />
         </div>

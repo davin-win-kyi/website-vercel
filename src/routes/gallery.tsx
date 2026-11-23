@@ -316,12 +316,16 @@ function Gallery() {
                 className="group block w-full overflow-hidden rounded-lg bg-secondary"
                 style={{ aspectRatio: `${p.width} / ${p.height}` }}
               >
+                {/* The first photos are on screen as soon as the page opens (up to about eight on
+                    a large monitor), so they load right away, the first one first; the rest
+                    load as they're scrolled to. */}
                 <img
                   src={thumbSrc(p)}
                   alt={p.alt}
                   width={p.width}
                   height={p.height}
-                  loading="lazy"
+                  loading={i < 8 ? "eager" : "lazy"}
+                  fetchPriority={i === 0 ? "high" : undefined}
                   decoding="async"
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />

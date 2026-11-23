@@ -267,6 +267,8 @@ export default function About() {
               alt="Portrait of Davin Win Kyi"
               width={600}
               height={600}
+              // The page's main image: fetched before anything else.
+              fetchPriority="high"
               className="h-full w-full object-cover"
               style={{ filter: "brightness(1.08)" }}
             />

@@ -323,7 +323,7 @@ function Publications() {
       </p>
 
       <div className="mt-12 grid gap-10 md:grid-cols-2">
-        {publications.map((p) => (
+        {publications.map((p, i) => (
           <article key={p.title} className="flex flex-col">
             {p.image && p.thumb ? (
               <button
@@ -333,10 +333,12 @@ function Publications() {
                 onFocus={() => p.image && preload(p.image)}
                 className="group relative block aspect-[2/1] w-full cursor-zoom-in overflow-hidden rounded-xl border border-border bg-white shadow-soft"
               >
+                {/* The first two rows can be on screen when the page opens, so they aren't
+                    lazy-loaded. */}
                 <img
                   src={p.thumb}
                   alt=""
-                  loading="lazy"
+                  loading={i < 4 ? "eager" : "lazy"}
                   decoding="async"
                   width={1000}
                   height={500}
