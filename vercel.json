@@ -1,3 +1,25 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "redirects": [
+    {
+      "source": "/assets/profile_cropped-:hash([A-Za-z0-9_-]{8}).jpg",
+      "destination": "/assets/davin-win-kyi-:hash.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/about-:hash([A-Za-z0-9_-]{8}).jpg",
+      "destination": "/assets/davin-win-kyi-portrait-:hash.jpg",
+      "permanent": true
+    },
+    {
+      "source": "/assets/:photo(waterfront-sunset-selfie|graduation-roses|lab-aviators|snack-mural|graduation-selfie|graduation-friends|driving-range-swing|living-room-pose|mountain-overlook-pair|summit-selfie|classroom-group-selfie|night-balcony|night-headband-selfie|headset-on-forehead-selfie|bright-room-friends|resort-selfie|snowfield-peace-sign|cafe-mural-selfie|rocky-trail-log|night-game-friends|public-market-sign|restaurant-selfie|city-street-selfie|laughing-restaurant-selfie|rope-net-selfie|mid-laugh-selfie|building-entrance|fist-sculpture|playful-selfie|white-tee-selfie|half-dome-view|headset-dinner|black-tee-selfie|headband-light-selfie|giant-duck-festival|tokyo-welcome-mural)-:hash([A-Za-z0-9_-]{8}).jpg",
+      "destination": "/assets/davin-win-kyi-:photo-:hash.jpg",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

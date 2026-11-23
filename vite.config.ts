@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import { execFileSync } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
 import { isAbsolute, relative } from "node:path";
 import { FULL_NAME, SITE_URL, siteStructuredData } from "./src/lib/site.ts";
 import { photos } from "./src/lib/gallery-photos.ts";
@@ -106,17 +108,90 @@ function photoDetails(): Plugin {
   };
 }
 
-// Every page, with the photos shown on it. A path ending in "/" stands for every image in that
-// folder: the gallery shows each one, the preview size on the page and the full size in the viewer.
-const SITEMAP_PAGES: [page: string, images: string[]][] = [
-  ["/", [HOME_PORTRAIT]],
-  ["/about", [ABOUT_PORTRAIT]],
-  ["/publications", []],
-  ["/teaching", []],
-  ["/hobbies", []],
-  ["/gallery", ["src/assets/gallery/thumb/", "src/assets/gallery/full/"]],
-  ["/contact", []],
+// Every page: the files its content comes from, and the images it shows. Both date the page's
+// last change. A path ending in "/" stands for every image in that folder (the gallery shows each
+// one: the preview size on the page, the full size in the viewer). Files in public/ are served as
+// they are; the rest are built. Organization logos are left out: they aren't this site's images.
+type SitemapPage = { page: string; sources: string[]; images: string[] };
+const SITEMAP_PAGES: SitemapPage[] = [
+  { page: "/", sources: ["src/routes/index.tsx"], images: [HOME_PORTRAIT] },
+  { page: "/about", sources: ["src/routes/about.tsx"], images: [ABOUT_PORTRAIT] },
+  {
+    page: "/publications",
+    sources: ["src/routes/publications.tsx"],
+    // Each paper's card picture, and the full figure it opens.
+    images: [
+      "src/assets/pub-thumbs/",
+      "src/assets/pageassist.png",
+      "src/assets/intera11y.png",
+      "src/assets/eyeq.jpg",
+      "src/assets/previewar.png",
+      "src/assets/translatear.png",
+      "src/assets/targeted_interaction_agents.png",
+      "src/assets/pub-sonocraftar-fig.png",
+      "src/assets/pub-taskaudit-fig.jpg",
+      "src/assets/pub-romans-fig.png",
+    ],
+  },
+  {
+    page: "/teaching",
+    sources: [
+      "src/routes/teaching.tsx",
+      "public/media/teaching-cse473.mp4",
+      "public/media/teaching-cse340.mp4",
+      "public/media/teaching-cse414.mp4",
+    ],
+    // The videos' poster frames.
+    images: [
+      "public/media/teaching-cse473-poster.jpg",
+      "public/media/teaching-cse340-poster.jpg",
+      "public/media/teaching-cse414-poster.jpg",
+    ],
+  },
+  {
+    page: "/hobbies",
+    sources: [
+      "src/routes/hobbies.tsx",
+      "public/media/food.mp4",
+      "public/media/snowboarding.mp4",
+      "public/media/boxing.mp4",
+      "public/media/lifting.mp4",
+    ],
+    // The videos' poster frames.
+    images: [
+      "public/media/food-poster.png",
+      "public/media/snowboarding-poster.jpg",
+      "public/media/boxing-poster.jpg",
+      "public/media/lifting-poster.png",
+    ],
+  },
+  {
+    page: "/gallery",
+    sources: ["src/routes/gallery.tsx", "src/lib/gallery-photos.ts"],
+    images: ["src/assets/gallery/thumb/", "src/assets/gallery/full/"],
+  },
+  { page: "/contact", sources: ["src/routes/contact.tsx"], images: [] },
 ];
+
+const git = (...args: string[]) =>
+  execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+
+// When any of these files last changed: the date of the latest commit that touched them. Undefined
+// when that can't be known for sure: no git history, or a shallow clone (as hosts often make)
+// whose oldest commit stands in for everything before it, so its date would be wrong.
+function lastChanged(paths: string[]) {
+  try {
+    const [commit, date] = git("log", "-1", "--format=%H %cI", "--", ...paths).split(" ");
+    if (!date) return undefined;
+    if (git("rev-parse", "--is-shallow-repository") === "true") {
+      const shallowEnds = readFileSync(git("rev-parse", "--git-path", "shallow"), "utf8");
+      if (shallowEnds.includes(commit)) return undefined;
+    }
+    return date;
+  } catch {
+    return undefined;
+  }
+}
 
 const escapeXml = (text: string) =>
   text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -171,27 +246,39 @@ function searchTags(): Plugin {
   };
 }
 
-// Writes sitemap.xml: every page, and the photos on it so Google Images can find them (the pages
-// show their photos with JavaScript).
+// Writes sitemap.xml: every page, when it last changed, and the images on it so Google Images can
+// find them (the pages show their images with JavaScript).
 function sitemap(): Plugin {
   return {
     name: "sitemap",
     apply: "build",
     generateBundle(_, bundle) {
       const built = builtFiles(bundle);
-      const entries = SITEMAP_PAGES.map(([page, sources]) => {
-        const images = sources.flatMap((source) => {
+      const entries = SITEMAP_PAGES.map(({ page, sources, images }) => {
+        const urls = images.flatMap((source) => {
+          if (source.startsWith("public/")) {
+            if (existsSync(source)) return [`${SITE_URL}/${source.slice("public/".length)}`];
+            this.warn(`sitemap: ${source} doesn't exist`);
+            return [];
+          }
           const found = built
             .filter((b) =>
               source.endsWith("/") ? b.source.startsWith(source) : b.source === source,
             )
             .sort((a, b) => a.source.localeCompare(b.source));
           if (!found.length) this.warn(`sitemap: no image built from ${source}`);
-          return found.map(
-            (b) => `    <image:image><image:loc>${escapeXml(b.url)}</image:loc></image:image>`,
-          );
+          return found.map((b) => b.url);
         });
-        return ["  <url>", `    <loc>${escapeXml(SITE_URL + page)}</loc>`, ...images, "  </url>"];
+        const updated = lastChanged([...sources, ...images]);
+        return [
+          "  <url>",
+          `    <loc>${escapeXml(SITE_URL + page)}</loc>`,
+          ...(updated ? [`    <lastmod>${updated}</lastmod>`] : []),
+          ...urls.map(
+            (url) => `    <image:image><image:loc>${escapeXml(url)}</image:loc></image:image>`,
+          ),
+          "  </url>",
+        ];
       });
       this.emitFile({
         type: "asset",

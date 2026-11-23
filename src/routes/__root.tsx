@@ -17,6 +17,9 @@ import { SITE_URL } from "@/lib/site";
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      {/* The host answers every address with the app, so an address with no page still gets a
+          "200 OK". This keeps search engines from indexing it (React moves the tag into <head>). */}
+      <meta name="robots" content="noindex" />
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
