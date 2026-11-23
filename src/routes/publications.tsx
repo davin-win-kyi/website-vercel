@@ -49,6 +49,8 @@ type Publication = {
   // `image` is the full figure, shown when it's clicked. `thumb` is a 2:1 crop of its most
   // telling part, sized to fill the card.
   image?: string;
+  // The full figure's width and height in pixels.
+  imageSize?: [number, number];
   thumb?: string;
   // What the card picture shows, for people who can't see it (and for search engines).
   thumbAlt?: string;
@@ -65,6 +67,7 @@ const publications: Publication[] = [
     title:
       "PageAssist: End-User Authoring of Generative Interfaces for Progress Tracking on Webpages",
     image: pageAssistImg,
+    imageSize: [2612, 636],
     thumb: pageAssistThumb,
     thumbAlt:
       "PageAssist figure: a cluttered webpage turned into a generated step-by-step interface, then refined through requests like “Make it read like a book with serif font”",
@@ -83,6 +86,7 @@ const publications: Publication[] = [
   {
     title: "InterA11y: Interactive Web Accessibility Error Detection with LLM Agents",
     image: interImg,
+    imageSize: [1712, 524],
     thumb: interThumb,
     thumbAlt:
       "InterA11y flow diagram: 93 checks (13.6%) get a deterministic result and 547 (80.2%) go to LLM judgment, which settles 207 (30.4%) directly and 340 (49.9%) with agentic tools",
@@ -109,6 +113,7 @@ const publications: Publication[] = [
   {
     title: "EyeQ: Exploring Corneal Reflection for Mobile Context Sensing",
     image: eyeqImg,
+    imageSize: [1600, 490],
     thumb: eyeqThumb,
     thumbAlt:
       "EyeQ figure: an AI-enhanced crop of an eye's iris, and a crop of the cornea whose reflection a vision-language model labels with objects such as a wall, monitors, a desk and a keyboard",
@@ -137,6 +142,7 @@ const publications: Publication[] = [
   {
     title: "PreviewAR: Sketching Spaces for Scale-Aware Product Discovery in AR",
     image: previewImg,
+    imageSize: [1275, 400],
     thumb: previewThumb,
     thumbAlt:
       "PreviewAR figure: free-form sketches over photos of a bedroom, a kitchen and a living room, and the scale-aware AR previews of a chair, a lamp and a table they lead to",
@@ -167,6 +173,7 @@ const publications: Publication[] = [
     title:
       "TranslateAR: Towards Style-Preserving In-Situ Text Translation in Augmented Reality",
     image: translateImg,
+    imageSize: [1430, 420],
     thumb: translateThumb,
     thumbAlt:
       "TranslateAR examples: a snack package, a stop sign and an “OPEN” neon sign, each shown again with its text translated into Korean in place, in the same style",
@@ -196,6 +203,7 @@ const publications: Publication[] = [
   {
     title: "Targeted Interaction Agents for Web Accessibility Evaluation",
     image: targetedImg,
+    imageSize: [1478, 376],
     thumb: targetedThumb,
     thumbAlt:
       "Targeted Interaction Agents figure: an LLM agent checking where links lead over two turns, a rubric that flags a link-purpose failure (WCAG 2.4.4), and results comparing checkers, earlier LLM methods and this approach",
@@ -226,6 +234,7 @@ const publications: Publication[] = [
     title:
       "SonoCraftAR: Towards Supporting Personalized Authoring of Sound-Reactive AR Interfaces by Deaf and Hard of Hearing Users",
     image: sonoImg,
+    imageSize: [1099, 437],
     thumb: sonoThumb,
     thumbAlt:
       "SonoCraftAR examples: sound-reactive AR graphics beside a smart speaker, made from prompts such as “A cute arrow that changes in size”, “A pulse resembling a wifi signal” and “A purple music disc”",
@@ -258,6 +267,7 @@ const publications: Publication[] = [
     title:
       "TaskAudit: Detecting Functiona11ity Errors in Mobile Apps via Agentic Task Execution",
     image: taskImg,
+    imageSize: [2000, 1500],
     thumb: taskThumb,
     thumbAlt:
       "TaskAudit examples of accessibility errors in a flight app: a swap button that never receives focus, a text field that double-tapping can't activate, and a search button misleadingly labelled “Explore”",
@@ -291,6 +301,7 @@ const publications: Publication[] = [
     title:
       "Do as the Romans Do: Learning Universal Behaviors from Heterogeneous Agents",
     image: romansImg,
+    imageSize: [2600, 637],
     thumb: romansThumb,
     thumbAlt:
       "Diagram of GRID (General Reward Inference and Disentanglement): observations of a varied population, such as a cyclist, a runner and a wheelchair user, yield a general reward and task-specific rewards",
@@ -459,7 +470,9 @@ function Publications() {
             <img
               src={viewing.image}
               alt={`Figure from ${viewing.title}`}
-              className="max-h-[calc(100dvh-11rem)] w-auto max-w-full rounded-lg bg-white object-contain p-2 sm:p-4"
+              width={viewing.imageSize?.[0]}
+              height={viewing.imageSize?.[1]}
+              className="h-auto max-h-[calc(100dvh-11rem)] w-auto max-w-full rounded-lg bg-white object-contain p-2 sm:p-4"
             />
             <p className="max-w-3xl px-4 text-center text-sm text-white/80">{viewing.title}</p>
           </div>

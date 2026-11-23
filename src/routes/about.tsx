@@ -180,6 +180,8 @@ function OrgAvatar({ item }: { item: TimelineItem }) {
         <img
           src={item.logo}
           alt=""
+          width={36}
+          height={36}
           className="h-full w-full object-contain p-0.5"
           loading="lazy"
         />

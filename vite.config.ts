@@ -168,10 +168,10 @@ const SITEMAP_PAGES: SitemapPage[] = [
     ],
     // The videos' poster frames.
     images: [
-      "public/media/food-poster.png",
+      "public/media/food-poster.jpg",
       "public/media/snowboarding-poster.jpg",
       "public/media/boxing-poster.jpg",
-      "public/media/lifting-poster.png",
+      "public/media/lifting-bench-press-poster.jpg",
     ],
   },
   {

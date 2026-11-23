@@ -9,12 +9,12 @@ export const Route = createFileRoute("/hobbies")({
       {
         name: "description",
         content:
-          "Outside of research, Davin Win Kyi enjoys snowboarding, golfing, lifting, and boxing.",
+          "Outside of research, Davin Win Kyi enjoys food challenges, snowboarding, boxing, and lifting.",
       },
       { property: "og:title", content: "Hobbies — Davin Win Kyi" },
       {
         property: "og:description",
-        content: "Snowboarding, golfing, lifting, and boxing.",
+        content: "Food challenges, snowboarding, boxing, and lifting.",
       },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/hobbies` }],
@@ -37,7 +37,7 @@ const hobbies: Hobby[] = [
   {
     name: "Food Challenges",
     video: "/media/food.mp4",
-    poster: "/media/food-poster.png",
+    poster: "/media/food-poster.jpg",
     blurb: "Ah, that's hot! That's hot!",
     videoFit: "contain",
   },
@@ -56,7 +56,7 @@ const hobbies: Hobby[] = [
   {
     name: "Lifting",
     video: "/media/lifting.mp4",
-    poster: "/media/lifting-poster.png",
+    poster: "/media/lifting-bench-press-poster.jpg",
     blurb:
       "Pushing to new limits gives me the motivation to continually grow and help others with their gains as well!",
     videoFit: "contain",

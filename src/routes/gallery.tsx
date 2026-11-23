@@ -384,6 +384,8 @@ function Gallery() {
             <img
               src={fullSrc(photo)}
               alt={photo.alt}
+              width={photo.width}
+              height={photo.height}
               className="h-auto object-contain sm:rounded-lg"
               style={{
                 width: `min(100%, calc((100dvh - 11rem) * ${photo.width / photo.height}))`,
