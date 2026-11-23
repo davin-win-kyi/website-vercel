@@ -13,6 +13,18 @@ export const SHORT_NAME = "Davin Kyi";
 // Stands for the person in structured data, so every page's mention points to the same person.
 export const PERSON_ID = `${SITE_URL}/#person`;
 
+// A photo's entry in structured data, crediting it to Davin Win Kyi. Google Images can show the
+// credit under the photo. `path` is the photo's address on the site, as an image import gives it;
+// the entry has to be on the page that shows the photo.
+export function creditedPhoto(path: string, description: string) {
+  return {
+    "@type": "ImageObject",
+    contentUrl: SITE_URL + path,
+    creditText: FULL_NAME,
+    description,
+  };
+}
+
 // Structured data for every page: the site and the person it's about, under both names, with the
 // portraits that show them (full addresses).
 export function siteStructuredData(portraits: string[]) {

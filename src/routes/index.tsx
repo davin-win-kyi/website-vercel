@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import profilePhoto from "@/assets/davin-win-kyi.jpg";
 import { CV_URL, RESUME_URL } from "@/lib/links";
-import { PERSON_ID, SITE_URL } from "@/lib/site";
+import { PERSON_ID, SITE_URL, creditedPhoto } from "@/lib/site";
 import { useTypewriter } from "@/hooks/useTypewriter";
 
 export const Route = createFileRoute("/")({
@@ -30,20 +30,24 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "CS researcher at the University of Washington.",
       },
-      // Names the portrait as this page's main photo, the one search engines can show with it.
-      // (Who the site is about is in index.html, added by the build.)
+      // Names the portrait as this page's main photo, the one search engines can show with it,
+      // and credits it. (Who the site is about is in index.html, added by the build.)
       {
         "script:ld+json": {
           "@context": "https://schema.org",
-          "@type": "WebPage",
-          url: `${SITE_URL}/`,
-          name: "Davin Kyi — CS Researcher at the University of Washington",
-          about: { "@id": PERSON_ID },
-          primaryImageOfPage: {
-            "@type": "ImageObject",
-            contentUrl: SITE_URL + profilePhoto,
-            caption: "Portrait of Davin Win Kyi",
-          },
+          "@graph": [
+            {
+              "@type": "WebPage",
+              url: `${SITE_URL}/`,
+              name: "Davin Kyi — CS Researcher at the University of Washington",
+              about: { "@id": PERSON_ID },
+              primaryImageOfPage: { "@id": `${SITE_URL}/#portrait` },
+            },
+            {
+              "@id": `${SITE_URL}/#portrait`,
+              ...creditedPhoto(profilePhoto, "Portrait of Davin Win Kyi"),
+            },
+          ],
         },
       },
     ],

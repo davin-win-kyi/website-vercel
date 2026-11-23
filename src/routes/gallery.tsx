@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Music, Pause, Play, Shuffle, X } from "lucide-react";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, creditedPhoto } from "@/lib/site";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -123,6 +123,16 @@ function pickOrder(): Photo[] {
 
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
 const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
+
+// Structured data crediting every photo, in both of its sizes, so Google Images can show the
+// credit under it. "<" is written as an escape so nothing in the text can end the script tag early.
+const photoCredits = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": photos.flatMap((p) => [
+    creditedPhoto(thumbSrc(p), p.alt),
+    creditedPhoto(fullSrc(p), p.alt),
+  ]),
+}).replace(/</g, "\\u003c");
 
 // "Tokyo Night Story", a 1980s city pop mix from the Vintage J-Pop Station YouTube channel.
 const MUSIC_VIDEO_ID = "794-o1fb8no";
@@ -458,6 +468,8 @@ function Gallery() {
           </div>
         )}
       </dialog>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: photoCredits }} />
     </div>
   );
 }

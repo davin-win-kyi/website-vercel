@@ -10,7 +10,7 @@ import capitalOneLogo from "@/assets/capitalone-logo.png";
 import ansysLogo from "@/assets/ansys-logo.png";
 import pennymacLogo from "@/assets/pennymac-logo.png";
 import { RESUME_URL } from "@/lib/links";
-import { FULL_NAME, PERSON_ID, SHORT_NAME, SITE_URL } from "@/lib/site";
+import { FULL_NAME, PERSON_ID, SHORT_NAME, SITE_URL, creditedPhoto } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -29,24 +29,29 @@ export const Route = createFileRoute("/about")({
         property: "og:description",
         content: "Education and experience of Davin Win Kyi.",
       },
-      // Marks this as the page about Davin Win Kyi, with the portrait as its main photo.
+      // Marks this as the page about Davin Win Kyi, with the portrait as its main photo, and
+      // credits the portrait.
       {
         "script:ld+json": {
           "@context": "https://schema.org",
-          "@type": "ProfilePage",
-          url: `${SITE_URL}/about`,
-          name: "About — Davin Win Kyi",
-          mainEntity: {
-            "@type": "Person",
-            "@id": PERSON_ID,
-            name: FULL_NAME,
-            alternateName: SHORT_NAME,
-          },
-          primaryImageOfPage: {
-            "@type": "ImageObject",
-            contentUrl: SITE_URL + portrait,
-            caption: "Portrait of Davin Win Kyi",
-          },
+          "@graph": [
+            {
+              "@type": "ProfilePage",
+              url: `${SITE_URL}/about`,
+              name: "About — Davin Win Kyi",
+              mainEntity: {
+                "@type": "Person",
+                "@id": PERSON_ID,
+                name: FULL_NAME,
+                alternateName: SHORT_NAME,
+              },
+              primaryImageOfPage: { "@id": `${SITE_URL}/about#portrait` },
+            },
+            {
+              "@id": `${SITE_URL}/about#portrait`,
+              ...creditedPhoto(portrait, "Portrait of Davin Win Kyi"),
+            },
+          ],
         },
       },
     ],
