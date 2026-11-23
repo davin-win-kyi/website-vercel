@@ -6,7 +6,13 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { isAbsolute, relative } from "node:path";
-import { FULL_NAME, SITE_URL, siteStructuredData } from "./src/lib/site.ts";
+import {
+  ABOUT_PORTRAIT_ALT,
+  FULL_NAME,
+  HOME_PORTRAIT_ALT,
+  SITE_URL,
+  siteStructuredData,
+} from "./src/lib/site.ts";
 import { photos } from "./src/lib/gallery-photos.ts";
 
 // The two portraits: the homepage's, then the About page's.
@@ -22,10 +28,10 @@ const galleryFiles = (id: string) => [
   `src/assets/gallery/full/${id}.jpg`,
 ];
 
-// What each photo shows, written into its built file along with the credit.
+// What each photo shows (its alt text), written into its built file along with the credit.
 const PHOTO_DESCRIPTIONS = new Map<string, string>([
-  [HOME_PORTRAIT, `Portrait of ${FULL_NAME}`],
-  [ABOUT_PORTRAIT, `Portrait of ${FULL_NAME}`],
+  [HOME_PORTRAIT, HOME_PORTRAIT_ALT],
+  [ABOUT_PORTRAIT, ABOUT_PORTRAIT_ALT],
   ...photos.flatMap((p) => galleryFiles(p.id).map((file): [string, string] => [file, p.alt])),
 ]);
 
@@ -43,9 +49,11 @@ const assetFileNames = (asset: { originalFileNames: string[] }) =>
 
 const XMP_ID = "http://ns.adobe.com/xap/1.0/\0";
 
-// An XMP block, the standard way photos carry details about themselves, holding the credit line
-// "Davin Win Kyi" and a description. Google Images can show the credit line from it, and both stay
-// with the photo if it's copied elsewhere.
+// An XMP block, the standard way photos carry details about themselves, naming Davin Win Kyi as
+// the photo's creator (as confirmed) and in its credit line, with a description. Google Images can
+// show the creator and credit from it, and all of it stays with the photo if it's copied elsewhere.
+// (Built files keep their names when only this changes, so browsers that cached a file before keep
+// their copy; the picture itself is the same.)
 function xmpBlock(description: string) {
   const text = (value: string) =>
     value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -54,6 +62,7 @@ function xmpBlock(description: string) {
     '<x:xmpmeta xmlns:x="adobe:ns:meta/">',
     '<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">',
     '<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/">',
+    `<dc:creator><rdf:Seq><rdf:li>${text(FULL_NAME)}</rdf:li></rdf:Seq></dc:creator>`,
     `<photoshop:Credit>${text(FULL_NAME)}</photoshop:Credit>`,
     `<dc:description><rdf:Alt><rdf:li xml:lang="x-default">${text(description)}</rdf:li></rdf:Alt></dc:description>`,
     "</rdf:Description>",

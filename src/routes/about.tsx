@@ -10,7 +10,14 @@ import capitalOneLogo from "@/assets/capitalone-logo.png";
 import ansysLogo from "@/assets/ansys-logo.png";
 import pennymacLogo from "@/assets/pennymac-logo.png";
 import { RESUME_URL } from "@/lib/links";
-import { FULL_NAME, PERSON_ID, SHORT_NAME, SITE_URL, creditedPhoto } from "@/lib/site";
+import {
+  ABOUT_PORTRAIT_ALT,
+  FULL_NAME,
+  PERSON_ID,
+  SHORT_NAME,
+  SITE_URL,
+  creditedPhoto,
+} from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -49,7 +56,7 @@ export const Route = createFileRoute("/about")({
             },
             {
               "@id": `${SITE_URL}/about#portrait`,
-              ...creditedPhoto(portrait, "Portrait of Davin Win Kyi"),
+              ...creditedPhoto(portrait, ABOUT_PORTRAIT_ALT),
             },
           ],
         },
@@ -264,7 +271,7 @@ export default function About() {
           <div className="blob blob-animated mx-auto aspect-square w-full max-w-72 overflow-hidden border-[6px] border-secondary shadow-soft md:max-w-sm lg:border-8">
             <img
               src={portrait}
-              alt="Portrait of Davin Win Kyi"
+              alt={ABOUT_PORTRAIT_ALT}
               width={600}
               height={600}
               // The page's main image: fetched before anything else.

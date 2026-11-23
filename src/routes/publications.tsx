@@ -50,6 +50,8 @@ type Publication = {
   // telling part, sized to fill the card.
   image?: string;
   thumb?: string;
+  // What the card picture shows, for people who can't see it (and for search engines).
+  thumbAlt?: string;
   imageLabel?: string;
   venue: string;
   authors: { name: string; emphasis?: boolean; coFirst?: boolean }[];
@@ -64,6 +66,8 @@ const publications: Publication[] = [
       "PageAssist: End-User Authoring of Generative Interfaces for Progress Tracking on Webpages",
     image: pageAssistImg,
     thumb: pageAssistThumb,
+    thumbAlt:
+      "PageAssist figure: a cluttered webpage turned into a generated step-by-step interface, then refined through requests like “Make it read like a book with serif font”",
     imageLabel: "PageAssist",
     venue: "IUI '27 Poster · In submission",
     authors: [
@@ -80,6 +84,8 @@ const publications: Publication[] = [
     title: "InterA11y: Interactive Web Accessibility Error Detection with LLM Agents",
     image: interImg,
     thumb: interThumb,
+    thumbAlt:
+      "InterA11y flow diagram: 93 checks (13.6%) get a deterministic result and 547 (80.2%) go to LLM judgment, which settles 207 (30.4%) directly and 340 (49.9%) with agentic tools",
     imageLabel: "InterA11y",
     venue: "TheWebConf '27 · In submission",
     authors: [
@@ -104,6 +110,8 @@ const publications: Publication[] = [
     title: "EyeQ: Exploring Corneal Reflection for Mobile Context Sensing",
     image: eyeqImg,
     thumb: eyeqThumb,
+    thumbAlt:
+      "EyeQ figure: an AI-enhanced crop of an eye's iris, and a crop of the cornea whose reflection a vision-language model labels with objects such as a wall, monitors, a desk and a keyboard",
     imageLabel: "EyeQ",
     venue: "CHI '27 · In submission",
     authors: [
@@ -130,6 +138,8 @@ const publications: Publication[] = [
     title: "PreviewAR: Sketching Spaces for Scale-Aware Product Discovery in AR",
     image: previewImg,
     thumb: previewThumb,
+    thumbAlt:
+      "PreviewAR figure: free-form sketches over photos of a bedroom, a kitchen and a living room, and the scale-aware AR previews of a chair, a lamp and a table they lead to",
     imageLabel: "PreviewAR",
     venue: "UIST '26 Poster · To appear",
     authors: [
@@ -158,6 +168,8 @@ const publications: Publication[] = [
       "TranslateAR: Towards Style-Preserving In-Situ Text Translation in Augmented Reality",
     image: translateImg,
     thumb: translateThumb,
+    thumbAlt:
+      "TranslateAR examples: a snack package, a stop sign and an “OPEN” neon sign, each shown again with its text translated into Korean in place, in the same style",
     imageLabel: "TranslateAR",
     venue: "UIST '26 Demo · To appear",
     authors: [
@@ -185,6 +197,8 @@ const publications: Publication[] = [
     title: "Targeted Interaction Agents for Web Accessibility Evaluation",
     image: targetedImg,
     thumb: targetedThumb,
+    thumbAlt:
+      "Targeted Interaction Agents figure: an LLM agent checking where links lead over two turns, a rubric that flags a link-purpose failure (WCAG 2.4.4), and results comparing checkers, earlier LLM methods and this approach",
     imageLabel: "Web Accessibility Agents",
     venue: "UIST '26 Adjunct · To appear",
     authors: [
@@ -213,6 +227,8 @@ const publications: Publication[] = [
       "SonoCraftAR: Towards Supporting Personalized Authoring of Sound-Reactive AR Interfaces by Deaf and Hard of Hearing Users",
     image: sonoImg,
     thumb: sonoThumb,
+    thumbAlt:
+      "SonoCraftAR examples: sound-reactive AR graphics beside a smart speaker, made from prompts such as “A cute arrow that changes in size”, “A pulse resembling a wifi signal” and “A purple music disc”",
     venue: "ISMAR '25 Workshop",
     authors: [
       { name: "Davin Win Kyi", emphasis: true, coFirst: true },
@@ -243,6 +259,8 @@ const publications: Publication[] = [
       "TaskAudit: Detecting Functiona11ity Errors in Mobile Apps via Agentic Task Execution",
     image: taskImg,
     thumb: taskThumb,
+    thumbAlt:
+      "TaskAudit examples of accessibility errors in a flight app: a swap button that never receives focus, a text field that double-tapping can't activate, and a search button misleadingly labelled “Explore”",
     venue: "CHI '26",
     authors: [
       { name: "Mingyuan Zhong" },
@@ -274,6 +292,8 @@ const publications: Publication[] = [
       "Do as the Romans Do: Learning Universal Behaviors from Heterogeneous Agents",
     image: romansImg,
     thumb: romansThumb,
+    thumbAlt:
+      "Diagram of GRID (General Reward Inference and Disentanglement): observations of a varied population, such as a cyclist, a runner and a wheelchair user, yield a general reward and task-specific rewards",
     venue: "arXiv '26",
     authors: [
       { name: "Caleb Chang" },
@@ -337,7 +357,7 @@ function Publications() {
                     lazy-loaded. */}
                 <img
                   src={p.thumb}
-                  alt=""
+                  alt={p.thumbAlt ?? ""}
                   loading={i < 4 ? "eager" : "lazy"}
                   decoding="async"
                   width={1000}
@@ -348,7 +368,7 @@ function Publications() {
                 <span className="pointer-events-none absolute bottom-2.5 right-2.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 pointer-coarse:opacity-100">
                   <Expand className="h-4 w-4" aria-hidden />
                 </span>
-                <span className="sr-only">View the full figure from {p.title}</span>
+                <span className="sr-only">View the full figure</span>
               </button>
             ) : (
               <div className="flex aspect-[2/1] items-center justify-center rounded-xl border border-border bg-secondary/40 p-4 shadow-soft">

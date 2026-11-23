@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Music, Pause, Play, Shuffle, X } from "lucide-react";
-import { SITE_URL, creditedPhoto } from "@/lib/site";
+import { PERSON_ID, SITE_URL, creditedPhoto } from "@/lib/site";
 import { type Photo, photos } from "@/lib/gallery-photos";
+// The page's preview image: graduation day with parents, the photo that leads the gallery.
+import previewPhoto from "@/assets/gallery/full/graduation-roses.jpg";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -15,6 +17,8 @@ export const Route = createFileRoute("/gallery")({
       },
       { property: "og:title", content: "Gallery — Davin Win Kyi" },
       { property: "og:description", content: "Photos of Davin Win Kyi with friends, on trips, and everything in between." },
+      { property: "og:image", content: SITE_URL + previewPhoto },
+      { name: "twitter:image", content: SITE_URL + previewPhoto },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/gallery` }],
   }),
@@ -55,13 +59,19 @@ function pickOrder(): Photo[] {
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
 const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
 
-// Structured data crediting every photo, in both of its sizes, so Google Images can show the
-// credit under it. "<" is written as an escape so nothing in the text can end the script tag early.
-const photoCredits = JSON.stringify({
+// Structured data: this page is a gallery of photos of Davin Win Kyi, listing every photo in both
+// of its sizes (the preview on the page, the full size in the viewer), each with its description,
+// its caption from the viewer, and who made and is credited for it. "<" is written as an escape so
+// nothing in the text can end the script tag early.
+const galleryData = JSON.stringify({
   "@context": "https://schema.org",
-  "@graph": photos.flatMap((p) => [
-    creditedPhoto(thumbSrc(p), p.alt),
-    creditedPhoto(fullSrc(p), p.alt),
+  "@type": "ImageGallery",
+  url: `${SITE_URL}/gallery`,
+  name: "Gallery — Davin Win Kyi",
+  about: { "@id": PERSON_ID },
+  image: photos.flatMap((p) => [
+    creditedPhoto(thumbSrc(p), p.alt, p.caption),
+    creditedPhoto(fullSrc(p), p.alt, p.caption),
   ]),
 }).replace(/</g, "\\u003c");
 
@@ -404,7 +414,7 @@ function Gallery() {
         )}
       </dialog>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: photoCredits }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: galleryData }} />
     </div>
   );
 }

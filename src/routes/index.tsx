@@ -8,7 +8,14 @@ import {
 } from "lucide-react";
 import profilePhoto from "@/assets/davin-win-kyi.jpg";
 import { CV_URL, RESUME_URL } from "@/lib/links";
-import { PERSON_ID, SITE_URL, creditedPhoto } from "@/lib/site";
+import {
+  FULL_NAME,
+  HOME_PORTRAIT_ALT,
+  PERSON_ID,
+  SHORT_NAME,
+  SITE_URL,
+  creditedPhoto,
+} from "@/lib/site";
 import { useTypewriter } from "@/hooks/useTypewriter";
 
 export const Route = createFileRoute("/")({
@@ -30,22 +37,27 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "CS researcher at the University of Washington.",
       },
-      // Names the portrait as this page's main photo, the one search engines can show with it,
-      // and credits it. (Who the site is about is in index.html, added by the build.)
+      // A profile page: the page is about one person, Davin Win Kyi, shown in the portrait, which
+      // is the page's main image and is credited. (More about the person is in index.html.)
       {
         "script:ld+json": {
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebPage",
+              "@type": "ProfilePage",
               url: `${SITE_URL}/`,
               name: "Davin Kyi — CS Researcher at the University of Washington",
-              about: { "@id": PERSON_ID },
+              mainEntity: {
+                "@type": "Person",
+                "@id": PERSON_ID,
+                name: FULL_NAME,
+                alternateName: SHORT_NAME,
+              },
               primaryImageOfPage: { "@id": `${SITE_URL}/#portrait` },
             },
             {
               "@id": `${SITE_URL}/#portrait`,
-              ...creditedPhoto(profilePhoto, "Portrait of Davin Win Kyi"),
+              ...creditedPhoto(profilePhoto, HOME_PORTRAIT_ALT),
             },
           ],
         },
@@ -68,7 +80,7 @@ function Index() {
         <div className="blob-bubbly w-72 justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-80 lg:w-84 lg:border-8 xl:w-100">
           <img
             src={profilePhoto}
-            alt="Portrait of Davin Win Kyi"
+            alt={HOME_PORTRAIT_ALT}
             width={900}
             height={900}
             // The page's main image: fetched before anything else.

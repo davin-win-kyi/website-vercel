@@ -43,7 +43,7 @@ export const photos: Photo[] = [
   { id: "bright-room-friends", group: true, top: 3, width: 800, height: 539, caption: "Plant-based friendship.", alt: "Davin Win Kyi in a selfie with two friends in a bright room with plants" },
   { id: "resort-selfie", group: true, width: 800, height: 527, caption: "Out of office.", alt: "Davin Win Kyi in a selfie with a friend in front of a resort building" },
   { id: "snowfield-peace-sign", width: 656, height: 800, caption: "Snow problem.", alt: "Davin Win Kyi crouching on a snowfield below a rocky slope, flashing a peace sign" },
-  { id: "cafe-mural-selfie", group: true, width: 800, height: 550, caption: "Camera angle: optional.", alt: "Tilted selfie of Davin Win Kyi with friends at a café with a colorful mural" },
+  { id: "cafe-mural-selfie", group: true, width: 800, height: 550, caption: "Camera angle: optional.", alt: "Tilted selfie of Davin Win Kyi with a friend at a café with a colorful mural" },
   { id: "rocky-trail-log", width: 616, height: 800, caption: "Log off, peace out.", alt: "Davin Win Kyi sitting on a log on a rocky mountain trail, flashing a peace sign" },
   { id: "football-game-selfie", group: true, top: 2, width: 700, height: 528, caption: "Game day, undefeated in selfies.", alt: "Three friends taking a selfie at a night football game in a packed stadium" },
   { id: "night-game-friends", group: true, top: 2, width: 696, height: 526, caption: "Photobomb: approved.", alt: "Davin Win Kyi in a selfie with friends in the stands at a night game" },
