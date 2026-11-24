@@ -1,11 +1,12 @@
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig, type Plugin, type ViteBuilder } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
-import { isAbsolute, relative } from "node:path";
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { isAbsolute, join, relative, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import {
   ABOUT_PORTRAIT_ALT,
   FULL_NAME,
@@ -102,6 +103,7 @@ function photoDetails(): Plugin {
   return {
     name: "photo-details",
     apply: "build",
+    applyToEnvironment: (environment) => environment.name === "client",
     generateBundle(_, bundle) {
       for (const file of Object.values(bundle)) {
         if (file.type !== "asset" || typeof file.source === "string") continue;
@@ -227,6 +229,7 @@ function searchTags(): Plugin {
   return {
     name: "search-tags",
     apply: "build",
+    applyToEnvironment: (environment) => environment.name === "client",
     transformIndexHtml: {
       order: "post",
       handler(_html, { bundle }) {
@@ -261,6 +264,7 @@ function sitemap(): Plugin {
   return {
     name: "sitemap",
     apply: "build",
+    applyToEnvironment: (environment) => environment.name === "client",
     generateBundle(_, bundle) {
       const built = builtFiles(bundle);
       const entries = SITEMAP_PAGES.map(({ page, sources, images }) => {
@@ -304,6 +308,39 @@ function sitemap(): Plugin {
   };
 }
 
+// Where the page renderer (src/entry-server.tsx) is built: inside node_modules, so it's never
+// deployed or committed.
+const RENDERER_DIR = "node_modules/.page-renderer";
+
+// index.html's default title, description and preview tags, which a rendered page replaces with
+// its own.
+const DEFAULT_HEAD_TAGS =
+  /\s*<title>[^<]*<\/title>|\s*<meta\s+(?:name|property)="(?:description|author|og:[^"]+|twitter:[^"]+)"[^>]*>/g;
+
+// Renders every page into its own HTML file (about.html for /about, index.html for /), with the
+// page's content and <head> tags, so the HTML the server sends already holds its text and images.
+// The browser then runs the app as before, which takes over the page. The plain app is kept as
+// 404.html for addresses with no page. Vercel serves /about from about.html (cleanUrls in
+// vercel.json), and 404.html with a 404 status.
+async function prerenderPages(outDir: string) {
+  const shell = readFileSync(join(outDir, "index.html"), "utf8");
+  writeFileSync(join(outDir, "404.html"), shell);
+  const template = shell.replace(DEFAULT_HEAD_TAGS, "");
+  if (!template.includes('<div id="root"></div>')) throw new Error("prerender: no empty #root");
+  const entry = readdirSync(RENDERER_DIR).find((file) => /^entry-server\.m?js$/.test(file));
+  if (!entry) throw new Error(`prerender: the page renderer wasn't built in ${RENDERER_DIR}`);
+  const renderer = await import(pathToFileURL(resolve(RENDERER_DIR, entry)).href);
+  for (const path of renderer.pagePaths() as string[]) {
+    const { head, body, status } = await renderer.renderPage(path);
+    if (status !== 200) throw new Error(`prerender: ${path} rendered with status ${status}`);
+    // Replacer functions, so "$" in the page's text is never read as a replacement pattern.
+    const html = template
+      .replace("</head>", () => `  ${head}\n  </head>`)
+      .replace('<div id="root"></div>', () => `<div id="root">${body}</div>`);
+    writeFileSync(join(outDir, path === "/" ? "index.html" : `${path.slice(1)}.html`), html);
+  }
+}
+
 // Standard static Vite + React SPA.
 // `bun run build` emits a real dist/index.html plus dist/assets — deployable
 // to Netlify, Vercel, GitHub Pages, etc. (no SSR / server runtime required).
@@ -336,6 +373,25 @@ export default defineConfig(async ({ command }) => {
   return {
     plugins,
     build: { rolldownOptions: { output: { assetFileNames } } },
+    // `vite build` builds the app, then the page renderer, then renders every page.
+    environments: {
+      ssr: {
+        build: {
+          outDir: RENDERER_DIR,
+          emptyOutDir: true,
+          copyPublicDir: false,
+          rolldownOptions: { input: "src/entry-server.tsx", output: { assetFileNames } },
+        },
+      },
+    },
+    builder: {
+      async buildApp(builder: ViteBuilder) {
+        await builder.build(builder.environments.client);
+        await builder.build(builder.environments.ssr);
+        const { root, build } = builder.environments.client.config;
+        await prerenderPages(resolve(root, build.outDir));
+      },
+    },
     server: { host: "::", port: 8080, strictPort: true },
   };
 });

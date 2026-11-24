@@ -46,15 +46,61 @@ function shuffled<T>(items: T[]): T[] {
   return result;
 }
 
-// This visit's order: the `top` photos by number, then the other group photos, then the rest, each
-// part shuffled.
-function pickOrder(): Photo[] {
-  return [
-    ...[1, 2, 3].flatMap((rank) => shuffled(photos.filter((p) => p.top === rank))),
-    ...shuffled(photos.filter((p) => !p.top && p.group)),
-    ...shuffled(photos.filter((p) => !p.top && !p.group)),
-  ];
+// The parts of the gallery, in page order: the `top` photos by number, then the other group
+// photos, then the rest. Photos only move around within their part.
+const PARTS = ["top1", "top2", "top3", "group", "rest"];
+const partOf = (p: Photo) => (p.top ? `top${p.top}` : p.group ? "group" : "rest");
+
+// How many photos load right away: the ones on screen as soon as the page opens (up to about
+// eight on a large monitor), the first one first. The rest load as they're scrolled to.
+const LOAD_FIRST = 8;
+
+declare global {
+  interface Window {
+    // The order SHUFFLE_SCRIPT put the photos in, for the app to keep.
+    __galleryOrder?: string[];
+  }
 }
+
+// This visit's order: each part shuffled. On a page rendered ahead of time, SHUFFLE_SCRIPT has
+// already shuffled the photos in place, and the app keeps that order so nothing moves when it
+// starts. Rendering ahead of time itself keeps the list's order.
+function pickOrder(): Photo[] {
+  const chosen = typeof window === "undefined" ? undefined : window.__galleryOrder;
+  if (chosen) {
+    const byId = new Map(photos.map((p) => [p.id, p]));
+    const order = chosen.flatMap((id) => byId.get(id) ?? []);
+    if (order.length === photos.length) return order;
+  }
+  const shuffle = import.meta.env.SSR ? <T,>(items: T[]) => items : shuffled;
+  return PARTS.flatMap((part) => shuffle(photos.filter((p) => partOf(p) === part)));
+}
+
+// Runs on a page rendered ahead of time as soon as the browser has read the photo list, before
+// the photos are shown: shuffles each part of the list in place (as pickOrder does), updates
+// which photos load first, and leaves the order for the app.
+const SHUFFLE_SCRIPT = `(() => {
+  const list = document.currentScript.previousElementSibling;
+  const parts = new Map();
+  for (const item of list.children) {
+    parts.set(item.dataset.part, [...(parts.get(item.dataset.part) || []), item]);
+  }
+  const order = [];
+  for (const part of parts.values()) {
+    for (let i = part.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [part[i], part[j]] = [part[j], part[i]];
+    }
+    order.push(...part);
+  }
+  order.forEach((item, i) => {
+    list.append(item);
+    const img = item.querySelector("img");
+    img.loading = i < ${LOAD_FIRST} ? "eager" : "lazy";
+    img.fetchPriority = i === 0 ? "high" : "auto";
+  });
+  window.__galleryOrder = order.map((item) => item.dataset.id);
+})();`;
 
 const thumbSrc = (p: Photo) => thumbs[`/src/assets/gallery/thumb/${p.id}.jpg`];
 const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
@@ -271,6 +317,12 @@ function Gallery() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const touchX = useRef<number | null>(null);
 
+  // The shuffled order from a page rendered ahead of time is used once; coming back to the
+  // gallery later in the same visit shuffles again.
+  useEffect(() => {
+    delete window.__galleryOrder;
+  }, []);
+
   const step = (delta: number) =>
     setCurrent((i) => (i === null ? i : (i + delta + order.length) % order.length));
 
@@ -317,6 +369,8 @@ function Gallery() {
           return (
             <li
               key={p.id}
+              data-id={p.id}
+              data-part={partOf(p)}
               className="min-w-0"
               style={{ flexGrow: ratio, flexBasis: `calc(var(--row) * ${ratio})` }}
             >
@@ -326,15 +380,12 @@ function Gallery() {
                 className="group block w-full overflow-hidden rounded-lg bg-secondary"
                 style={{ aspectRatio: `${p.width} / ${p.height}` }}
               >
-                {/* The first photos are on screen as soon as the page opens (up to about eight on
-                    a large monitor), so they load right away, the first one first; the rest
-                    load as they're scrolled to. */}
                 <img
                   src={thumbSrc(p)}
                   alt={p.alt}
                   width={p.width}
                   height={p.height}
-                  loading={i < 8 ? "eager" : "lazy"}
+                  loading={i < LOAD_FIRST ? "eager" : "lazy"}
                   fetchPriority={i === 0 ? "high" : undefined}
                   decoding="async"
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
@@ -344,6 +395,7 @@ function Gallery() {
           );
         })}
       </ul>
+      {import.meta.env.SSR && <script dangerouslySetInnerHTML={{ __html: SHUFFLE_SCRIPT }} />}
 
       <dialog
         ref={dialogRef}
