@@ -354,7 +354,7 @@ function Gallery() {
         Gallery
       </h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-        Moments with friends, trips, and everything in between.
+        Davin Win Kyi's moments with friends, trips, and everything in between.
       </p>
       <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
         <Shuffle className="h-4 w-4" aria-hidden />

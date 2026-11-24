@@ -68,7 +68,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const GREETING = "Hi there! I'm Davin";
+// The full name sits right beside the portrait, which helps Google connect the photo to it.
+const GREETING = "Hi there! I'm Davin Win Kyi";
 
 function Index() {
   const { displayed, done } = useTypewriter(GREETING, 80);
@@ -95,10 +96,15 @@ function Index() {
             University of Washington · CSE
           </p>
 
-          <h1 className="text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          <h1 className="grid text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
             {/* Screen readers get the whole greeting at once, not each typed letter. */}
             <span className="sr-only">{GREETING}</span>
-            <span aria-hidden="true">
+            {/* An invisible copy of the whole greeting holds the space it will take up, so the
+                page doesn't move when the typing reaches a new line. */}
+            <span aria-hidden="true" className="invisible col-start-1 row-start-1">
+              {GREETING}
+            </span>
+            <span aria-hidden="true" className="col-start-1 row-start-1">
               {displayed}
               {!done && (
                 <span className="cursor-blink ml-0.5 inline-block h-[1em] w-[3px] bg-current align-middle" />
