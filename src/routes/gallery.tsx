@@ -107,7 +107,7 @@ const fullSrc = (p: Photo) => fulls[`/src/assets/gallery/full/${p.id}.jpg`];
 
 // Structured data: this page is a gallery of photos of Davin Win Kyi, listing every photo in both
 // of its sizes (the preview on the page, the full size in the viewer), each with its description,
-// its caption from the viewer, and who made and is credited for it. "<" is written as an escape so
+// its caption, and who made and is credited for it. "<" is written as an escape so
 // nothing in the text can end the script tag early.
 const galleryData = JSON.stringify({
   "@context": "https://schema.org",
@@ -362,8 +362,9 @@ function Gallery() {
       </p>
       <GalleryMusic />
 
-      {/* Rows of photos at their natural shapes: each grows in proportion to its width. */}
-      <ul className="mt-10 flex list-none flex-wrap gap-2 p-0 [--row:11rem] after:grow-[999] after:content-[''] sm:[--row:14rem] lg:[--row:17rem]">
+      {/* Rows of photos at their natural shapes, each with its caption underneath: each grows in
+          proportion to its width. */}
+      <ul className="mt-10 flex list-none flex-wrap gap-x-2 gap-y-4 p-0 [--row:11rem] after:grow-[999] after:content-[''] sm:[--row:14rem] lg:[--row:17rem]">
         {order.map((p, i) => {
           const ratio = p.width / p.height;
           return (
@@ -374,23 +375,30 @@ function Gallery() {
               className="min-w-0"
               style={{ flexGrow: ratio, flexBasis: `calc(var(--row) * ${ratio})` }}
             >
-              <button
-                type="button"
-                onClick={() => setCurrent(i)}
-                className="group block w-full overflow-hidden rounded-lg bg-secondary"
-                style={{ aspectRatio: `${p.width} / ${p.height}` }}
-              >
-                <img
-                  src={thumbSrc(p)}
-                  alt={p.alt}
-                  width={p.width}
-                  height={p.height}
-                  loading={i < LOAD_FIRST ? "eager" : "lazy"}
-                  fetchPriority={i === 0 ? "high" : undefined}
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                />
-              </button>
+              {/* The caption sits right under its photo, where Google also reads it as text
+                  about the photo. */}
+              <figure className="m-0">
+                <button
+                  type="button"
+                  onClick={() => setCurrent(i)}
+                  className="group block w-full overflow-hidden rounded-lg bg-secondary"
+                  style={{ aspectRatio: `${p.width} / ${p.height}` }}
+                >
+                  <img
+                    src={thumbSrc(p)}
+                    alt={p.alt}
+                    width={p.width}
+                    height={p.height}
+                    loading={i < LOAD_FIRST ? "eager" : "lazy"}
+                    fetchPriority={i === 0 ? "high" : undefined}
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  />
+                </button>
+                <figcaption className="mt-1.5 px-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">
+                  {p.caption}
+                </figcaption>
+              </figure>
             </li>
           );
         })}
