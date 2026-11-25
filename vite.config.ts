@@ -36,13 +36,11 @@ const PHOTO_DESCRIPTIONS = new Map<string, string>([
   ...photos.flatMap((p) => galleryFiles(p.id).map((file): [string, string] => [file, p.alt])),
 ]);
 
-// Gallery photos whose description names Davin Win Kyi also get the name at the front of their
-// built file names ("davin-win-kyi-summit-selfie-….jpg"): Google reads a file name as a hint about
-// what's in the photo. Other files keep the usual name.
+// Every gallery photo is Davin Win Kyi's, so each gets the name at the front of its built file
+// names ("davin-win-kyi-summit-selfie-….jpg"): Google reads a file name as a hint about the photo.
+// Other files keep the usual name. (vercel.json redirects the photos' older, unnamed addresses.)
 const NAME_IN_FILES = FULL_NAME.toLowerCase().replace(/\s+/g, "-");
-const NAMED_FILES = new Set(
-  photos.filter((p) => p.alt.includes(FULL_NAME)).flatMap((p) => galleryFiles(p.id)),
-);
+const NAMED_FILES = new Set(photos.flatMap((p) => galleryFiles(p.id)));
 const assetFileNames = (asset: { originalFileNames: string[] }) =>
   asset.originalFileNames.some((name) => NAMED_FILES.has(sourcePath(name)))
     ? `assets/${NAME_IN_FILES}-[name]-[hash][extname]`
