@@ -77,14 +77,12 @@ function Index() {
   return (
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
       {/* From lg the photo and the text sit side by side, centred as a pair. The text column is
-          capped at about the greeting's width (30rem), so no empty space at its end pulls the
-          pair off-centre. From xl the section can grow wider (6xl) so that, with the wider gap,
-          the text column still fits the greeting's two lines; squeezed narrower, the greeting
-          would wrap into shorter lines and the pair would lean left. */}
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,30rem)] lg:justify-center lg:gap-x-15 xl:max-w-6xl xl:gap-x-24">
-        {/* Portrait. On phones it's 19rem wide, or narrower if the screen is too narrow for that
-            beside the page's side padding. */}
-        <div className="blob-bubbly w-[min(19rem,100vw_-_3rem)] justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-84 lg:w-88 lg:border-8 xl:w-105">
+          capped at about the greeting's width (27rem), so no empty space at its end pulls the
+          pair off-centre. (If the greeting gets bigger, this cap needs to grow with it.) */}
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,27rem)] lg:justify-center lg:gap-x-15 xl:gap-x-24">
+        {/* Portrait. On phones it's 17.5rem wide, or narrower if the screen is too narrow for
+            that beside the page's side padding. */}
+        <div className="blob-bubbly w-[min(17.5rem,100vw-3rem)] justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-78 lg:w-80 lg:border-8 xl:w-96">
           <img
             src={profilePhoto}
             alt={HOME_PORTRAIT_ALT}
@@ -102,7 +100,8 @@ function Index() {
             University of Washington · CSE
           </p>
 
-          <h1 className="grid text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl md:text-6xl">
+          {/* On phones the two lines are balanced, so the name isn't split with "Kyi" alone. */}
+          <h1 className="grid text-[2rem] font-bold leading-tight tracking-tight text-foreground max-sm:text-balance sm:text-[2.75rem] md:text-[3.375rem]">
             {/* Screen readers get the whole greeting at once, not each typed letter. */}
             <span className="sr-only">{GREETING}</span>
             {/* An invisible copy of the whole greeting holds the space it will take up, so the
