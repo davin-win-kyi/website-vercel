@@ -76,12 +76,13 @@ function Index() {
 
   return (
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,34rem)] lg:justify-center lg:gap-x-16 xl:gap-x-20">
+      {/* From lg the photo and the text sit side by side, centred as a pair. The text column is
+          capped at about the greeting's width (30rem), so no empty space at its end pulls the
+          pair off-centre. */}
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,30rem)] lg:justify-center lg:gap-x-14 xl:gap-x-18">
         {/* Portrait. On phones it's 19rem wide, or narrower if the screen is too narrow for that
-            beside the page's side padding. Beside the text (from lg), it moves left by up to 3rem
-            into the empty margin wide screens leave around the content (79rem is the menu plus
-            the content's widest), so it never comes closer to the menu than the page's padding. */}
-        <div className="blob-bubbly w-[min(19rem,100vw_-_3rem)] justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-84 lg:relative lg:-left-[min(3rem,max(0rem,(100vw_-_79rem)_*_0.5))] lg:w-88 lg:border-8 xl:w-105">
+            beside the page's side padding. */}
+        <div className="blob-bubbly w-[min(19rem,100vw_-_3rem)] justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-84 lg:w-88 lg:border-8 xl:w-105">
           <img
             src={profilePhoto}
             alt={HOME_PORTRAIT_ALT}
