@@ -78,8 +78,10 @@ function Index() {
     <section className="flex min-h-[calc(100vh-57px)] items-center md:min-h-screen">
       {/* From lg the photo and the text sit side by side, centred as a pair. The text column is
           capped at about the greeting's width (30rem), so no empty space at its end pulls the
-          pair off-centre. */}
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,30rem)] lg:justify-center lg:gap-x-14 xl:gap-x-18">
+          pair off-centre. From xl the section can grow wider (6xl) so that, with the wider gap,
+          the text column still fits the greeting's two lines; squeezed narrower, the greeting
+          would wrap into shorter lines and the pair would lean left. */}
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,30rem)] lg:justify-center lg:gap-x-15 xl:max-w-6xl xl:gap-x-24">
         {/* Portrait. On phones it's 19rem wide, or narrower if the screen is too narrow for that
             beside the page's side padding. */}
         <div className="blob-bubbly w-[min(19rem,100vw_-_3rem)] justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-84 lg:w-88 lg:border-8 xl:w-105">
