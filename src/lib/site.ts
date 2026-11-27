@@ -14,7 +14,7 @@ export const SHORT_NAME = "Davin Kyi";
 export const PERSON_ID = `${SITE_URL}/#person`;
 
 // What the two portraits show: their alt text, and the description built into the files.
-export const HOME_PORTRAIT_ALT = `Close-up portrait of ${FULL_NAME} smiling in a white T-shirt against a plain gray background`;
+export const HOME_PORTRAIT_ALT = `Portrait of ${FULL_NAME} smiling in a white T-shirt against a plain gray background`;
 export const ABOUT_PORTRAIT_ALT = `${FULL_NAME} wearing a mixed-reality headset in front of a graffiti wall`;
 
 // A photo's entry in structured data: Davin Win Kyi took or made it (as confirmed) and is credited
