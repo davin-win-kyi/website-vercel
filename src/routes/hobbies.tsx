@@ -131,7 +131,7 @@ function Hobbies() {
         {hobbies.map((h) => (
           <li
             key={h.name}
-            className="group overflow-hidden rounded-2xl border border-border bg-card shadow-soft transition-shadow hover:shadow-lift"
+            className="video-card group overflow-hidden rounded-2xl border border-border bg-card shadow-soft transition-shadow hover:shadow-lift"
           >
             <div className="relative aspect-[4/3] overflow-hidden bg-muted">
               {/* Keep media inside a defined frame and center it. */}

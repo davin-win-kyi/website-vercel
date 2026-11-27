@@ -54,6 +54,8 @@
 }
 
 :root {
+  /* Lets the browser match its own parts (scrollbars, form fields, video controls) to the theme. */
+  color-scheme: light;
   --radius: 0.75rem;
 
   --background: oklch(0.985 0 0);
@@ -103,6 +105,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --background: oklch(0.2 0.02 230);
   --foreground: oklch(0.95 0.008 95);
   --card: oklch(0.25 0.022 230);
@@ -154,11 +157,26 @@
     outline: 2px solid var(--color-ring);
     outline-offset: 2px;
   }
+
+  /* On phones the top bar stays on screen, so whatever is scrolled to (the item reached with
+     the keyboard, or a link to part of a page) stops just below it rather than underneath. */
+  @media (width < 48rem) {
+    html {
+      scroll-padding-top: 4.5rem;
+    }
+  }
 }
 
 @layer components {
   .hero-gradient {
     background-image: var(--gradient-hero);
+  }
+
+  /* A video card rounds off and crops its video, which would also cut off the video's own focus
+     outline, so the card shows the outline while its video has keyboard focus. */
+  .video-card:has(video:focus-visible) {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
   }
 }
 

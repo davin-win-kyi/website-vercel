@@ -124,7 +124,7 @@ function Teaching() {
               <p className="font-serif text-sm font-semibold uppercase tracking-widest text-muted-foreground">
                 {t.year}
               </p>
-              <div className="mt-2 overflow-hidden rounded-xl border border-border bg-card shadow-soft">
+              <div className="video-card mt-2 overflow-hidden rounded-xl border border-border bg-card shadow-soft">
                 <div className="aspect-[16/7] w-full overflow-hidden border-b border-border bg-secondary">
                   <CourseVideo
                     code={t.code}

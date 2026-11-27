@@ -79,10 +79,10 @@ function Index() {
       {/* From lg the photo and the text sit side by side, centred as a pair. The text column is
           capped at about the greeting's width (27rem), so no empty space at its end pulls the
           pair off-centre. (If the greeting gets bigger, this cap needs to grow with it.) */}
-      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-6 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,27rem)] lg:justify-center lg:gap-x-15 xl:gap-x-24">
+      <div className="mx-auto grid w-full max-w-5xl items-center gap-y-8 px-5 py-12 md:py-24 lg:grid-cols-[auto_minmax(0,27rem)] lg:justify-center lg:gap-x-15 xl:gap-x-24">
         {/* Portrait. On phones it's 17.5rem wide, or narrower if the screen is too narrow for
             that beside the page's side padding. */}
-        <div className="blob-bubbly w-[min(17.5rem,100vw-3rem)] justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-78 lg:w-80 lg:border-8 xl:w-96">
+        <div className="blob-bubbly w-[min(17.5rem,100vw-2.5rem)] justify-self-center overflow-hidden border-[6px] border-secondary shadow-soft md:w-78 lg:w-80 lg:border-8 xl:w-96">
           <img
             src={profilePhoto}
             alt={HOME_PORTRAIT_ALT}

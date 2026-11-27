@@ -52,8 +52,9 @@ export function SiteHeader() {
           </div>
         </div>
         <div className="flex items-center justify-between gap-3">
+          {/* The name stays on one line, so it doesn't wrap with "Kyi" alone. */}
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Davin Win Kyi
+            © {new Date().getFullYear()} <span className="whitespace-nowrap">Davin Win Kyi</span>
           </p>
           <ThemeToggle />
         </div>
