@@ -72,7 +72,7 @@ const publications: Publication[] = [
     thumbAlt:
       "PageAssist figure: a cluttered webpage turned into a generated step-by-step interface, then refined through requests like “Make it read like a book with serif font”",
     imageLabel: "PageAssist",
-    venue: "IUI '27 Poster · In submission",
+    venue: "IUI '27 · In submission",
     authors: [
       { name: "Davin Win Kyi", emphasis: true },
       { name: "Mingyuan Zhong" },
@@ -140,6 +140,30 @@ const publications: Publication[] = [
     ],
   },
   {
+    title:
+      "Do as the Romans Do: Learning Universal Behaviors from Heterogeneous Agents",
+    image: romansImg,
+    imageSize: [2600, 637],
+    thumb: romansThumb,
+    thumbAlt:
+      "Diagram of GRID (General Reward Inference and Disentanglement): observations of a varied population, such as a cyclist, a runner and a wheelchair user, yield a general reward and task-specific rewards",
+    venue: "ICML '27 · In submission",
+    authors: [
+      { name: "Caleb Chang" },
+      { name: "Davin Win Kyi", emphasis: true },
+      { name: "Natasha Jaques" },
+      { name: "Karen Leung" },
+    ],
+    blurb:
+      "A framework for learning generalizable behaviors across diverse agent types by distilling shared patterns from heterogeneous populations.",
+    links: [
+      {
+        label: "arXiv",
+        href: "https://arxiv.org/abs/2606.18537",
+      },
+    ],
+  },
+  {
     title: "PreviewAR: Sketching Spaces for Scale-Aware Product Discovery in AR",
     image: previewImg,
     imageSize: [1275, 400],
@@ -147,7 +171,7 @@ const publications: Publication[] = [
     thumbAlt:
       "PreviewAR figure: free-form sketches over photos of a bedroom, a kitchen and a living room, and the scale-aware AR previews of a chair, a lamp and a table they lead to",
     imageLabel: "PreviewAR",
-    venue: "UIST '26 Poster · To appear",
+    venue: "UIST '26 · To appear",
     authors: [
       { name: "Davin Win Kyi", emphasis: true },
       { name: "Jason Kim" },
@@ -178,7 +202,7 @@ const publications: Publication[] = [
     thumbAlt:
       "TranslateAR examples: a snack package, a stop sign and an “OPEN” neon sign, each shown again with its text translated into Korean in place, in the same style",
     imageLabel: "TranslateAR",
-    venue: "UIST '26 Demo · To appear",
+    venue: "UIST '26 · To appear",
     authors: [
       { name: "Minbeom Kim" },
       { name: "Jason Kim" },
@@ -294,30 +318,6 @@ const publications: Publication[] = [
       {
         label: "Scholar",
         href: "https://scholar.google.com/citations?user=oS2UUosAAAAJ&hl=en",
-      },
-    ],
-  },
-  {
-    title:
-      "Do as the Romans Do: Learning Universal Behaviors from Heterogeneous Agents",
-    image: romansImg,
-    imageSize: [2600, 637],
-    thumb: romansThumb,
-    thumbAlt:
-      "Diagram of GRID (General Reward Inference and Disentanglement): observations of a varied population, such as a cyclist, a runner and a wheelchair user, yield a general reward and task-specific rewards",
-    venue: "arXiv '26",
-    authors: [
-      { name: "Caleb Chang" },
-      { name: "Davin Win Kyi", emphasis: true },
-      { name: "Natasha Jaques" },
-      { name: "Karen Leung" },
-    ],
-    blurb:
-      "A framework for learning generalizable behaviors across diverse agent types by distilling shared patterns from heterogeneous populations.",
-    links: [
-      {
-        label: "arXiv",
-        href: "https://arxiv.org/abs/2606.18537",
       },
     ],
   },
